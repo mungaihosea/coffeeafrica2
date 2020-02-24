@@ -1,30 +1,59 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}">
-<link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}">
+<link
+  rel="stylesheet"
+  href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}" />
 
-<link rel="stylesheet" href="{% static 'homepage/css/owl.carousel.min.css' %}">
-<link rel="stylesheet" href="{% static 'homepage/css/owl.theme.default.min.css' %}">
-<link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}">
+<link
+  rel="stylesheet"
+  href="{% static 'homepage/css/owl.carousel.min.css' %}"
+/>
+<link
+  rel="stylesheet"
+  href="{% static 'homepage/css/owl.theme.default.min.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}" />
 
-<link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}">
+<link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}" />
 
-<link rel="stylesheet" href="{% static 'homepage/css/ionicons.min.css' %}">
+<link rel="stylesheet" href="{% static 'homepage/css/ionicons.min.css' %}" />
 
-<link rel="stylesheet" href="{% static 'homepage/css/bootstrap-datepicker.css' %}">
-<link rel="stylesheet" href="{% static 'homepage/css/jquery.timepicker.css' %}">
+<link
+  rel="stylesheet"
+  href="{% static 'homepage/css/bootstrap-datepicker.css' %}"
+/>
+<link
+  rel="stylesheet"
+  href="{% static 'homepage/css/jquery.timepicker.css' %}"
+/>
 
-
-<link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}">
-<link rel="stylesheet" href="{% static 'homepage/css/icomoon.css' %}">
-<link rel="stylesheet" href="{% static 'homepage/css/style.css' %}">
-<link rel="stylesheet" href="{% static 'assets/css/mine.css'%}">
-<nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
+<link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}" />
+<link rel="stylesheet" href="{% static 'homepage/css/icomoon.css' %}" />
+<link rel="stylesheet" href="{% static 'homepage/css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/mine.css'%}" />
+<nav
+  class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light"
+  id="ftco-navbar"
+>
   <div class="container" style="background-color: rgba(0, 0, 0, 0);">
-    <a class=" navbar-brand title" href="#"
-      style="font-size: 2em; color: orange; font-weight: bold; font-family: ubuntu;">Coffee Africa<small
-        style="font-size: 13px; color: rgb(255, 255, 255);">built with Blockchain technology</small></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <a
+      class=" navbar-brand title"
+      href="#"
+      style="font-size: 2em; color: orange; font-weight: bold; "
+      >Coffee Africa<small style="font-size: 13px; color: rgb(255, 255, 255);"
+        >built with Blockchain technology</small
+      ></a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#ftco-nav"
+      aria-controls="ftco-nav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="oi oi-menu"></span> Menu
     </button>
     <div class="navbar-btn">
@@ -44,8 +73,10 @@
             <ul class="dropdown-menu notifications">
               {%for notification in notifications%}
               <li>
-                <a href="/{{notification.app_name}}/{{notification.action}}/{{notification.id}}/"
-                  class="notification-item"><span class="dot bg-success"></span>
+                <a
+                  href="/{{notification.app_name}}/{{notification.action}}/{{notification.id}}/"
+                  class="notification-item"
+                  ><span class="dot bg-success"></span>
                   {{notification.message}}
                 </a>
               </li>
@@ -65,14 +96,21 @@
                 <a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been
                   approved</a>
               </li> -->
-              <li><a href="{%url 'transactions:shownotifications' user.username%}" class="more">See all
-                  notifications</a></li>
+              <li>
+                <a
+                  href="{%url 'transactions:shownotifications' user.username%}"
+                  class="more"
+                  >See all notifications</a
+                >
+              </li>
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              ><i class="lnr lnr-question-circle"></i>
               <span>Help</span>
-              <i class="icon-submenu lnr"></i></a>
+              <i class="icon-submenu lnr"></i
+            ></a>
             <ul class="dropdown-menu">
               <li><a href="#">Basic Use</a></li>
               <li><a href="#">Working With Data</a></li>
@@ -81,19 +119,29 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'assets/img/user.png' %}"
-                class="img-circle" alt="Avatar" />
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              ><img
+                src="{% static 'assets/img/user.png' %}"
+                class="img-circle"
+                alt="Avatar"/>
               <span>{{user.username}}</span>
-              <i class="icon-submenu lnr"></i></a>
+              <i class="icon-submenu lnr"></i
+            ></a>
             <ul class="dropdown-menu">
               <li>
-                <a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a>
+                <a href="#"
+                  ><i class="lnr lnr-user"></i> <span>My Profile</span></a
+                >
               </li>
               <li>
-                <a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a>
+                <a href="#"
+                  ><i class="lnr lnr-envelope"></i> <span>Message</span></a
+                >
               </li>
               <li>
-                <a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a>
+                <a href="#"
+                  ><i class="lnr lnr-cog"></i> <span>Settings</span></a
+                >
               </li>
             </ul>
           </li>
