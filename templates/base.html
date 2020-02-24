@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>CoffeeAfrica|Online</title>
+  <!-- chat stuff -->
+  {% block style %} {% endblock style %}
+  <!-- chat stuff -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <!-- VENDOR CSS -->
+
+  <link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendor/linearicons/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendor/chartist/css/chartist-custom.css' %}" />
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+  <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+  <!-- <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" /> -->
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet" />
+  <!-- ICONS -->
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'assets/img/favicon.png' %}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/ionicons.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/bootstrap-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/jquery.timepicker.css' %}">
+
+
+  <link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}">
+</head>
+
+<body>
+  <!-- WRAPPER -->
+  <div id="wrapper">
+    <!-- NAVBAR -->
+    {% include 'navbar.html' %} {% include 'sidebar.html' %}
+    <!-- main content -->
+
+    {% block content %}
+    <div class="modal-transparent" id="loadingDiv">
+      <div class="modal-content2">
+        <span class="title">Loading please wait...</span>
+        <img src="{%static 'assets/img/loading.gif'%}" alt="loading" height="100px">
+      </div>
+    </div>
+    <script src="{% static 'assets/js/utils.js'%}"></script>
+    {% endblock content %}
+    <!-- endmain -->
+    <div class="clearfix"></div>
+    <footer>
+      <div class="container-fluid dark">
+        <p class="copyright orange">
+          Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
+        </p>
+      </div>
+    </footer>
+  </div>
+  <!-- END WRAPPER -->
+  <!-- Javascript -->
+
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chartist/js/chartist.min.js' %}"></script>
+  <script src="{% static 'assets/scripts/klorofil-common.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'homepage/js/popper.min.js' %}"></script>
+  <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'homepage/js/aos.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'homepage/js/google-map.js' %}"></script>
+  <script src="{% static 'homepage/js/main.js' %}"></script>
+
+
+
+  {% block js %} {% endblock js %}
+</body>
+
+</html>

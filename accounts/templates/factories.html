@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+{% endblock style %}
+{% block content %} {% load static %}
+<div class="main">
+    <div class="main-content ">
+        <div class="container-fluid">
+            <div class="panel-body">
+                <span class="orange title">CoffeeAfrica|</span><span class="blue">Partners</span><br><br>
+                {%for factory in factories%}
+                <div class="panel-body orange-border ftco-animate">
+                    <img src="{{factory.factory_logo.url}}" alt="logo" class="img-circle"
+                        style="width: 80px; height: 80px; margin-right:10px; float: left;">
+                    <a href="{%url 'transactions:view_factory' factory.pk%}"
+                        class="white title livetext">{{factory.factory_name}}</a>
+                    <div class="dark">
+                        <span>{{factory.country}}</span>|
+                        <span>{{factory.region}}</span><br>
+                    </div>
+                    <span>
+                        {%if factory.rating == 0%}
+                        rating: Low
+                        {%elif factory.rating == 1%}
+                        rating: fair
+                        {%elif factory.rating == 2%}
+                        rating: good
+                        {%else%}
+                        rating: platinum
+                        {%endif%}
+                    </span><br>
+                    <span>Partner since {{factory.date_created}}</span>
+                    <hr>
+                    <span class="white">About Factory</span><br>
+                    <span>{{factory.factory_bio}}</span><br>
+                    <a href="#">Send Message</a>
+                    <br>
+                    <a href="#">Report</a>
+                </div><br>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

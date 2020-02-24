@@ -1,0 +1,284 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<script>
+  hideLoading()
+</script>
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div class="container-fluid">
+      <span class="orange title">CoffeeAfrica|</span><span class="blue">Market</span><br>
+      <span>content is regulated</span><br>
+      <a href="#">Read our terms and conditions</a><br><br>
+      <div class="">
+        <button class="btn btn-outline-primary" style="margin-bottom: 10px;">Recomended</button>
+        <button class="btn btn-outline-success" style="margin-bottom: 10px;">Hot Deals</button>
+        <button class="btn btn-outline-primary" style="margin-bottom: 10px;">Latest</button>
+        <button class="btn btn-outline-success" style="margin-bottom: 10px;">Cheapest</button>
+        <button class="btn btn-outline-primary" style="margin-bottom: 10px;">Verified</button>
+        <button class="btn btn-outline-success" style="margin-bottom: 10px;">Shippent availabe within 48hrs</button>
+      </div><br>
+      <div class="row">
+        {% for auction in auction_queryset %}
+        <!-- PANEL HEADLINE -->
+        <div class="orange-border col-md-5 ftco-animate" style="margin-bottom: 15px; margin-right: 5%; padding: 1%;">
+          <div class="panel-heading">
+            <div class="media">
+              <img style="width: 60px; height: 60px; margin-right:10px; float: left;"
+                src="{{auction.factory.factory_logo.url}}" class="img-circle" />
+              <div class="media-body">
+                <h4 class="orange title livetext">{{auction.factory.factory_name}}</h4>
+                <p class="panel-subtitle">
+                  <span> <i class="lnr lnr-home"></i> <span class="blue">{{auction.factory.country}}</span>
+                    Tempreture {{auction.tempreture}}|
+                    Humidity {{auction.humidity}}%</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body" style="clear: both;">
+            <button class="btn-outline-danger">{{auction.coffee_type}} Coffee, Grade 1</button>
+            <h4 class="white">
+              {{auction.tonnes_left }} Tonnes left |
+              {{auction.price_per_tonne}}$ per Tonne
+            </h4>
+            <p>
+              the coffee being auctioned was harvested on
+              {{auction.date_harvested}} <br>
+              <button class="btn-link">Show more details</button>
+              <div class="dark panel-body hide">
+                <span style="font-weight: bold; color: rgb(119, 108, 108); text-decoration: underline;">Product
+                  Information </span><br>
+                <span class="label-bold">Coffe type: </span>{{auction.coffee_type}}</br>
+                <span class="label-bold">Condition: </span>{{auction.status}}<br>
+                <span class="label-bold">Soil PH: </span>{{auction.soil_ph}}<br>
+                <span class="label-bold">Status: </span>
+                {%if auction.verified%}
+                <i class="fa fa-circle"></i>
+                <span style="color: green;">Verified</span>
+                {%else%}
+                <span style="color: rgb(230, 154, 14);">Not Verified</span>
+                {%endif%}
+                <br>
+              </div>
+            </p>
+            <div class="modal" id="feedback">
+              <div class="modal-content-dark">
+                <form action="#" method="POST" id="feedbackform">
+                  <p id="infofeedback"></p>
+                  <span class="orange">We value your Feedback :-)</span>
+                  <span class="close" id="closefeedback">&times;</span><br>
+                  <span>Raise Concerns or comment on issuies regarding this auction</span>
+                  {%csrf_token%}
+                  <hr>
+                  <br>
+                  <input type="hidden" name="obj" id="obj" value="{{auction.pk}}">
+                  <textarea name="message" id="message" cols="40" rows="5" placeholder="Type feedback"
+                    class="form-control"></textarea>
+                </form><br>
+                <button class="btn btn-primary" id="sendFeedback" value="{{order.pk}}">Send feedback</button>
+              </div>
+            </div>
+            <div>
+              <a href="view_factory/{{auction.factory.id}}/" class="btn btn-outline-warning">view
+                factory information</a>
+              <button class="btn btn-outline-primary inquiry" value="{{order.pk}}" id="enquiry">
+                make enquiry
+              </button>
+              <a href="{{auction.id}}" class="btn btn-outline-success">buy from this bundle</a>
+            </div>
+            <div>
+              <div class="row">
+                <table class="table-sm table-hover">
+                  <thead style="text-align: center;">
+                    <th><small>Order ID</small></th>
+                    <th><small>Amount</small></th>
+                    <th><small>Cash</small></th>
+                    <th><small>Status</small></th>
+                    <th><small>Date</small></th>
+                    <th><small>Date shipped</small></th>
+                    <th><small>Elapsed Time</small></th>
+                    <th><small>To arrive in</small></th>
+                  </thead>
+                  {%for ordermatches in orders%}
+                  {%for order in ordermatches%}
+
+                  {%if order.buyer.user == user and order.auction == auction%}
+                  <tr class="white">
+                    <td>
+                      <small><a href="/transactions/view_order/{{order.id}}/">{{order.id}}</a></small>
+                    </td>
+                    <td>
+                      <small>{{order.amount}} tonne{{order.amount | pluralize}}</small>
+                    </td>
+                    <td>
+                      {%for timeframe in Etimes%}
+                      {%if timeframe.other and timeframe.order == order%}
+                      <small>${{timeframe.other}}</small>
+                      {%endif%}
+                      {%endfor%}
+                    </td>
+                    {% if order.status == 0 %}
+                    <td class="small"><span class="label label-warning">Pending</span></td>
+                    {% elif order.status == 1 %}
+                    <td class="small"><span class="label label-success">Accepted</span></td>
+                    {% elif order.status == 2 and order.shipping_address%}
+                    <td class="small"><span class="label label-success">On Ship</span></td>
+                    {% elif order.status == 2 %}
+                    <td class="small"><span class="label label-success">Processed</span></td>
+
+                    {% elif order.status == 3 %}
+                    <td class="small"><span class="label label-success">Completed</span></td>
+                    {% endif %}
+                    <td>
+                      <small>{{order.date_placed}}</small>
+                    </td>
+                    <td>
+                      {%if order.status == 2 or order.status == 3%}
+                      <small>{{order.time_of_shipping}}</small>
+                      {%else%}
+                      <small>N/A</small>
+                      {%endif%}
+                    </td>
+                    <td>
+
+                      {%if order.status == 3%}
+                      <small>Recieved</small>
+                      {%else%}
+                      {%if order.status == 2%}
+                      {%for timeframe in Etimes%}
+                      {%if timeframe.order == order%}
+                      <small>{{timeframe.time}} day(s)</small>
+                      {%endif%}
+                      {%endfor%}
+                      {%else%}
+                      <small>N/A</small>
+                      {%endif%}
+                      {%endif%}
+
+                    </td>
+
+                    {%if order.status == 3%}
+                    <td><small>Arrived</small></td>
+                    {%else%}
+                    {%if order.status == 2%}
+                    <td>
+                      {%if order.status == 2%}
+                      {%for timeframe in Etimes%}
+                      {%if timeframe.order == order%}
+                      {%if timeframe.late%}
+                      <small class="label label-danger">Late by {{timeframe.late_by}} days(s)</small>
+                      {%else%}
+                      <small>{{order.estimated_time_on_ship}} hour(s)</small>
+                      {%endif%}
+                      {%endif%}
+                      {%endfor%}
+                      {%endif%}
+                    </td>
+                    {%else%}
+                    <td>
+                      <small>Not shipped</small>
+                    </td>
+                    {%endif%}
+                    {%endif%}
+                  </tr>
+                  {%endif%}
+                  {%endfor%}
+                  {%endfor%}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END PANEL HEADLINE -->
+        {% endfor %}
+      </div>
+      {% endblock content %}
+    </div>
+  </div>
+</div>
+{% block js %}
+<script>
+  elements = document.getElementsByClassName('enquiry')
+  for (let i = 0; i < elements.length; i++)
+  {
+    const element = elements[i];
+    element.onclick = function ()
+    {
+      document.getElementById('feedback').style.display = 'block'
+    }
+
+  }
+
+  document.getElementById('closefeedback').onclick = () =>
+  {
+    document.getElementById('feedback').style.display = 'none'
+  }
+  document.getElementById('sendFeedback').addEventListener('click', sendFeedback, this)
+  function sendFeedback(e)
+  {
+    document.getElementById('feedback').style.z_index = -1
+    xhr = new XMLHttpRequest()
+    xhr.open('POST', '/feedback/', true)
+    xhr.onload = () =>
+    {
+      if (xhr.status == 200)
+      {
+        hideLoading()
+        document.getElementById('infofeedback').textContent = xhr.responseText
+        if (xhr.responseText.includes('error'))
+        {
+          document.getElementById('infofeedback').classList.add('alert-danger')
+        } else
+        {
+          document.getElementById('infofeedback').classList.add('alert-success')
+        }
+        setTimeout(() =>
+        {
+          document.getElementById('infofeedback').style.display = 'none'
+          document.getElementById('feedback').style.display = 'none'
+        }, 3000)
+      } else
+      {
+        hideLoading()
+        document.getElementById('infofeedback').textContent = "Network or server error"
+        document.getElementById('infofeedback').classList.add('alert-danger')
+        setTimeout(() =>
+        {
+          document.getElementById('feedback').style.display = 'none'
+        }, 3000)
+      }
+    }
+    form = new FormData(document.getElementById('feedbackform'))
+    form.append('user', "{{user.pk}}")
+    xhr.send(form)
+    showLoading()
+  }
+</script>
+<!-- <script>
+  var auctionSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/transactions/addauction/"
+  );
+  auctionSocket.onmessage = function(e) {
+    console.log("something was added refresh your browser");
+  };
+  auctionSocket.onclose = function(e) {
+    console.log("chat socket closed unexpectedly");
+  };
+  var orderSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/transactions/addorder/"
+  );
+
+  document.querySelector("#placeorder").onclick = function(e) {
+    var amount = document.querySelector("#amount").value;
+    var date = document.querySelector("#date").value;
+    var password = document.querySelector("#password").value;
+    var orderRequest = {
+      amount: amount,
+      date: date,
+      password: password
+    };
+    orderSocket.send(JSON.stringify(orderRequest));
+  };
+</script> -->
+
+{% endblock js %}

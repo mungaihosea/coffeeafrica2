@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+{% endblock style %}
+{% block content %} {% load static %}
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content ftco-animate">
+    <div class="container-fluid">
+      <!-- OVERVIEW -->
+      <div class="row">
+        <div class="col-md-12" style="padding-top: 0px;">
+          <div class="metric dark">
+            <img src="{{user.sellerfactoryemployee.factory.factory_logo.url}}" alt="logo" class="img-circle"
+              style="width: 80px; height: 80px; margin-right:10px; float: left;">
+            <p>
+              <span class="white number">{{user.sellerfactoryemployee.factory.factory_name}}</span>
+              <span class="title">Exports Account</span><br>
+              <a href="https://coffeeafrica.net" class="link">Coffeeafrica.net</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body dark orange-border ftco-animate">
+        <div class="panel-body">
+          <h1 class="orange livetext-mega">Coffee Prices</h1>
+          <h3 class="white">${{MeanPrice}} Per Tonne</h3>
+          <p>Coffee prices in the market</p>
+          <canvas id="prices" height="100"></canvas>
+        </div>
+      </div><br>
+
+      <!-- END OVERVIEW -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Current Auction -->
+          <div class="dark panel-body orange-border ftco-animate">
+
+            <h2 class="orange livetext-mega">Current Auction</h2>
+            {%if auctions%}
+            {%for auction in auctions%}
+            <span class="text dark">Since {{auction.date}}</span><br>
+            {%endfor%}
+            <div class="success">
+              <div class="no-padding">
+                <table class="table-sm table-hover text-center">
+                  <thead>
+                    <tr>
+                      <th class="small">Auction ID.</th>
+                      <th class="small">Date</th>
+                      <th class="small">Tonnes</th>
+                      <th class="small">Tonnes Left</th>
+                      <th class="small">Price Per Tonne</th>
+                      <th class="small">Coffee Type</th>
+                      <th class="small">Verified</th>
+                      <th class="small">Orders Received</th>
+                      <th class="small">Coffee Type</th>
+                      <th class="small">Grade</th>
+                      <th class="small">Bean Size</th>
+                      <th class="small">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%for auction in auctions%}
+                    <!-- Body of Auctions -->
+                    <tr style="background-color: rgba(54, 52, 52, 0.507);">
+                      <td>{{auction.pk}}</td>
+                      <td>{{auction.date}}</td>
+                      <td>{{auction.tonnes}}</td>
+                      <td>{{auction.tonnes_left}}</td>
+                      <td>${{auction.price_per_tonne}}</td>
+                      <td>{{auction.coffee_type}}</td>
+                      {%if auction.verified%}
+                      <td><span style="color: green;">Verified</span></td>
+                      {%else%}
+                      <td><span style="color: rgb(255, 0, 0);">Not Verified</span></td>
+                      {%endif%}
+                      <td class="center-side">{{orders}}</td>
+                      <td class="center-side">{{auction.coffee_type}}</td>
+                      <td class="center-side"><span class="label label-success">Grade 1</span></td>
+                      <td class="center-side">{{auction.bean_size}}</td>
+                      <td class="center-side">{{auction.status}}</td>
+                    </tr>
+                </table>
+                {%if orders%}
+                <hr style="background-color: rgb(119, 115, 115);">
+                <span class="white">Warning! This Auction Has Already Recieved Orders, Removing it will cause all
+                  the pending orders
+                  to be discarded. proceed with caution.</span><br><br>
+                {%endif%}
+                {%if auctions%}
+                <button class="btn btn-outline-danger" id="delete_auction" value="{{auction.pk}}"
+                  onclick="DeleteAuction(this)">Remove Auction</button>
+                <a href="{% url 'transactions:view_auction' %}" class="btn btn-outline-success"> Show Details</a>
+                {%endif%}
+                {%endfor%}
+                <div id="myModal" class="modal dark">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3 class="orange">Warning!</h3>
+                    <h4 style="color: rgb(82, 78, 78);">Are you sure you want to delete this Auction</h4>
+                    <span>please note, if you do so, all orders and associated transactions will be discarded.Proceed
+                      with
+                      caution!</span>
+                    <hr>
+                    <div style="text-align: center;">
+                      <button class="btn btn-primary" id="yes">Yes, am sure!</button>
+                      <button class="btn btn-danger" id="exit">No, Cancel!</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%else%}
+            <span class="text-danger">No auction to monitor</span><br>
+            <span>Did you know that Kenya is the second most powerfull coffee producer in the whole of Africa?</span>
+            <hr>
+            <a href="{%url 'transactions:add_auction'%}" class="btn btn-success">Create an Auction</a href>
+            {%endif%}
+            <!-- add stuff here for the right side -->
+          </div><br>
+          <div class="dark panel-body orange-border ftco-animate">
+            <div>
+              <h3 class="orange livetext-mega">Recieved Orders For Current Auction</h3>
+              <p>The most recent transactions for the current Auction</p>
+              <div class="right">
+              </div>
+            </div>
+            <div class="panel-body no-padding">
+              <table class="table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th><small>Order No.</small></th>
+                    <th><small>Name</small></th>
+                    <th><small>Amount</small></th>
+                    <th><small>Date &amp; Time</small></th>
+                    <th><small>Status</small></th>
+                    <th><small>Transaction Validity</small></th>
+                    <th><small>Transaction Hash</small></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for order in order_queryset %}
+                  <tr>
+                    <td class="small"><a href="/transactions/view_order/{{order.id}}/">{{order.id}}</a></td>
+                    <td class="small">{{order.buyer.user.username}}</td>
+                    <td class="small">{{order.amount}}</td>
+                    <td class="small">{{order.date_placed}}</td>
+                    {% if order.status == 0 %}
+                    <td class="small"><span class="label label-warning small">Pending</span></td>
+                    {% elif order.status == 1 %}
+                    <td class="small"><span class="label label-success small">Accepted</span></td>
+                    {%elif order.status == 2%}
+                    <td class="small"><span class="label label-success small">Processed</span></td>
+                    {% elif order.status == 3 %}
+                    <td class="small"><span class="label label-success">Completed</span></td>
+                    {% endif %}
+                    {%if order.chain_valid%}
+                    <td class="small">
+                      <span class="label-success label small">Trusted</span>
+                    </td>
+                    {%else%}
+                    <td class="small">
+                      <span class="label-warning label small">Suspicius</span>
+                    </td>
+                    {%endif%}
+
+                    <td>
+                      <small class="no-padding no-margin small">{{order.order_hash}}</small>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <div class="row">
+                <div class="col-md-6">
+                  <span class="panel-note"><i class="fa fa-clock-o"></i>Most recent</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END RECENT PURCHASES -->
+
+        </div>
+      </div>
+      <!-- END MAIN CONTENT -->
+    </div>
+
+    {% endblock content %}
+    {% block js %}
+    <script src="{% static 'toastr/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'toastr/toastr.min.js' %}"></script>
+    <script src="{%static 'assets/js/factory.js'%}"></script>
+    <script src="{%static 'node_modules/chart.js/dist/Chart.js'%}"></script>
+    <script>
+      months = []
+      prices = []
+      factories = []
+      amounts = []
+    </script>
+    {%for month in months_price%}
+    <script>
+      included = false
+      months.forEach(element =>
+      {
+        if (element === "{{month}}")
+        {
+          included = true
+        }
+      });
+      if (!included)
+      {
+
+        months.push("{{month}}")
+      }
+    </script>
+    {%endfor%}
+    {%for price in prices%}
+    <script>
+      prices.push("{{price}}")
+    </script>
+    {%endfor%}
+    <script>
+
+      var notificationSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/transactions/notifications/{{user.id}}/"
+      );
+      notificationSocket.onmessage = function (e)
+      {
+        var receivedMessage = JSON.parse(e.data);
+
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": false,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+
+        toastr["info"](receivedMessage['content'], "new message received from " + receivedMessage['username'] +
+          ' order number ' + receivedMessage['order_id'])
+
+      }
+      var orderSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/transactions/addorder/{{user.id}}/"
+      )
+
+      orderSocket.onmessage = function (e)
+      {
+        console.log("something came in");
+        var receivedOrder = JSON.parse(e.data)
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": false,
+          "positionClass": "toast-top-full-width",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "3000",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr["success"]("you have a new order \n order number 3344", "new order received ")
+      }
+      var ctx = document.getElementById('prices').getContext('2d');
+      months.push("")
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Price line in real time',
+            data: prices,
+            backgroundColor: [
+              'rgba(100,100,100,0.2)',
+            ],
+            borderColor: [
+              'rgba(226, 109, 6, 1)'
+            ],
+            borderWidth: 3
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          }
+        }
+      });
+    </script>
+    {% endblock js %}
+    <script src="{% static 'homepage/js/jquery.min.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'homepage/js/popper.min.js' %}"></script>
+    <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'homepage/js/aos.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
+    <script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="{% static 'homepage/js/google-map.js' %}"></script>
+    <script src="{% static 'homepage/js/main.js' %}"></script>
+
+  </div>
+</div>

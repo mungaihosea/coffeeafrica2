@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="{% static 'chat/style.css' %}" />
+{% endblock style %}
+{% block content %}
+
+<script>
+    hideLoading()
+</script>
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="dark-l panel-body orange-border">
+                #{{order.id}} | Buyer: {{order.buyer}}<br>
+                {%if order.chain_valid%}
+                <span class="label-success label">Trusted Transaction</span><br>
+                {%else%}
+                <br><span class="label-error label>Order has been verified</span><br>
+                {%endif%}
+
+                units requested: {{order.amount}} tonne{{order.amount | pluralize}}<br><br>
+                <span>Client expects Shipment by: </span><br><span class=" mx-sm-3">{{order.expected_date}}</span>
+                <br><a href="#">Raise Issue</a>
+            </div><br>
+            <div class="dark-l panel-body orange-border">
+                <p class="title orange livetext">Enter Shipment information</p>
+                <small class="passwordHelpBlock">Enter valid shipment details. These Details will be
+                    validated</small>
+                <br>
+                <br>
+                <form action="{%url 'transactions:saveshipment'%}" method="POST">
+                    {%csrf_token%}
+                    <input type="hidden" name="id" id="id" value="{{order.pk}}">
+                    {%for field in form%}
+                    <div class="form-group">
+                        {{field}}
+                        {%if field.help_text%}
+                        <small class="passwordHelpBlock">{{field.helpText}}</small>
+                        {%endif%}
+                    </div>
+                    {%endfor%}
+                    <button type="submit" class="btn btn-outline-primary">Publish information</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

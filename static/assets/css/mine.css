@@ -1,0 +1,331 @@
+.label-error {
+    background-color: red;
+    color: white;
+}
+
+body{
+
+  background: url(../../homepage/images/bg_4.jpg) no-repeat fixed;
+}
+
+.label-bold {
+    font-weight: bold;
+    font-family: ubuntu;
+}
+
+.table-des {
+    column-gap: 100px;
+    column-fill: balance;
+    background-color: antiquewhite;
+    -moz-column-width: 200px;
+    column-width: 100px;
+    margin: 50px;
+}
+
+.margin-medium {
+    margin-right: 2%;
+}
+
+.bg {
+    background-color: bisque;
+    padding: .3%;
+}
+
+
+.dark {
+    background-color: rgba(43, 41, 41, 0.322);
+    border-radius: 8px;
+}
+.dark-l {
+    background-color: rgba(51, 50, 49, 0.384);
+    border-radius: 8px;
+}
+.orange {
+    color: orange;
+}
+
+.white {
+    color: white;
+}
+
+.title{
+    font-size: 150%;
+}
+
+.blue{
+    color: rgb(68, 182, 248);
+}
+.orange-bg {
+    background-color: rgb(226, 149, 6);
+}
+
+.dark-text {
+    color: rgb(43, 41, 41);
+}
+
+.dark-text:hover {
+    color: rgb(0, 0, 0);
+}
+
+.right-side {
+    text-align: right;
+}
+
+.left-side {
+    text-align: left;
+}
+
+.center-side {
+    text-align: center;
+}
+
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1; 
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(46, 44, 44, 0.521);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.modal-transparent {
+    display: none; 
+    position: fixed;
+    z-index: 1; 
+    padding-top: 100px; 
+    text-align: center;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(46, 44, 44, 0.521);
+    transition: all 1s;
+
+}
+
+
+.modal-content2 {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+
+.modal-content-dark {
+    background-color: rgb(51, 50, 49);
+    border-radius: 8px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid rgb(73, 72, 72);
+    color: rgb(161, 148, 148);
+    width: 80%;
+}
+
+.orange-border{
+    border: 1px orange solid;
+    box-shadow: 0.5em 1em 2em .1em rgba(85, 63, 23, 0.671);
+    transition: all .2s;
+    border-radius: 9px;
+    margin-bottom: 10px;
+}
+
+.orange-border:hover{
+    box-shadow:  0em 0.1em .7em 0.1em rgba(235, 156, 11) ;
+}
+
+.livetext{
+    transition: all .5s;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.livetext:hover{
+    color: rgb(96, 96, 245);
+}
+
+.orange-border:hover .livetext{
+    animation-name: livetext;
+    animation-duration: .2s;
+    animation-delay: 0;
+    animation-fill-mode: forwards;
+}
+@keyframes livetext{
+    0%{
+        color:white;
+        background-color: black;
+        left: 0;
+    }
+    100%{
+        color: orange;
+        background-color: rgba(66, 60, 43, 0.329);
+        padding: .5%;
+        font-size: 170%;
+        left: .3em;
+    }
+}
+/* .ftco-animate {
+    opacity: 0;
+    visibility: hidden; 
+} */
+.ftco-animated {
+        -webkit-animation-duration: .5s;
+        animation-duration: .5s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+}  
+
+.orange-border-d{
+    border: 1px orange solid;
+    box-shadow: 0.5em 1em 1em 1em rgb(85, 63, 23);
+    transition: all .4s;
+}
+
+.orange-border-d:hover{
+    box-shadow:  -0.17em -0.2em 02em 0.1em rgb(145, 98, 12) ;
+}
+
+
+.livetext-mega{
+    transition: all .5s;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.livetext-mega:hover{
+    color: rgb(96, 96, 245);
+}
+
+.orange-border:hover .livetext-mega{
+    animation-name: livetext-mega;
+    animation-duration: .2s;
+    animation-delay: 0;
+    animation-fill-mode: forwards;
+}
+@keyframes livetext-mega{
+    0%{
+        color:white;
+        background-color: black;
+        left: 0;
+    }
+    100%{
+        color: orange;
+        background-color: rgba(73, 66, 46, 0.137);
+        padding: .5%;
+        font-size: 260%;
+        left: .2em;
+    }
+}
+.selector-dark{
+    transition: .4s;
+}
+
+.selector-dark:hover{
+    background-color: rgb(32, 31, 31);
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 20px;
+}
+
+.a:active{
+    color: orange;
+}
+
+.a:hover{
+    color: orange;
+}
+
+.fade-loop{
+    animation-name: fade;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes fade{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+
+.vibrate{
+    animation-name: vibrate;
+    animation-duration: 1s;
+    animation-timing-function:ease;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    transform-origin: center;
+    transition: transform .6s;
+    transform: rotate(30deg);
+}
+
+@keyframes vibrate{
+    0%{
+        transform: rotate(-5deg);
+    }
+    10%{
+        transform: rotate(0deg);
+    }
+    20%{
+        transform: rotate(3deg);
+    }
+    30%{
+        transform: rotate(0deg);
+    }
+    40%{
+        transform: rotate(-5deg);
+    }
+    50%{
+        transform: rotate(0deg);
+    }
+    60%{
+        transform: rotate(3deg);
+    }
+    70%{
+        transform: rotate(0deg);
+    }
+    80%{
+        transform: rotate(-5deg);
+    }
+    90%{
+        transform: rotate(3deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}

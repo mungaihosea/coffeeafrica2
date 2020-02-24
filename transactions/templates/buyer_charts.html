@@ -1,0 +1,148 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block content%}
+
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel-body dark-l orange-border ftco-animate">
+                <div class="panel-body">
+                    <h1 class="orange livetext-mega">Coffee Prices</h1>
+                    <h3 class="white">${{MeanPrice}} Per Tonne</h3>
+                    <p>Coffee prices in the market</p>
+                    <canvas id="prices" height="100"></canvas>
+                </div>
+            </div>
+            <br>
+            <div class="panel-body dark-l orange-border ftco-animate">
+                <div class="panel-body">
+                    <h1 class="orange livetext-mega">{{value_increase}} Tonnes</h1>
+                    <p>Showing Tonnes of coffee traded Per month</p>
+                    <canvas id="myChart" height="100"></canvas>
+                </div>
+            </div><br>
+            <div class="panel-body dark-l orange-border ftco-animate">
+                <div class="panel-body">
+                    <h3 class="orange livetext-mega">Factories Traded With</h1>
+                        {%for factory in factories%}
+                        <div class="dark panel-body selector-dark">
+                            <img src="{{factory.factory_logo.url}}" alt="logo" class="img-circle"
+                                style="width: 80px; height: 80px; margin-right:10px; float: left;">
+                            <a class="orange"
+                                href="/transactions/view_market/view_factory/{{factory.pk}}/">{{factory.factory_name}}</a><br>
+                            <span>{{factory.country}}</span>|
+                            <span>{{factory.region}}</span><br>
+                            <span>{{factory.company_email}}</span>
+                        </div>
+                        <br>
+                        {%endfor%}
+                </div>
+            </div>
+            <script src="{%static 'node_modules/chart.js/dist/Chart.js'%}"></script>
+            <script>
+                months = []
+                prices = []
+                factories = []
+                amounts = []
+            </script>
+            {%for month in months_price%}
+            <script>
+                included = false
+                months.forEach(element =>
+                {
+                    if (element === "{{month}}")
+                    {
+                        included = true
+                    }
+                });
+                if (!included)
+                {
+
+                    months.push("{{month}}")
+                }
+            </script>
+            {%endfor%}
+            {%for price in prices%}
+            <script>
+                prices.push("{{price}}")
+            </script>
+            {%endfor%}
+            {%for factory in factories%}
+            <script>
+                factories.push("{{factory.factory_name}}")
+            </script>
+            {%endfor%}
+
+            {%for amount in amounts%}
+            <script>
+                amounts.push("{{amount}}")
+            </script>
+            {%endfor%}
+            <script>
+                var ctx = document.getElementById('prices').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Price line in real time',
+                            data: prices,
+                            backgroundColor: [
+                                'rgba(100,100,100,0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(226, 149, 6,1)'
+                            ],
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+
+                var ctx2 = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: factories,
+                        datasets: [{
+                            label: 'Factory trade deals',
+                            data: amounts,
+                            backgroundColor: [
+
+                                'rgba(20,100,100,1)',
+                                'rgba(50,10,60,1)',
+                                'rgba(20,40,20,1)',
+                                'rgba(200,20,100,1)'
+                            ],
+                            borderColor: [
+                                'rgba(250, 0, 0, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+{%endblock content%}

@@ -1,0 +1,88 @@
+[
+    {
+        "index": 0,
+        "previous hash": null,
+        "dificulty": 0,
+        "work level": 0,
+        "data": {
+            "blockType": "Genesis Block"
+        },
+        "hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df"
+    },
+    {
+        "index": 1,
+        "previous hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df",
+        "dificulty": 2,
+        "work level": 610,
+        "data": {
+            "id": 4,
+            "auction_id": 19,
+            "amount": "3",
+            "status": 0,
+            "date_placed": "2020/2/17",
+            "expected_date": "2020-02-03",
+            "buyer": 4,
+            "employee": 8,
+            "shipping_address": null,
+            "shipping_id": null
+        },
+        "hash": "00b7156866376d77f7d0d91b88e461874ebb3d05acade7b1aa45ade5558ad8ce"
+    },
+    {
+        "index": 2,
+        "previous hash": "00b7156866376d77f7d0d91b88e461874ebb3d05acade7b1aa45ade5558ad8ce",
+        "dificulty": 2,
+        "work level": 723,
+        "data": {
+            "id": 4,
+            "auction_id": 19,
+            "amount": 3,
+            "status": 1,
+            "date_placed": "2020/2/17",
+            "expected_date": "2020/2/3",
+            "buyer": 4,
+            "employee": 8,
+            "shipping_address": null,
+            "shipping_id": null
+        },
+        "hash": "005f5d592fc60b4ed45ae7609b307fe0efca89a967c1b480b577031b18eb7d3b"
+    },
+    {
+        "index": 3,
+        "previous hash": "005f5d592fc60b4ed45ae7609b307fe0efca89a967c1b480b577031b18eb7d3b",
+        "dificulty": 2,
+        "work level": 190,
+        "data": {
+            "id": 4,
+            "auction_id": 19,
+            "amount": 3,
+            "status": 2,
+            "date_placed": "2020/2/17",
+            "expected_date": "2020/2/3",
+            "buyer": 4,
+            "employee": 8,
+            "shipping_address": "ZipCode: 00100     Town: thika    Address: dfghjkl",
+            "shipping_id": "t-5353jkdf"
+        },
+        "hash": "008a4eb754a25984d054506d2632127fc98110f9b80a5f6c14e67417823c336d"
+    },
+    {
+        "index": 4,
+        "previous hash": "008a4eb754a25984d054506d2632127fc98110f9b80a5f6c14e67417823c336d",
+        "dificulty": 2,
+        "work level": 856,
+        "data": {
+            "id": 4,
+            "auction_id": 19,
+            "amount": 3,
+            "status": 3,
+            "date_placed": "2020/2/17",
+            "expected_date": "2020/2/3",
+            "buyer": 4,
+            "employee": 8,
+            "shipping_address": "ZipCode: 00100     Town: thika    Address: dfghjkl",
+            "shipping_id": "t-5353jkdf"
+        },
+        "hash": "0087fbb87458d4dde4b0051696f7ca3ae9eebb85887db896e09ea25818e1c1aa"
+    }
+]

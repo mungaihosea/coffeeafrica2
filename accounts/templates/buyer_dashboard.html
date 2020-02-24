@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/mine.css'%}">
+{% endblock style %}
+{% block content %} {% load static %}
+<script>
+  hideLoading()
+</script>
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div class="container-fluid">
+      <!-- OVERVIEW -->
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3 orange-border panel-body text-center" style="margin-right: .5%;">
+            <i class="lnr lnr-briefcase" style="font-size: 230%; color: orange;"></i>
+            <p class="title blue">Orders</p>
+            {{ordersmade}} | {{processed}} processed
+          </div>
+          <div class="col-md-4  orange-border panel-body text-center" style="margin-right: .5%;">
+            <i class="lnr lnr-checkmark-circle" style="font-size: 230%; color: rgb(4, 207, 4);"></i>
+            <p class="title blue">Tonnes Traded</p>
+            400T
+          </div>
+          <div class="col-md-4  orange-border panel-body text-center">
+            <i class="lnr lnr-chart-bars" style="font-size: 230%; color: orange;"></i>
+            <p class="title blue">Market Price</p>
+            ${{MeanPrice}} Per Metric Tonne
+          </div>
+        </div>
+      </div><br>
+      <div class="orange-border panel-body ftco-animate">
+        <h2 class="orange livetext-mega">suggested factories</h2>
+        {%if not history_factories%}
+        <a href="{%url 'transactions:view_market'%}">No Transaction History, click to view market!</a>
+        {%endif%}
+        {%for factory in history_factories%}
+        <div class="panel-body dark-l selector-dark">
+          <img src="{{factory.factory_logo.url}}" alt="logo" class="img-circle"
+            style="width: 80px; height: 80px; margin-right:10px; float: left;">
+          <a href="{%url 'transactions:view_factory' factory.pk%}" class="white">{{factory.factory_name}}</a>
+          <div class="dark">
+            <i class="lnr lnr-map-marker"></i>
+            <span>{{factory.country}}</span>|
+            <span>{{factory.region}}</span><br>
+          </div>
+          <span>
+            {%if factory.rating == 0%}
+            rating: <i class="lnr lnr-star-half" style="color: orange;"></i>
+            {%elif factory.rating == 1%}
+            rating: fair
+            {%elif factory.rating == 2%}
+            rating: good
+            {%else%}
+            rating: <i class="lnr lnr-star" style="color: orange;"></i><i class="lnr lnr-star"
+              style="color: orange;"></i><i class="lnr lnr-star" style="color: orange;"></i><i class="lnr lnr-star"
+              style="color: orange;"></i><i class="lnr lnr-star" style="color: orange;"></i>
+            {%endif%}
+          </span>
+        </div><br>
+        {%endfor%}
+        <div class="tooltip arrow fade dark" id="tool" style="left: 18%;">
+          <p style="font-size: 150%;">A list of all factories</p>
+        </div>
+        <script>
+          function showTooltip(e)
+          {
+            document.getElementById('tool').classList.add('show')
+          }
+          function hideTooltip(e)
+          {
+            document.getElementById('tool').classList.remove('show')
+          }
+        </script>
+        <a href="{% url 'accounts:factories'%}" class="btn btn-outline-success" onmouseover="showTooltip(this)"
+          onmouseout="hideTooltip(this)">Show All
+          factories</a>
+      </div>
+      <div class="panel-body orange-border ftco-animate">
+        <div class="panel-heading">
+          <h3 class="orange livetext-mega">Recent Transactions</h3>
+          <div class="right">
+            </button>
+          </div>
+        </div>
+        <div class="panel-body no-padding"
+          style="overflow: scroll; overflow-y: hidden; overflow-wrap: break-word; overflow-x:auto;">
+          <table class="table-sm table-hover">
+            <thead>
+              <tr style="text-align: center;">
+                <th class="small">Order No.</th>
+                <th class="small">Name</th>
+                <th class="small">Amount</th>
+                <th class="small">Date &amp; Time</th>
+                <th class="small">Status</th>
+                <th class="small">Transaction Validity</th>
+                <th class="small">Transaction Hash</th>
+                <th class="small">Coffee Type</th>
+              </tr>
+            </thead>
+            <tbody style="text-align: center;">
+              {% for order in order_queryset %}
+              <tr>
+                <td><a href="/transactions/view_order/{{order.id}}/">{{order.id}}</a></td>
+                <td>{{order.employee.factory.factory_name}}</td>
+                <td>{{order.amount}} tonnes</td>
+                <td>{{order.date_placed}}</td>
+                {% if order.status == 0 %}
+                <td class="small"><span class="label label-warning">Pending</span>
+                </td>
+                {% elif order.status == 1 %}
+                <td class="small"><span class="label label-success">Accepted</span></td>
+                {% elif order.status == 2 %}
+                <td class="small"><span class="label label-success">Processed</span></td>
+                {% elif order.status == 3 %}
+                <td class="small"><span class="label label-success">Completed</span></td>
+                {% endif %}
+                {%if order.chain_valid%}
+                <td class="small">
+                  <span class="label-success label">Trusted</span>
+                </td>
+                {%else%}
+                <td class="small">
+                  <span class="label-error label">Suspicius</span>
+                </td>
+                {%endif%}
+
+                <td>
+                  <small class="no-padding no-margin">{{order.order_hash}}</small>
+                </td>
+                <td>
+                  <small class="no-padding no-margin">{{order.auction.coffee_type}}</small>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-body dark">
+          <div class="row">
+            <div class="col-md-6">
+              <span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body orange-border ftco-animate">
+        <div class="panel-body">
+          <h1 class="orange livetext-mega">Coffee Prices</h1>
+          <h3 class="white">${{MeanPrice}} Per Tonne</h3>
+          <p>Coffee prices in the market</p>
+          <canvas id="prices" height="100"></canvas>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <!-- RECENT PURCHASES -->
+
+          <!-- END RECENT PURCHASES -->
+
+        </div>
+      </div><br> <br>
+      <div class="panel-body orange-border ftco-animate">
+        <h4 class="orange livetext-mega">Orders Placed</h4>
+        <div class="panel-body"><span class="white title">{{orders}} order{{orders|pluralize}}</span><br></div>
+        <hr>
+        <div class="dark-l panel-body"><span class="white"><i class="lnr lnr-hourglass"
+              style="font-size: 140%; color: orange;"></i> {{pending}} pending</span><br></div><br>
+        <div class="dark-l panel-body"><span class="white"><i class="lnr lnr-checkmark-circle"
+              style="font-size: 140%; color: rgb(30, 255, 0);"></i> {{confirmed}} Accepted</span><br></div><br>
+        <div class="dark-l panel-body"><span class="white">
+            <i class="lnr lnr-car" style="font-size: 140%; color: rgb(45, 155, 219);"></i> {{processed}}
+            on ship</span><br></div><br>
+        <div class="dark-l panel-body"><span class="white">
+            <i class="lnr lnr-gift" style="font-size: 140%; color: orange;"></i>
+            <span>
+              {{completed}}
+              Completed
+            </span>
+        </div>
+      </div><br>
+      <div class="metric ftco-animate">
+        <h4 class="white">Actions</h4>
+        <a href="{%url 'transactions:showtransactions' user%}" class="a">View all Transactions</a><br>
+        <a href="{%url 'transactions:shownotifications' user.username%}" class="a">Notifications</a>
+        <hr>
+        <h4 class="white">Common</h4>
+        <a href="#" class="a">Print Transaction report</a><br>
+        <a href="#" class="a">Trace order</a><br>
+        <a href="/blog" class="a">Blog</a><br>
+        <a href="{%url 'feedback:showfeedback'%}" class="a">Feedback</a>
+      </div>
+    </div>
+    <br>
+
+    <!-- END OVERVIEW -->
+  </div>
+</div>
+</div>
+</div>
+<!-- END MAIN CONTENT -->
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{%static 'node_modules/chart.js/dist/Chart.js'%}"></script>
+<script>
+  months = []
+  prices = []
+  factories = []
+  amounts = []
+</script>
+{%for month in months_price%}
+<script>
+  included = false
+  months.forEach(element =>
+  {
+    if (element === "{{month}}")
+    {
+      included = true
+    }
+  });
+  if (!included)
+  {
+
+    months.push("{{month}}")
+  }
+</script>
+{%endfor%}
+{%for price in prices%}
+<script>
+  prices.push("{{price}}")
+</script>
+{%endfor%}
+<script src="{% static 'toastr/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'toastr/toastr.min.js' %}"></script>
+<script>
+  var notificationSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/transactions/notifications/{{user.id}}/"
+  );
+  notificationSocket.onmessage = function (e)
+  {
+    var receivedMessage = JSON.parse(e.data);
+
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+
+    toastr["info"](receivedMessage['content'], "new message received from " + receivedMessage['username'] +
+      ' order number ' + receivedMessage['order_id'])
+
+  }
+
+  var ctx = document.getElementById('prices').getContext('2d');
+  months.push("")
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: months,
+      pointRadius: 0,
+      borderWidth: 1,
+      datasets: [{
+        label: 'Price line in real time',
+        data: prices,
+        backgroundColor: [
+          'rgba(100,100,100,0.2)',
+        ],
+        borderColor: [
+          'rgba(226, 109, 6, 1)'
+        ],
+        borderWidth: 3
+      }
+
+      ]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      }
+    }
+  });
+</script>
+{% endblock js %}

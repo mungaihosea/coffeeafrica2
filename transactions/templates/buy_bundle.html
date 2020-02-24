@@ -1,0 +1,79 @@
+{% extends 'base.html' %} {% block content %}
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div class="container-fluid">
+      <section class="">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 mb-5 ftco-animate">
+              <a href="{{auction.factory.factory_logo.url}}" class="image-popup"><img
+                  src="{{auction.factory.factory_logo.url}}" class="img-fluid" alt="Colorlib Template"></a>
+            </div>
+            <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+              <h3>{{auction.coffee_type}} coffee</h3>
+              <p class="price"><span>${{auction.price_per_tonne}} per tonne</span></p>
+              {{auction.tonnes_left}} Tonnes left @
+              <span>Tempreture {{auction.tempreture}}&deg; | Humidity {{auction.humidity}}%</span>
+              <p>{{auction.description}}</p>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <div class="w-100"></div>
+                  <div class="form-group">
+                    <label for="amount">Amount in Tonnes</label>
+                    <input id="tonnes" type="number" class="form-control" aria-describedby="emailHelp" />
+                    <small id="amounthelp" class="form-text text-muted">Enter how many tonnes of coffee you want to buy
+                      from
+                      this
+                      bundle.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="date">Prefered Date of shipment</label>
+                    <input type="date" class="form-control" id="shipmentdate" aria-describedby="emailHelp" />
+                    <small id="datehelp" class="form-text text-muted">what is your prefered shipment date for the
+                      coffee</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Confirm your account Password</label>
+                    <input id="password" type="password" class="form-control" id="exampleInputPassword1" />
+                  </div>
+                  <p><a href="/dashboard" id="placeorder" class="btn btn-primary py-3 px-5">Place Order</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block js %}
+<script>
+  var addOrderSocket = new WebSocket(
+    "ws://" +
+    window.location.host +
+    "/ws/transactions/addorder/{{auction.employee.user.id}}/"
+  );
+  document.querySelector("#placeorder").onclick = function (e)
+  {
+    addOrderSocket.send(
+      JSON.stringify({
+        user: "{{auction.employee.pk}}",
+        auction: "{{auction.id}}",
+        shipmentdate: document.querySelector("#shipmentdate").value,
+        tonnes: document.querySelector("#tonnes").value,
+        password: document.querySelector("#password").value
+      })
+    );
+    location.replace('/dashboard')
+
+    addOrderSocket.onmessage = function (e)
+    {
+      console.log(JSON.parse(e.data));
+    };
+    addOrderSocket.onclose = function (e)
+    {
+      console.log("the addOrderSocket socket closed unexpectedly");
+    };
+  };
+</script>
+{% endblock js %}

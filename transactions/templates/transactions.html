@@ -1,0 +1,277 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div>
+                <div class="dark-l panel-body orange-border ftco-animate">
+                    <div>
+                        {%if user.sellerfactoryemployee%}
+                        <h2 class="orange no-padding" style="font-family:monospace;">
+                            {{user.sellerfactoryemployee.factory.factory_name}}</h2>
+                        {%else%}
+                        <span class="title">{{user}}|</span><span class="blue">Transactions</span>
+                        {%endif%}
+                        <hr>
+                        <h3 class="orange livetext-mega">Transaction History</h3>
+                        <p>All your transacion History</p>
+                        <a href="#" id="generatepdf">Generate PDF</a>
+                        <hr>
+                        <div class="right">
+                        </div>
+                    </div>
+                    <div class="panel-body no-padding"
+                        style="overflow: scroll; overflow-y: hidden; overflow-wrap: break-word; overflow-x:auto;">
+                        <table class="table-sm table-hover" id="target">
+                            <thead>
+                                <tr>
+                                    <th><small>Order No.</small></th>
+                                    <th><small>Buyer Name</small></th>
+                                    <th><small>Amount</small></th>
+                                    <th><small>Date &amp; Time</small></th>
+                                    <th><small>Status</small></th>
+                                    <th><small>Transaction Validity</small></th>
+                                    <th><small>Auction ID</small></th>
+                                    <th><small>address</small></th>
+                                    <th><small>Shipment ID</small></th>
+                                    <th><small>Shipment Company</small></th>
+                                    <th><small>Vessel Number</small></th>
+                                    <th><small>Time Shipped</small></th>
+                                    <th><small>Handler Phone</small></th>
+                                    <th><small>Expected by</small></th>
+                                    <th><small>Delivered?</small></th>
+                                    <th><small>Arrives in</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in transactions%}
+                                <tr>
+                                    <td class="small"><span>{{order.id}}</span>
+                                    </td>
+                                    <td class="small"><span>{{order.buyer.user.username}}</span></td>
+                                    <td class="small"><span>{{order.amount}} tonne{{order.amount|pluralize}}</span></td>
+                                    <td class="small"><span>{{order.date_placed}}</span></td>
+                                    {% if order.status == 0 %}
+                                    <td class="small"><span class="label label-warning small">Pending</span></td>
+                                    {% elif order.status == 1 %}
+                                    <td class="small"><span class="label label-success small">Accepted</span></td>
+                                    {%elif order.status == 2%}
+                                    <td class="small"><span class="label label-success small">Processed</span></td>
+                                    {% elif order.status == 3 %}
+                                    <td class="small"><span class="label label-success">Completed</span></td>
+                                    {% endif %}
+                                    {%if order.chain_valid%}
+                                    <td class="small">
+                                        <span class="label-success label small">Trusted</span>
+                                    </td>
+                                    {%else%}
+                                    <td class="small">
+                                        <span class="label-warning label small">Suspicius</span>
+                                    </td>
+                                    {%endif%}
+                                    <td>
+                                        <small class="small">{{order.auction.pk}}</small>
+                                    </td>
+                                    <td>
+                                        <small class="small">
+                                            {%if order.shipping_address%}
+                                            {{order.shipping_address}}
+                                            {%else%}
+                                            ________
+                                            {%endif%}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <small class="small">
+                                            {%if order.shipment_id%}
+                                            {{order.shipment_id}}
+                                            {%else%}
+                                            ________
+                                            {%endif%}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <small class="small">
+                                            {%if order.shipment_company%}
+                                            {{order.shipment_company}}
+                                            {%else%}
+                                            ________
+                                            {%endif%}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <small class="small">
+                                            {%if order.vessel_number%}
+                                            {{order.vessel_number}}
+                                            {%else%}
+                                            ________
+                                            {%endif%}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        {%if order.shipment_id%}
+                                        <small class="small">{{order.time_of_shipping}}</small>
+                                        {%else%}
+                                        <small class="small">________</small>
+                                        {%endif%}
+                                    </td>
+                                    <td>
+                                        <small class="small">
+                                            {%if order.shipment_handler_phone%}
+                                            {{order.shipment_handler_phone}}
+                                            {%else%}
+                                            ________
+                                            {%endif%}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <small>
+                                            {{order.expected_date}}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        {%if order.arrived%}
+                                        <small class="small label label-success">Delivered</small>
+                                        {%else%}
+                                        {%if order.shipment_id%}
+                                        <small class="small label label-warning">On Ship</small>
+                                        {%else%}
+                                        <small class="small label label-danger">Not shipped</small>
+                                        {%endif%}
+                                        {%endif%}
+                                    </td>
+                                    <td>
+                                        {%if order.estimated_time_on_ship == '0'%}
+                                        ________
+                                        {%else%}
+                                        <small class="small">
+                                            {{order.estimated_time_on_ship}}
+                                            hour{{order.estimated_time_on_ship | pluralize}}
+                                        </small>
+                                        {%endif%}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="panel-note"><i class="fa fa-clock-o"></i>From the begining of time</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{%static 'node_modules/jspdf/dist/jspdf.min.js'%}"></script>
+<script>
+    // var elementHandler = {
+    //     "#editor": function (element, renderer)
+    //     {
+    //         return true
+    //     }
+    // }
+    // document.getElementById('generatepdf').onclick = function ()
+    // {
+    //     var doc = new jsPDF()
+    //     doc.fromHTML(document.getElementById('target'), 15, 15, {
+    //         "width": 50,
+    //         "elementHandlers": elementHandler
+    //     })
+    //     doc.save('transactions.pdf')
+    // }
+    function tableToJson(table)
+    {
+        var data = [];
+
+        // first row needs to be headers
+        var headers = [];
+        for (var i = 0; i < table.rows[0].cells.length; i++)
+        {
+            headers[i] = table.rows[0].cells[i].textContent.toLowerCase().replace(/<[^>]*>?/gm, '')
+        }
+        data.push(headers);
+        // go through cells
+        for (var i = 1; i < table.rows.length; i++)
+        {
+
+            var tableRow = table.rows[i];
+            var rowData = {};
+
+            for (var j = 0; j < tableRow.cells.length; j++)
+            {
+
+                rowData[headers[j]] = tableRow.cells[j].textContent.replace(/n<[^>]*>?/gm, '');
+
+            }
+
+            data.push(rowData);
+        }
+
+        return data;
+    }
+
+
+    document.getElementById('generatepdf').onclick = function ()
+    {
+        var pdf = new jsPDF('1', 'pt', 'tabloid', 'true');
+
+        console.log($('#target').get(0))
+        var target = tableToJson($('#target').get(0))
+        console.log(target)
+        // pdf.cellInnitialize();
+        pdf.setFontSize(7)
+        $.each(target, function (i, row)
+        {
+            $.each(row, function (l, cell)
+            {
+                pdf.cell(1, 10, 60, 15, cell, i);
+            })
+        })
+        pdf.save('testty.pdf')
+        // source can be HTML-formatted string, or a reference
+        // to an actual DOM element from which the text will be scraped.
+        // source = $('#target')[0];
+        // 
+
+        // we support special element handlers. Register them with jQuery-style 
+        // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+        // There is no support for any other type of selectors 
+        // (class, of compound) at this time.
+        // specialElementHandlers = {
+        //     // element with id of "bypass" - jQuery style selector
+        //     '#bypassme': function (element, renderer)
+        //     {
+        //         // true = "handled elsewhere, bypass text extraction"
+        //         return true
+        //     }
+        // };
+        // margins = {
+        //     top: 80,
+        //     bottom: 60,
+        //     left: 40,
+        //     width: 522
+        // };
+        // all coords and widths are in jsPDF instance's declared units
+        // 'inches' in this case
+        // pdf.fromHTML(
+        //     source, // HTML string or DOM elem ref.
+        //     margins.left, // x coord
+        //     margins.top, { // y coord
+        //     'width': margins.width, // max width of content on PDF
+        //     'elementHandlers': specialElementHandlers
+        // },
+        //     function (dispose)
+        //     {
+        //         // dispose: object with X, Y of the last line add to the PDF 
+        //         //          this allow the insertion of new lines after html
+        //         pdf.save('Test.pdf');
+        //     }, margins);
+    }
+</script>
+{%endblock content%}

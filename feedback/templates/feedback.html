@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/mine.css'%}">
+{% endblock style %}
+{% block content %} {% load static %}
+<script>
+    hideLoading()
+</script>
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="dark-l panel-body">
+                <p class="title">Phone</p>
+                <a href="#" class=""><i class="lnr lnr-phone-handset" style="font-size: 270%; color: orange;"></i>
+                    <span style="font-size: 180%; font-family: ubuntu; color: white;">|+254 7010
+                        35549</span>
+                </a>
+                <hr>
+                <p class="title">Email</p>
+                <a href="#" class=""><i class="lnr lnr-inbox" style="font-size: 270%; color: orange;"></i>
+                    <span style="font-size: 170%; font-family: ubuntu; color: white;">|feedback@coffeeafrica.net</span>
+                </a>
+            </div>
+            <br>
+            <div class="dark-l panel-body orange-border">
+                <form class="form" id="feedbackform">
+                    <span id="infofeedback" class="hide"></span><br>
+                    <h4>We respond to feedback faster than you think.</h4>
+                    <div class="form-group">
+                        <textarea name="message" id="message" class="form-control"
+                            placeholder="Enter Message"></textarea>
+                    </div>
+                    <input type="hidden" name="user" value="{{user.pk}}"><br>
+                    <input type="hidden" name="obj" id="Common feedback">
+                    {%csrf_token%}
+                </form>
+                <script>
+                    function sendFeedback()
+                    {
+                        showLoading()
+                        xhr = new XMLHttpRequest()
+                        xhr.open('POST', '/feedback/', true)
+                        xhr.onload = () =>
+                        {
+                            if (xhr.status == 200)
+                            {
+                                hideLoading()
+                                console.log(xhr.responseText)
+                                document.getElementById('infofeedback').classList.remove('hide')
+                                document.getElementById('infofeedback').textContent = xhr.responseText
+                                if (xhr.responseText.includes('error'))
+                                {
+                                    document.getElementById('infofeedback').classList.add('alert-danger')
+                                    ocument.getElementById('infofeedback').textContent = xhr.responseText + xhr.status
+                                } else
+                                {
+                                    document.getElementById('infofeedback').classList.add('alert-success')
+                                }
+                                setTimeout(() =>
+                                {
+                                    document.getElementById('infofeedback').classList.add('hide')
+                                }, 3000)
+                            } else
+                            {
+                                hideLoading()
+                                document.getElementById('infofeedback').textContent = "Network or server error"
+                                console.log("error!")
+                                document.getElementById('infofeedback').classList.add('alert-danger')
+                                setTimeout(() =>
+                                {
+                                    document.getElementById('infofeedback').classList.add('hide')
+                                }, 3000)
+                            }
+                        }
+                        form = new FormData(document.getElementById('feedbackform'))
+                        // form.append('user', document.getElementById('user').value)
+                        // form.append('order', document.getElementById('order').value)
+                        xhr.send(form)
+                    }
+                </script>
+                <button class="btn btn-primary" type="submit" onclick="sendFeedback()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

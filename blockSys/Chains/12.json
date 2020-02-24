@@ -1,0 +1,69 @@
+[
+    {
+        "index": 0,
+        "previous hash": null,
+        "dificulty": 0,
+        "work level": 0,
+        "data": {
+            "blockType": "Genesis Block"
+        },
+        "hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df"
+    },
+    {
+        "index": 1,
+        "previous hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df",
+        "dificulty": 2,
+        "work level": 14,
+        "data": {
+            "id": 12,
+            "auction_id": 22,
+            "amount": "27",
+            "status": 0,
+            "date_placed": "2020/2/21",
+            "expected_date": "2020-02-27",
+            "buyer": 4,
+            "employee": 9,
+            "shipping_address": null,
+            "shipping_id": null
+        },
+        "hash": "00bc346d5cebede60d602a528dc7ed93900e376f9bb36f0324c671f62b693754"
+    },
+    {
+        "index": 2,
+        "previous hash": "00bc346d5cebede60d602a528dc7ed93900e376f9bb36f0324c671f62b693754",
+        "dificulty": 2,
+        "work level": 51,
+        "data": {
+            "id": 12,
+            "auction_id": 22,
+            "amount": 27,
+            "status": 1,
+            "date_placed": "2020/2/21",
+            "expected_date": "2020/2/27",
+            "buyer": 4,
+            "employee": 9,
+            "shipping_address": null,
+            "shipping_id": null
+        },
+        "hash": "00cad1af65b0778e484519108987d50e1b2edb3888e922c5de0548f9f73799c5"
+    },
+    {
+        "index": 3,
+        "previous hash": "00cad1af65b0778e484519108987d50e1b2edb3888e922c5de0548f9f73799c5",
+        "dificulty": 2,
+        "work level": 1200,
+        "data": {
+            "id": 12,
+            "auction_id": 22,
+            "amount": 27,
+            "status": 3,
+            "date_placed": "2020/2/21",
+            "expected_date": "2020/2/27",
+            "buyer": 4,
+            "employee": 9,
+            "shipping_address": "ZipCode: +633     Town: Myanmar    Address: box 908 bokumah",
+            "shipping_id": "t-5353jkdf"
+        },
+        "hash": "0063cf695ec12db1f3f99accac0fb4f74d86869e87c731eab2a853525db1536c"
+    }
+]

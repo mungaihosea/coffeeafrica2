@@ -1,0 +1,25 @@
+1st import the intergrator module to your script.
+then declare a Chain_Model Object first. like this:
+        Chain_model = intergrator.Chain_Model()
+
+the Chain_Model does not need any arguments. this Chain_Model represents your entire block chain and
+includes all the methods attached to a block chain model this are.
+    1. addTochain
+      ``this method allows you to add data to the chain, it accepts an order Object from the
+        database, takes its details and creates a block and adds the block to the Chain_Model
+        This Method does not return a value``
+        ----usage------
+        Chain_Model.addTochain(orderObject)
+        ---------------
+    2. CheckValidity
+      ``This method returns a boolean True or false . the method checks if any of the blocks on the chain
+        have conflicting data or are not in the correct flow``
+        ----usage------
+        Chain_Model.CheckValidity(Void)
+        ---------------
+    3 getChainDataAsList
+      ``This Method returns a list of all the data in the chain blocks as a list``
+        ----usage------
+        Chain_Model.getChainDataAsList(Void)
+        ---------------
+

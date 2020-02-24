@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block content%}
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <span class="orange title">{{user}}|</span><span class="blue">Notifications</span><br><br>
+            <div class="dark-l panel-body orange-border">
+                <h4><b class="livetext orange">Important</b></h4>
+                {%if not notifications%}
+                <p>No new Important notifications</p>
+                {%endif%}
+                {%for notification in notifications%}
+                <div class="dark panel-body ftco-animate">
+                    {%if notification.app_name == 'transactions'%}
+                    <span>Transactions</span>
+                    {%endif%}
+                    <br><a href="/{{notification.app_name}}/{{notification.action}}/{{notification.id}}/"
+                        class="notification-item"><span class="dot bg-success"></span>
+                        [order NO: {{notification.id}}] ----->{{notification.message}}
+                    </a>
+                </div>
+                <br>
+                {%endfor%}
+            </div>
+            <br>
+            <div class="dark-l panel-body orange-border ftco-animate">
+                <h4><b class="livetext orange">Admin</b></h4>
+                {%if not admin_to_me%}
+                <p><i class="lnr lnr-smile" style="color: orange; font-size: 180%;"></i> You're all done, nothing here
+                </p>
+                {%endif%}
+                {%for message in admin_to_me%}
+                <div class="dark panel-body">
+                    <span class="white">{{message.title}}</span>
+                    <br><a href="{{message.link}}" class="notification-item"><span class="dot orange-bg"></span>
+                        {{message.content}}
+                    </a>
+                </div><br>
+                {%endfor%}
+                <br>
+            </div>
+            <br>
+            <div class="dark-l panel-body orange-border ftco-animate">
+                <h4><b class="livetext orange">Updates</b></h4>
+                {%for message in admin_messages%}
+                <div class="dark panel-body">
+                    <span>CoffeeAfrica</span><br>
+                    <span class="white">{{message.title}}</span>
+                    <br><a href="{{message.link}}" class="notification-item"><span class="dot"
+                            style="background-color: cyan;"></span>
+                        {{message.content}}
+                    </a>
+                </div><br>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

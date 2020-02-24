@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+{% endblock style %}
+{% block content %} {% load static %}
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content dark">
+        <div class="container-fluid">
+
+            {%for auction in auctions%}
+
+            <div class="dark-l">
+                <div class="metric">
+                    <h2>
+                        Index no: {{auction.pk}}
+                    </h2>
+                    <hr>
+                    {{auction.coffee_type}} <br>
+                    {{auction.tonnes}} tonne{{auction.tonnes | pluralize}} <br>
+                    Auctioned by {{auction.employee}} on {{auction.date}} <br>
+                </div>
+            </div>
+            {%endfor%}
+
+        </div>
+    </div>
+</div>
+{%endblock content%}

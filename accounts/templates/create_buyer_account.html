@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>CoffeeAfrica</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/ionicons.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'homepage/css/bootstrap-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/jquery.timepicker.css' %}">
+
+
+  <link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/icomoon.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}">
+</head>
+
+<body>
+  <!-- Nav bar -->
+  <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class=" navbar-brand title" href="/"
+        style="font-size: 2em; color: orange; font-weight: bold; font-family: ubuntu;">Coffee Africa<small
+          style="font-size: 13px; color: rgb(255, 255, 255);">built with Blockchain technology</small></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+          <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
+          <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+          <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+          <li class="nav-item cart"><a href="cart.html" class="nav-link"><span
+                class="icon icon-shopping_cart"></span><span
+                class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</body>
+<!-- WRAPPER -->
+<section class="ftco-section ftco-services col-md-12" style="background-color: rgba(8, 8, 8, 0);;">
+  <div class="container orange-border">
+    <div class="vertical-align-wrap">
+      <div class="vertical-align-middle panel-body" style="padding: 2%;">
+        <div style="height: 100%;" class="auth-box lockscreen clearfix">
+          <div class="content">
+            <!-- <h1 class="sr-only">Klorofil - Free Bootstrap dashboard</h1> -->
+            <div class="logo text-center">
+              <img style="height: 90px;" src="{% static 'custom_images/userdummy.jpg' %}" alt="coffeeafricalogo" />
+              <div class="heading-section ftco-animate">
+                <h2 class="heading white" style="color: white;">
+                  Fill
+                  this form to
+                  create a Buyer's Account</h2>
+              </div>
+              <img src="{% static 'custom_images/coffeeafricalogo.png' %}" alt="coffeeafricalogo" />
+            </div>
+
+            <form style="text-align: left;" method="POST" class="form">
+              {% csrf_token %}
+              <div class="input-group mb-3">
+                <div class="input-group-prepend"></div>
+                <div class="custom-file">
+                  <label class="custom-file-label" for="inputGroupFile01">Profile picture</label>
+                  <input required name="profilepicture" type="file" class="custom-file-input" id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01" />
+                </div>
+                <br />
+              </div>
+              <div class="form-group">
+                <label for="username" class="white">Username</label>
+                <input name="username" required type="text" id="username" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="white">Email address</label>
+                <input required name="email" type="email" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp" />
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                  else.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1" class="white">Password</label>
+                <input required name="pass" type="password" class="form-control" id="exampleInputPassword1" />
+              </div>
+              <div class="form-group">
+                <label for="repeatpassword" class="white">Repeat Password</label>
+                <input required name="repeatpass" type="password" class="form-control" id="repeatpassword" />
+              </div>
+              <div class="form-group">
+                <label for="country" class="white">country</label>
+                <input required name="country" type="text" class="form-control" id="country" />
+              </div>
+              <div class="form-group">
+                <label for="address" class="white">Address</label>
+                <input required name="address" type="text" class="form-control" id="Address" />
+              </div>
+              <div class="form-group">
+                <label for="phone" class="white">phone</label>
+                <input name="phone" required type="text" class="form-control" id="Phone" />
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                <label class="form-check-label white" for="exampleCheck1">i agree to the terms and conditions</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Create Account!</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- END WRAPPER -->
+
+
+<script src="{% static 'homepage/js/jquery.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
+<script src="{% static 'homepage/js/popper.min.js' %}"></script>
+<script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'homepage/js/aos.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
+<script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
+<script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script src="{% static 'homepage/js/google-map.js' %}"></script>
+<script src="{% static 'homepage/js/main.js' %}"></script>
+
+
+
+</html>
+
+<!-- <div class="row">
+    <div style="text-align: center;" class="col-sm-8">
+      
+      <div class="panel panel-headline">
+        <div
+          style="text-align: center; color: green;"
+          class="panel-heading"
+        >
+          <h1 class="panel-title">
+            Success <span class="lnr lnr-thumbs-up"></span>
+          </h1>
+          <p class="panel-subtitle">
+            Account creation successfull
+          </p>
+        </div>
+        <div class="panel-body">
+          <h4>Activation required !</h4>
+          <p>
+            click on the link we have sent to you via email to activate your
+            account the link will expire in 48 hours<br />
+          </p>
+        </div>
+      </div>
+      
+    </div>
+  </div> -->

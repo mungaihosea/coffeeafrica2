@@ -1,0 +1,700 @@
+{% extends 'base.html' %} {% block style %} {% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="{% static 'chat/style.css' %}" />
+{% endblock style %} {% block content %} {% load static %}
+<script>
+  hideLoading()
+</script>
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div class="container-fluid">
+      <!-- The Modal -->
+      <div id="myModal" class="modal" style="z-index: 1;">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3 class="orange">Information</h3>
+          <h4 style="color: rgb(82, 78, 78);">Are you sure the Following Order has arrived?</h4>
+          <div class="metric dark white">
+            <b>Buyer</b>: {{order.buyer.user.username}}
+            <br><b>Order ID:</b><span>{{order.pk}}</span><br>
+            {%if order.auction.employee == user%}
+            <b>factory handler</b>: You<br />
+            {%else%}
+            <b>factory handler</b>: {{order.auction.employee}}<br />
+            {%endif%}
+            <b>Auction</b>: {{order.id}}<br />
+            <b>Expected_date</b>: {{order.expected_date}}<br />
+            <b>Amount</b>: {{order.amount}} tonne{{order.amount|pluralize}}<br />
+            {% if order.status == 0%}
+            <b>Status</b>: awaiting confirmation<br />
+            {% elif order.status == 1%}
+            <b>Status</b>: Confirmed order<br />
+            {%elif order.status == 2%}
+            <b>Status</b>: Processed Order<br />
+            {%else%}
+            <b>Status</b>: Completed order<br />
+            {%endif%}
+          </div>
+          <div style="text-align: center;">
+            <button class="btn btn-primary" id="yes">Yes, am sure!</button>
+            <button class="btn btn-danger" id="exit">No, Cancel!</button>
+          </div>
+        </div>
+      </div>
+      <div class="row panel-body">
+        {%if order.status >= 1%}
+        <div class="col-md-2 orange-border panel-body" style=" margin-right: 2px;">
+          <i class="lnr lnr-checkmark-circle" style="color: greenyellow; font-size: 180%;"></i><br>
+          <span class="orange">Order Recieved and Accepted</span><br> By
+          {{order.auction.factory}}
+        </div>
+        {%else%}
+        <div class="col-md-2 panel-body"
+          style=" margin-right: 2px; border: 3px rgba(0, 225, 255, 0.562) dotted; border-radius: 10px; text-align: center;">
+          <i class="lnr lnr-hourglass fade-loop" style="color: rgba(255, 187, 0, 0.699); font-size: 180%;"></i><br>
+          <span>Order awaiting confirmation</span>
+        </div>
+        {%endif%}
+        <div class="col-sm-1">
+          <i class="lnr lnr-arrow-right orange" style="position: absolute; top: 42%; font-size: 170%;"></i>
+        </div>
+        {%if order.status >= 2%}
+        <div class="col-md-2 orange-border panel-body" style=" margin-right: 2px;">
+          <i class="lnr lnr-map-marker" style="color: greenyellow; font-size: 180%;"></i><br>
+          <span class="orange">Order Addresses filled</span>
+          {{order.shipping_address}}
+        </div>
+        {%else%}
+
+        {%if not order.shipping_address%}
+        <div class="col-md-2 panel-body dark-l" style=" margin-right: 2px;">
+          <i class="lnr lnr-cross-circle" style="color: rgb(74, 77, 71); font-size: 180%;"></i><br>
+          <span>Order Addresses Not Filled</span>
+          {%else%}
+          <div class="col-md-2 panel-body"
+            style=" margin-right: 2px; border: 3px rgba(0, 225, 255, 0.562) dotted; border-radius: 10px; text-align: center;">
+            <i class="lnr lnr-hourglass fade-loop" style="color: rgba(255, 189, 6, 0.747); font-size: 180%;"></i><br>
+            <span>Order in processing</span>
+            {{order.shipping_address}}
+            {%endif%}
+          </div>
+          {%endif%}
+          <div class="col-sm-1">
+            <i class="lnr lnr-arrow-right orange" style="position: absolute; top: 42%; font-size: 170%;"></i>
+          </div>
+          {%if order.status >= 3%}
+          <div class="col-md-2 orange-border panel-body" style=" margin-right: 2px;">
+            <i class="lnr lnr-rocket" style="color: greenyellow; font-size: 180%;"></i><br>
+            <span class="orange">Order Shipping Details Filled</span><br>
+            {{order.time_of_shipping}} | {{order.vessel_number}}
+            <br>
+            <div class="vibrate" style="display: inline-block;">
+              <i class="lnr lnr-clock blue" style="font-size: 130%;"></i>
+            </div>
+            <span>{{order.estimated_time_on_ship}} hour{{order.estimated_time_on_ship | pluralize}}</span>
+          </div>
+          {%else%}
+          <div class="col-md-2 panel-body dark-l" style=" margin-right: 2px;">
+            <i class="lnr lnr-cross-circle" style="color: rgb(74, 77, 71); font-size: 180%;"></i><br>
+            <span>No shipping information</span>
+          </div>
+          {%endif%}
+          <div class="col-sm-1">
+            <i class="lnr lnr-arrow-right orange" style="position: absolute; top: 42%; font-size: 170%;"></i>
+          </div>
+          {%if order.arrived%}
+          <div class="col-md-2 orange-border panel-body" style=" margin-right: 2px;">
+            <i class="lnr lnr-briefcase" style="color: greenyellow; font-size: 180%;"></i><br>
+            <span class="orange">Order Arrived</span><br>
+            <span>{{order.when_arrived}}</span>
+          </div>
+          {%elif not order.shipment_company%}
+          <div class="col-md-2 panel-body dark-l" style=" margin-right: 2px;">
+            <i class="lnr lnr-cross-circle" style="color: rgb(74, 77, 71); font-size: 180%;"></i><br>
+            <span>Waiting for shipping details</span>
+          </div>
+          {%else%}
+          <div class="col-md-2 panel-body"
+            style=" margin-right: 2px; border: 3px rgba(0, 225, 255, 0.562) dotted; border-radius: 10px; text-align: center;">
+            <i class="lnr lnr-hourglass fade-loop" style="color: rgba(255, 208, 0, 0.712); font-size: 180%;"></i><br>
+            <span class="orange">Awaiting Arrival</span><br>
+            <span>expected in {{order.estimated_time_on_ship}} hour{{order.estimated_time_on_ship | pluralize}}</span>
+          </div>
+          {%endif%}
+
+        </div>
+        <div class=" row">
+          <div class=" panel-body col-md-5 orange-border ftco-animate">
+            {% if user.sellerfactoryemployee %}
+            <div style="margin-bottom: 5px;">
+              {% if order.status == 0 %}
+              <form id="updateOrderForm">
+                {%csrf_token%}
+              </form>
+              <button class="btn btn-success m-2" onclick="ShowConfirm()">Confirm Order</button>
+              <div id="myModal4" class="modal">
+                <div class=" modal-content">
+                  <span class="close" id="end">&times;</span>
+                  <h3 class="orange">Information</h3>
+                  <h4 style="color: rgb(82, 78, 78);">Are you sure you want to confirm this order.</h4>
+                  <span>This cannot be undone</span>
+                  <div class="row text-center">
+                    <button class="btn btn-primary" value="{{order.pk}}" id="confirmOrder">Yes,Confirm</button>
+                    <button class="btn btn-danger" id="exit">No, Cancel</button>
+                  </div>
+                </div>
+
+              </div>
+              <script>
+                modal4 = document.getElementById("myModal4")
+                function ShowConfirm()
+                {
+                  document.getElementById("myModal4").style.display = "block";
+                  document.getElementById('end').onclick = function ()
+                  {
+                    modal4.style.display = "none";
+                  }
+                  document.getElementById('exit').onclick = function ()
+                  {
+                    modal4.style.display = "none";
+                  };
+                  window.onclick = function (event)
+                  {
+                    if (event.target == document.getElementById("myModal4"))
+                    {
+                      modal.style.display = "none";
+                    }
+                  };
+                }
+              </script>
+            </div>
+            {% endif %}
+            {% endif %}
+            <h6 style="margin: 0px; color: bisque; font-size: 190%; padding: 1%;">
+              {{order.auction.factory.factory_name}}
+            </h6>
+            <div class="panel-body dark">
+              <span class="white">Issues and Concerns</span><br>
+              <a href="#" id="raise">Raise Concern about this order</a><br>
+            </div>
+            <br>
+            <div class="panel-body panel hide" id="feedback">
+              <form action="#" method="POST" class="form-group" id="feedbackform">
+                <p id="infofeedback"></p>
+                <span class="orange">We value your Feedback :-)</span>
+                <span class="close" id="closefeedback">&times;</span><br>
+                <span>Raise Concerns or comment on the services you've recieved regarding this order</span>
+                {%csrf_token%}
+                <hr>
+                <span class="orange">Select Concern</span>
+                <select class="form-control" id="type">
+                  <option value="clarification">seeking clarification</option>
+                  <option value="Request">Making a request</option>
+                  <option value="Other">Comment or other</option>
+                  <option value="Question">Enquiry</option>
+                </select>
+                <br>
+
+                <input type="hidden" name="order" id="order" value="{{order.id}}">
+                <input type="hidden" name="user" id="user" value="{{order.buyer.user.pk}}">
+                <textarea name="message" id="message" cols="40" rows="5" placeholder="Type feedback"
+                  class="form-control"></textarea>
+              </form>
+              <button class="btn btn-primary" id="sendFeedback" value="{{order.pk}}">Send feedback</button>
+            </div>
+            <script>
+              document.getElementById('raise').onclick = function ()
+              {
+                document.getElementById('feedback').classList.remove('hide')
+              }
+              document.getElementById('closefeedback').onclick = () =>
+              {
+                document.getElementById('feedback').classList.add('hide')
+              }
+              loadingModal = document.getElementById('loadingDiv')
+              document.getElementById('sendFeedback').addEventListener('click', sendFeedback, this)
+              function sendFeedback(e)
+              {
+                showLoading()
+                xhr = new XMLHttpRequest()
+                xhr.open('POST', '/feedback/' + e.target.value + "/", true)
+                xhr.onload = () =>
+                {
+                  if (xhr.status == 200)
+                  {
+                    hideLoading()
+                    console.log(xhr.responseText)
+                    document.getElementById('infofeedback').classList.remove('hide')
+                    document.getElementById('infofeedback').textContent = xhr.responseText
+                    if (xhr.responseText.includes('error'))
+                    {
+                      document.getElementById('infofeedback').classList.add('alert-danger')
+                    } else
+                    {
+                      document.getElementById('infofeedback').classList.add('alert-success')
+                    }
+                    setTimeout(() =>
+                    {
+                      document.getElementById('infofeedback').classList.add('hide')
+                      document.getElementById('feedback').classList.add('hide')
+                    }, 3000)
+                  } else
+                  {
+                    hideLoading()
+                    document.getElementById('infofeedback').textContent = "Network or server error"
+                    console.log("error!")
+                    document.getElementById('infofeedback').classList.add('alert-danger')
+                    setTimeout(() =>
+                    {
+                      document.getElementById('infofeedback').classList.add('hide')
+                      document.getElementById('feedback').classList.add('hide')
+                    }, 3000)
+                  }
+                }
+                form = new FormData(document.getElementById('feedbackform'))
+                form.append('type', document.getElementById('type').value)
+                console.log(document.getElementById('type').value)
+                // form.append('user', document.getElementById('user').value)
+                // form.append('order', document.getElementById('order').value)
+                xhr.send(form)
+              }
+            </script>
+            {%if order.shipment_id%}
+            {%if not user.buyer and order.status == 1%}
+            <div class="panel-body">
+              <i class="fa fa-circle me"></i>
+              <span class="text">Admin</span><br>
+              <span class="text-success">the Shipment information has been filled, awaiting confirmation by
+                client</span><br>
+              <a href="#">Request review</a>
+            </div>
+            {%endif%}
+            {%endif%}
+            {%if order.status == 1 and order.buyer.user == user and not order.shipping_address%}
+            <div class="metric ">
+              <i class="fa fa-circle me"></i>
+              <span class="text">Admin</span><br>
+              <span class="text-success">Your Order has been confirmed, please respond to the Factory</span><br>
+              <a href="#" class="fa">I have a question</a>
+            </div>
+            {%endif%}
+            {%if order.status == 1 and order.buyer.user == user and order.shipping_address%}
+            <div class="metric">
+              <i class="fa fa-circle me"></i>
+              <span class="text">Admin</span><br>
+              <span class="text-success">Waiting for Shipment Details, We will notify you when the order is on
+                ship.</span><br>
+              <a href="#" class="fa">I have a question</a>
+            </div>
+            {%endif%}
+            {%if order.status == 2 and order.buyer.user == user%}
+            <div class="metric">
+              <i class="fa fa-circle me"></i>
+              <span class="text">Admin</span><br>
+              <span class="text-success">Please Confirm the arrival of the shipment when it does so that we inform
+                the
+                factory that the order arrived.</span><br>
+              <a href="#" class="fa">I have a question</a>
+            </div>
+            {%endif%}
+            {%if order.status == 3 and order.buyer%}
+            <div class="metric">
+              <i class="fa fa-circle me"></i>
+              <span class="text">Admin</span><br>
+              <span class="text-success">Order arrived. Thank you for doing bussiness with us.</span><br>
+              <a href="#" class="fa">I have a question</a>
+            </div>
+            {%endif%}
+            {%if not order.shipping_address and user.buyer and order.status == 1%}
+            <div class="panel-body">
+              <button class="btn btn-success" id="show-address" onclick="ShowAddressForm(this)">Add
+                shipping
+                Address</button>
+            </div>
+            <div class="panel-body hide" id="address-form">
+              <small>Enter Address information</small>
+              <form action="{%url 'transactions:addshippmentaddress'%}" class="form" method="POST">
+                {%csrf_token%}
+                <input type="hidden" name="id" id="id" value="{{order.pk}}">
+                <div class="form-group">
+                  <input class="form-control" name="town" id="shipment_addressinput" placeholder="Enter Town Name">
+                </div>
+
+                <div class="form-group">
+                  <input class="form-control" name="zip" id="shipment_addressinput" placeholder="Enter zip-code">
+                </div>
+
+                <div class="form-group">
+                  <input class="form-control" name="address" id="shipment_addressinput" placeholder="Enter address">
+                </div>
+                <button>Send</button>
+              </form>
+            </div>
+            {%endif%}
+            {%if order.shipping_address and order.status == 1 and not user.buyer%}
+            <a class="btn btn-primary m-2" href="{% url 'transactions:shipmentview' order.pk%}">Fill Shipment
+              Details</a>
+            <br />
+            <br />
+            {%endif%}
+            {% if user.buyer %}
+            {% endif %}
+            <div class="panel-body">
+              <div class="panel-title">
+                <img style=" width: 60px; height: 60px; margin-right:10px; float: left;"
+                  src="{{order.auction.factory.factory_logo.url}}" class="img-circle" />
+                <h4 style="font-weight: bold;" class="white">
+                  {{order.auction.factory.factory_name}} ||
+                  {{order.buyer.user.username}}<br />
+                </h4>
+              </div><br>
+              <hr>
+              <div class="dark white panel-body">
+                <h4 class="orange">Order Information</h4>
+                <b>Buyer</b>: {{order.buyer.user.username}}<br />
+                {%if order.auction.employee == user%}
+                <b>factory handler</b>: You<br />
+                {%else%}
+                <b>factory handler</b>: {{order.auction.employee}}<br />
+                {%endif%}
+                <b>Auction</b>: {{order.id}}<br />
+                <b>Expected_date</b>: {{order.expected_date}}<br />
+                <b>Amount</b>: {{order.amount}} tonne{{order.amount|pluralize}}<br />
+                {% if order.status == 0%}
+                <b>Status</b>: awaiting confirmation<br />
+                {% elif order.status == 1%}
+                <b>Status</b>: Confirmed order<br />
+                {%elif order.status == 2%}
+                <b>Status</b>: Processed Order<br />
+                {%else%}
+                <b>Status</b>: Completed order<br />
+                {%endif%}
+              </div><br><br>
+              <div class="panel-body dark white">
+                <h4 class="orange">Shipment Information</h4>
+                {%if order.shipping_address%}
+                <b>Shipping address</b>: {{order.shipping_address}}<br />
+                {%if order.shipment_id%}
+                <b>Shipment ID</b>: {{order.shipment_id}}<br />
+                {%else%}
+                <b>Shipment ID</b>: Not Filled<br />
+                {%endif%}
+                <b>Phone </b>:{{order.shipment_handler_phone}}<br />
+                <b>Vessel Number</b>: {{order.vessel_number}}<br />
+                <b>Shipment Company</b>: {{order.shipment_company}}<br />
+                {%if order.arrived%}
+                <b class="text-success">Order Recieved</b>
+                {%else%}
+                <b class="text-success">Expected to arrive in {{order.estimated_time_on_ship}} hours</b><br>
+                {%endif%}
+                {%endif%}
+                {%if order.status == 3 and user.buyer and not order.arrived%}
+                <br><button class="btn btn-success" id="myBtn">Confirm Arrival</button>
+                <script>
+                  var modal = document.getElementById("myModal");
+                  var btn = document.getElementById("myBtn");
+                  var span = document.getElementsByClassName("close")[0];
+                  var exit = document.getElementById('exit')
+                  var confirm = document.getElementById('yes')
+
+
+                  confirm.onclick = function ()
+                  {
+                    xhr = new XMLHttpRequest()
+                    xhr.open('GET', '/transactions/order-arrived/' + "{{order.id}}", true)
+                    xhr.onload = function ()
+                    {
+                      if (this.status == 200)
+                      {
+                        console.log(this.responseText)
+                        modal.style.display = 'none'
+                      }
+                    }
+                    xhr.send()
+                  }
+
+                  btn.onclick = function ()
+                  {
+                    modal.style.display = "block";
+                  };
+                  span.onclick = function ()
+                  {
+                    modal.style.display = "none";
+                  };
+                  exit.onclick = function ()
+                  {
+                    modal.style.display = "none";
+                  };
+                  window.onclick = function (event)
+                  {
+                    if (event.target == modal)
+                    {
+                      modal.style.display = "none";
+                    }
+                  };
+
+
+                </script>
+                {%endif%}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 orange-border panel-body" style="margin-left: 15px;">
+            <div style="padding:0px" class="">
+              <div style="width:100% ;" class="">
+                <div style="height: 817px; padding:2%;" class="chat-history">
+                  <ul id="chathistory">
+                    {% for chat in chat_queryset %}
+                    <li class="clearfix">
+                      {% if chat.sender == request.user %}
+                      <div class="message-data align-right">
+                        <span class="message-data-time">{{chat.date}} </span>
+                        &nbsp; &nbsp;
+                        <span class="message-data-name">{{request.user.username}}</span>
+                        <i class="fa fa-circle me"></i>
+                      </div>
+                      <div class="message other-message float-right">
+                        {{chat.content}}
+                      </div>
+                      {% else %}
+                      <div class="message-data">
+                        <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
+                        <span class="message-data-time">10:12 AM, Today</span>
+                      </div>
+                      <div class="message my-message">
+                        {{chat.content}}
+                      </div>
+                      {% endif %}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="input-group">
+                  <input id="chatarea" class="form-control" type="text" placeholder="type your message here" />
+                  <span class="input-group-btn btn-outline-success"><button id="sendbutton" class="btn btn-primary"
+                      type="button">
+                      Send
+                    </button></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock content %} {% block js %}
+
+  <script>
+    var confirmOrder = document.getElementById("confirmOrder")
+    confirmOrder.addEventListener('click', ConfirmOrderfx, confirmOrder)
+    var shownaddressform = false
+
+    function ShowAddressForm(e)
+    {
+      if (shownaddressform)
+      {
+        e.textContent = "Add Shipping Information"
+        document.getElementById('address-form').classList.add('hide')
+        shownaddressform = false
+      } else
+      {
+        e.textContent = "Cancel"
+        document.getElementById('address-form').classList.remove('hide')
+        shownaddressform = true
+      }
+    }
+
+
+    function ConfirmOrderfx(e)
+    {
+      xhr = new XMLHttpRequest()
+      form = new FormData(document.getElementById("updateOrderForm"))
+      console.log("{{order.pk}}")
+      form.append('id', parseInt("{{order.pk}}"))
+      xhr.open('POST', 'update_order/', true)
+      xhr.onload = function ()
+      {
+        location.reload()
+        if (this.status == 200)
+        {
+          console.log(this.responseText)
+          element = document.createElement('span')
+          element.textContent = this.responseText
+          element.classList.add('label label-success')
+          document.getElementById('info').appendChild(element)
+
+        } else
+        {
+          console.log("Error")
+        }
+      }
+
+      xhr.send(form)
+
+    }
+
+
+
+
+    var chatSocket = new WebSocket(
+      "ws://" + window.location.host + "/ws/transactions/vieworder/{{order.id}}/"
+    );
+    chatSocket.onclose = function (e)
+    {
+      console.log("chat socket closed unexpectedly");
+    };
+    chatSocket.onmessage = function (e)
+    {
+      var context = {
+        message: document.querySelector("#chatarea").value,
+        time: "23:08"
+      };
+      var template = Handlebars.compile($("#message-template").html());
+      var context = {
+        time: "12:00",
+        messageOutput: "this is myweirdresponse"
+      };
+      document
+        .querySelector("#chathistory")
+        .append(
+          document.createRange().createContextualFragment(template(context))
+        );
+    };
+    // var notificationSocket = new WebSocket(
+    //   "ws://" +
+    //     window.location.host +
+    //     "/ws/transactions/notifications/{{order.employee.id}}/"
+    // );
+    if ("{{user.buyer}}")
+    {
+      var notificationSocket = new WebSocket(
+        "ws://" +
+        window.location.host +
+        "/ws/transactions/notifications/{{order.employee.user.id}}/"
+      );
+    }
+    if ("{{user.sellerfactoryemployee}}")
+    {
+      var notificationSocket = new WebSocket(
+        "ws://" +
+        window.location.host +
+        "/ws/transactions/notifications/{{order.buyer.user.id}}/"
+      );
+    }
+    notificationSocket.onclose = function (e)
+    {
+      console.log("notification socket closed unexpectedly");
+    };
+    document.querySelector("#sendbutton").onclick = function (e)
+    {
+      chatSocket.send(
+        JSON.stringify({
+          content: document.querySelector("#chatarea").value,
+          user: "{{user.id}}",
+          order_id: "{{order.id}}",
+          username: "{{user.username}}"
+        })
+      );
+      notificationSocket.send(
+        JSON.stringify({
+          content: document.querySelector("#chatarea").value,
+          user: "{{user.id}}",
+          order_id: "{{order.id}}",
+          username: "{{user.username}}"
+        })
+      );
+      document.querySelector("#chatarea").value = "";
+    };
+    chatSocket.onmessage = function (e)
+    {
+      var receivedMessage = JSON.parse(e.data);
+      console.log(receivedMessage);
+      if (receivedMessage["user"] == "{{user.id}}") myMessage(receivedMessage);
+      else otherMessage(receivedMessage);
+    };
+
+    function myMessage(receivedMessage)
+    {
+      console.log("my message received");
+      wrapper = document.createElement("li");
+      wrapper.classList.add("clearfix");
+      firstDiv = document.createElement("div");
+      firstDiv.classList.add("message-data");
+      firstDiv.classList.add("align-right");
+      firstSpan = document.createElement("span");
+      firstSpan.classList.add("message-data-time");
+      timeDate = document.createTextNode("12:00, Today");
+      firstSpan.appendChild(timeDate);
+      secondSpan = document.createElement("span");
+      secondSpan.classList.add("message-data-name");
+      userName = document.createTextNode(receivedMessage["username"]);
+      secondSpan.appendChild(userName);
+      secondDiv = document.createElement("div");
+      secondDiv.classList.add("message");
+      secondDiv.classList.add("other-message");
+      secondDiv.classList.add("float-right");
+      messageContent = document.createTextNode(receivedMessage["content"]);
+      secondDiv.appendChild(messageContent);
+      firstDiv.appendChild(firstSpan);
+      firstDiv.appendChild(secondSpan);
+      onlineIcon = document.createElement("i");
+      onlineIcon.classList.add("fa");
+      onlineIcon.classList.add("fa-circle");
+      onlineIcon.classList.add("me");
+      firstDiv.appendChild(onlineIcon);
+      wrapper.appendChild(firstDiv);
+      wrapper.appendChild(secondDiv);
+      chatHistory = document.querySelector("#chathistory");
+      chatHistory.append(wrapper);
+      document.querySelector(".chat-history").scrollTop = document.querySelector(
+        ".chat-history"
+      ).scrollHeight;
+    }
+
+    function otherMessage(receivedMessage)
+    {
+      console.log("other message received ");
+      wrapper = document.createElement("li");
+      wrapper.classList.add("clearfix");
+      firstDiv = document.createElement("div");
+      firstDiv.classList.add("message-data");
+      firstDiv.classList.add("align-left");
+      firstSpan = document.createElement("span");
+      firstSpan.classList.add("message-data-time");
+      timeDate = document.createTextNode("12:00, Today");
+      firstSpan.appendChild(timeDate);
+      secondSpan = document.createElement("span");
+      secondSpan.classList.add("message-data-name");
+      userName = document.createTextNode(receivedMessage["username"]);
+      secondSpan.appendChild(userName);
+      secondDiv = document.createElement("div");
+      secondDiv.classList.add("message");
+      secondDiv.classList.add("my-message");
+      messageContent = document.createTextNode(receivedMessage["content"]);
+      secondDiv.appendChild(messageContent);
+      firstDiv.appendChild(secondSpan);
+      onlineIcon = document.createElement("i");
+      onlineIcon.classList.add("fa");
+      onlineIcon.classList.add("fa-circle");
+      onlineIcon.classList.add("online");
+      firstDiv.appendChild(firstSpan);
+      firstDiv.appendChild(onlineIcon);
+      wrapper.appendChild(firstDiv);
+      wrapper.appendChild(secondDiv);
+      chatHistory = document.querySelector("#chathistory");
+      chatHistory.append(wrapper);
+      document.querySelector(".chat-history").scrollTop = document.querySelector(
+        ".chat-history"
+      ).scrollHeight;
+    }
+  </script>
+
+  <!-- partial -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+  <script src="{% static 'chat/script.js' %}"></script>
+  {% endblock js %}

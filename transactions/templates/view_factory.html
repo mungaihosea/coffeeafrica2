@@ -1,0 +1,76 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<script>
+  hideLoading()
+</script>
+<link rel="stylesheet" href="{%static 'assets/CSS/mine.css'%}">
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="dark-l panel-body orange-border">
+            <img style=" width: 60px; height: 60px; margin-right:10px; float: left;" src="{{factory.factory_logo.url}}"
+              class="img-circle" />
+            <div class="media-body">
+              <h5 class="panel-title">
+                <h4 style="margin: 0px"><b class="orange livetext">{{factory.factory_name}}</b></h4>
+                <br />
+                Since {{factory.date_created}}<br />
+                Altitude 20 |Temperature 30
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="dark-l panel-body orange-border">
+            <h4><b class="livetext orange">auction information</b></h4>
+            {% for auction in auctions%}
+            <div class="dark panel-body">
+              <span class="title orange">Ongoing Auction</span><br>
+              <span>Auction No. {{auction.pk}}</span><br>
+              <span>Tonnes {{auction.tonnes}}</span><br>
+              <span>${{auction.price_per_tonne}} per tonne</span><br>
+              <span>{{auction.coffee_type}}</span><br>
+              <span>{{auction.tonnes_left}} tonne{{auction.tonnes_left|pluralize}} Left</span><br>
+              <a href="{%url 'transactions:view_market' auction.pk%}">Buy Form this Auction</a>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="dark-l panel-body orange-border">
+            <h4><b class="orange livetext">Legal documentation</b><br />
+              {%if factory.trade_license%}
+              <h3>Trade License</h3>
+              <a href="{{factory.trade_license.url}}">Download Copy of license</a>
+              <br><span>Content Validated</span>
+              {%else%}
+              <span>NO LICENSE</span>
+              {%endif%}
+          </div>
+          <div class="dark-l panel-body orange-border">
+            <h4><b class="orange livetext">Factory Bio</b></h4>
+            <p style="align-items: left;">
+              <div>
+                <span class="text">
+                  {{factory.factory_bio}}
+                </span>
+              </div>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="dark-l panel-body orange-border">
+
+            <h4 class="orange livetext">Map</h4>
+            {{factory.googlemap|safe}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

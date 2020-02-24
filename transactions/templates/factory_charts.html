@@ -1,0 +1,122 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block content%}
+
+<script>
+    hideLoading()
+</script>
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel-body dark-l orange-border ftco-animate">
+                <div class="panel-body ">
+                    <h1 class="orange livetext-mega">Sold {{percentage_sold}}%</h1>
+                    <p>Showing Coffee auctioned vs coffee sold</p>
+                    <canvas id="tonnes" height="100"></canvas>
+                </div>
+            </div>
+            <br>
+            <div class="panel-body dark-l orange-border ftco-animate">
+                <div class="panel-body">
+                    <h1 class="orange livetext-mega">{{value_increase}} Tonnes</h1>
+                    <p>Showing Tonnes of coffee Sold Per month</p>
+                    <canvas id="myChart" height="80"></canvas>
+                </div>
+
+            </div><br>
+            <div class="panel-body dark-l orange-border ftco-animate">
+                <h2 class="livetext-mega orange title">Processed Orders</h2>
+                <canvas id="myChart2" height="80"></canvas>
+            </div>
+            <script src="{%static 'node_modules/chart.js/dist/Chart.js'%}"></script>
+            <script>
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                            'September', 'October', 'November', 'December'
+                        ],
+                        datasets: [{
+                            label: 'Tonnes Sold Per month on {{stat.year}}',
+                            data: [parseInt("{{stat.data.jan}}"), parseInt("{{stat.data.feb}}"), parseInt("{{stat.data.mar}}"), parseInt("{{stat.data.apr}}"), parseInt("{{stat.data.may}}"), parseInt("{{stat.data.jun}}"), parseInt("{{stat.data.jul}}")
+                                , parseInt("{{stat.data.aug}}"), parseInt("{{stat.data.sep}}"), parseInt("{{stat.data.oct}}"), parseInt("{{stat.data.nov}}"), parseInt("{{stat.data.dec}}")
+                            ],
+                            backgroundColor: [
+                                'rgba(65, 188, 10, 0.3)'
+                            ],
+                            borderColor: [
+                                'rgba(60, 255, 2, 1)'
+                            ],
+                            borderWidth: .5
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+                ctx2 = document.getElementById('myChart2')
+                var myChart = new Chart(ctx2, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Processed', 'recieved'],
+                        datasets: [{
+                            label: 'Orders',
+                            data: [parseInt("{{processed}}"), parseInt("{{recieved}}")],
+                            backgroundColor: [
+                                'rgba(20, 28, 200, 0.3)',
+                                'rgba(20, 200, 20, 0.3)'
+                            ],
+                            borderColor: [
+                                'rgba(40, 25, 20, 1)'
+                            ],
+                            borderWidth: .5
+                        }]
+                    },
+                    options: {
+                    }
+                });
+
+
+
+
+                ctx3 = document.getElementById('tonnes')
+                var myChart3 = new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Auctioned so far', 'Sold'],
+                        datasets: [{
+                            label: "Coffee",
+                            data: [parseInt("{{total_tonnes}}"), parseInt("{{tonnes_sold}}")],
+                            backgroundColor: [
+                                'rgba(20, 28, 200, 0.3)',
+                                'rgba(20, 200, 90, 0.3)'
+                            ],
+                            borderColor: [
+                                'rgba(40, 25, 20, 1)'
+                            ],
+                            borderWidth: .5
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</div>
+{%endblock content%}
