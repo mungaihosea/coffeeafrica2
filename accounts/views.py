@@ -26,6 +26,10 @@ def profile(request):
     return render(request, "profile.html", {})
 
 
+def about(request):
+    return render(request, "about.html", {})
+
+
 def login(request):
     error = None
     if request.method == "POST":
@@ -48,7 +52,8 @@ def dashboard(request):
         return redirect("account:login")
     context = {"user": user}
     try:
-        order_queryset = Order.objects.filter(employee=user.sellerfactoryemployee)
+        order_queryset = Order.objects.filter(
+            employee=user.sellerfactoryemployee)
         auctionsreal = Auction.objects.filter(
             factory=user.sellerfactoryemployee.factory
         )
@@ -134,10 +139,14 @@ def dashboard(request):
 
         orders = Order.objects.filter(buyer=user.buyer)
         context["orders"] = len(orders)
-        context["pending"] = len(Order.objects.filter(buyer=user.buyer, status=0))
-        context["confirmed"] = len(Order.objects.filter(buyer=user.buyer, status=1))
-        context["processed"] = len(Order.objects.filter(buyer=user.buyer, status=2))
-        context["completed"] = len(Order.objects.filter(buyer=user.buyer, status=3))
+        context["pending"] = len(
+            Order.objects.filter(buyer=user.buyer, status=0))
+        context["confirmed"] = len(
+            Order.objects.filter(buyer=user.buyer, status=1))
+        context["processed"] = len(
+            Order.objects.filter(buyer=user.buyer, status=2))
+        context["completed"] = len(
+            Order.objects.filter(buyer=user.buyer, status=3))
         factories = []
         y = BackOrder.objects.all()
         ls = []
@@ -156,7 +165,8 @@ def dashboard(request):
 def create_account(request):
     factory_queryset = SellerFactory.objects.all()
     return render(
-        request, "create_seller_account.html", {"factory_queryset": factory_queryset}
+        request, "create_seller_account.html", {
+            "factory_queryset": factory_queryset}
     )
 
 

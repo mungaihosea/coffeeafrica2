@@ -1,6 +1,7 @@
 {% load static %}
 <link rel="stylesheet" href="{%static 'assets/css/mine.css'%}">
 <!-- LEFT SIDEBAR -->
+
 <div class="modal-transparent" id="loadingDiv">
   <div class="modal-content2" style="background-color: rgb(255, 255, 255); border-radius: 15px;">
     <span class="title" style="color: black;"> <i class="lnr lnr-hourglass fade-loop" style="font-size: 170%;"></i>
@@ -9,7 +10,10 @@
     <img src="{%static 'assets/img/loading.gif'%}" alt="loading" height="100px">
   </div>
 </div>
-<div id="sidebar-nav" class="sidebar" style="padding-left: 2px; padding-right: 2px;">
+<br>
+<br>
+<div id="sidebar-nav" class="sidebar"
+  style="padding-left: 2px; padding-right: 2px; background-color: rgba(0, 0, 0, 0);">
   <div class="sidebar-scroll">
     <nav>
       <ul class="nav">
@@ -21,8 +25,7 @@
         </li>
         <li style="margin-top: 2px; width: 100%;">
           {%if not user.sellerfactoryemployee.factory.factory_name%}
-          <a href="{% url 'transactions:view_market' %}" id="market" style="font-size: 120%; "
-            class="">
+          <a href="{% url 'transactions:view_market' %}" id="market" style="font-size: 120%; " class="">
             <i class=" lnr lnr-store"></i>
             <span>Market</span></a>
           {%else%}
@@ -87,8 +90,7 @@
             <span style="font-size: 120%; ">Feedback</span></a>
         </li>
         <li style="margin-top: 2px; width: 100%;">
-          <a href="/" class=""><i class="lnr lnr-earth"></i> <span
-              style="font-size: 120%; ">Home</span></a>
+          <a href="/" class=""><i class="lnr lnr-earth"></i> <span style="font-size: 120%; ">Home</span></a>
         </li>
       </ul>
     </nav>
