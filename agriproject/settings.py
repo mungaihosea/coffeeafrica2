@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g0^=d6ik67&&!flqhxbhjce)(^z_-=kyifqej71a^v$7tlrqg@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['coffeeafrica.net','www.coffeeafrica.net','*']
+ALLOWED_HOSTS = ['coffeeafrica.net', 'www.coffeeafrica.net', '*']
 
 
 # Application definition
