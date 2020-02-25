@@ -23,7 +23,10 @@ import datetime
 import time
 from .forms import CreateAuctionForm
 import json
-
+from matplotlib import pyplot as plt
+from django.template.loader import get_template
+from weasyprint import HTML
+import numpy as np
 
 def add_auction(request):
     form = CreateAuctionForm()
@@ -655,3 +658,61 @@ class Notification:
         self.message = messsage
         self.id = id
         self.app_name = app_name
+
+# class pdf (View):
+#     def get(self, request, factory_name, *args, **kwargs):
+#         try:
+#             factorys = SellerFactory.objects.all()
+#             transactions = []
+#             auctionss = BackAuction.objects.filter(
+#                 factory=SellerFactory.objects.get(factory_name=factory_name)
+#             )
+#             for _ in factorys:
+#                 for auction in auctionss:
+#                     transactionsof = BackOrder.objects.filter(auction=auction,)
+#                     for y in transactionsof:
+#                         transactions.append(y)
+#             hold = []
+#             n = len(transactions)
+#             x = n - 1
+#             while x >= 0:
+#                 hold.append(transactions[x])
+#                 x -= 1
+#             transactions = hold
+#             factory=SellerFactory.objects.get(factory_name=factory_name)
+#             context = {"transactions": transactions,
+#             "factory": factory}
+            
+#             print(transactions)
+#             # return render(request, "letter_head.html", context)
+#             html = get_template('letter_head.html').render(context)
+#             pdf_file = HTML(string = html, base_url = request.build_absolute_uri()).write_pdf()
+#             response = HttpResponse(pdf_file, content_type= "application/pdf" )
+#             return response
+
+
+
+#         except:
+#             buyer = Buyer.objects.get(user=User.objects.get(username=factory_name))
+#             transactions = BackOrder.objects.filter(buyer=buyer)
+#             hold = []
+#             n = len(transactions)
+#             x = n - 1
+#             while x >= 0:
+#                 hold.append(transactions[x])
+#                 x -= 1
+#             transactions = hold
+#             context = {"transactions": transactions}
+#             print(transactions)
+#             # return render(request, "letter_head.html", context)
+#             html = get_template('letter_head.html').render(context)
+#             pdf_file = HTML(string = html, base_url = request.build_absolute_uri()).write_pdf()
+#             response = HttpResponse(pdf_file, content_type= "application/pdf")
+#             return response
+
+def pdf(request, factory_name):
+    factory = get_object_or_404(SellerFactory, factory_name = factory_name)
+    factory_orders = BackOrder.objects.filter(auction = BackAuction.objects.filter(factory=factory)[0])
+    print(factory_orders)
+    return HttpResponse('junk')
+    

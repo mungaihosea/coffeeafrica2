@@ -14,6 +14,7 @@ from backup.models import BackOrder, BackAuction
 from django.views.generic import View
 from django.urls import reverse
 from transactions.models import Order, Auction
+from feedback.models import Contact
 
 
 def homepage(request):
@@ -229,3 +230,12 @@ def create_buyer_account(request):
 
 def accounts(request):
     return render(request, "accounts.html")
+
+def contact (request):
+    if request.method == "POST":
+        if request.POST['name'] and request.POST['email'] and request.POST['subject'] and request.POST['message']:
+            Contact.objects.create(name = request.POST['name'] , email = request.POST['email'], subject = request.POST['subject'], message = request.POST['message'])
+    return render(request, 'contact.html', {})
+    
+def services(request):
+    return render(request, "services.html", {})

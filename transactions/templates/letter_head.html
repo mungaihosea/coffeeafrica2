@@ -1,0 +1,165 @@
+{% load static %}
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <center>
+      <div id="letter-head" style="margin: 30px">
+        <img
+          style="width: 60px;height: 60px;"
+          src="{% static 'custom_images/userdummy.jpg' %}"
+        />
+        <h2 style="margin: 0px;">Kirinyaga Coffee Factory</h2>
+        <h3 style="margin: 0px">www.kirinyagacoffee.com</h3>
+        <h5 style="margin: 0px;">Transactions Report</h5>
+      </div>
+    </center>
+    <div
+      class="panel-body no-padding"
+      style=" clear: both; overflow: scroll; overflow-y: hidden; overflow-wrap: break-word; overflow-x:auto;"
+    >
+      <table class="table-sm table-hover" id="target">
+        <thead>
+          <tr>
+            <th><small>Order No.</small></th>
+            <th><small>Buyer Name</small></th>
+            <th><small>Amount</small></th>
+            <th><small>Date &amp; Time</small></th>
+            <th><small>Status</small></th>
+            <th><small>Transaction Validity</small></th>
+            <th><small>Auction ID</small></th>
+            <th><small>address</small></th>
+            <th><small>Shipment ID</small></th>
+            <th><small>Shipment Company</small></th>
+            <th><small>Vessel Number</small></th>
+            <th><small>Time Shipped</small></th>
+            <th><small>Handler Phone</small></th>
+            <th><small>Expected by</small></th>
+            <th><small>Delivered?</small></th>
+            <th><small>Arrives in</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in transactions%}
+          <tr>
+            <td class="small"><span>{{order.id}}</span></td>
+            <td class="small"><span>{{order.buyer.user.username}}</span></td>
+            <td class="small">
+              <span>{{order.amount}} tonne{{order.amount|pluralize}}</span>
+            </td>
+            <td class="small"><span>{{order.date_placed}}</span></td>
+            {% if order.status == 0 %}
+            <td class="small">
+              <span class="label label-warning small">Pending</span>
+            </td>
+            {% elif order.status == 1 %}
+            <td class="small">
+              <span class="label label-success small">Accepted</span>
+            </td>
+            {%elif order.status == 2%}
+            <td class="small">
+              <span class="label label-success small">Processed</span>
+            </td>
+            {% elif order.status == 3 %}
+            <td class="small">
+              <span class="label label-success">Completed</span>
+            </td>
+            {% endif %} {%if order.chain_valid%}
+            <td class="small">
+              <span class="label-success label small">Trusted</span>
+            </td>
+            {%else%}
+            <td class="small">
+              <span class="label-warning label small">Suspicius</span>
+            </td>
+            {%endif%}
+            <td>
+              <small class="small">{{order.auction.pk}}</small>
+            </td>
+            <td>
+              <small class="small">
+                {%if order.shipping_address%} {{order.shipping_address}}
+                {%else%} ________ {%endif%}
+              </small>
+            </td>
+            <td>
+              <small class="small">
+                {%if order.shipment_id%} {{order.shipment_id}} {%else%} ________
+                {%endif%}
+              </small>
+            </td>
+            <td>
+              <small class="small">
+                {%if order.shipment_company%} {{order.shipment_company}}
+                {%else%} ________ {%endif%}
+              </small>
+            </td>
+            <td>
+              <small class="small">
+                {%if order.vessel_number%} {{order.vessel_number}} {%else%}
+                ________ {%endif%}
+              </small>
+            </td>
+            <td>
+              {%if order.shipment_id%}
+              <small class="small">{{order.time_of_shipping}}</small>
+              {%else%}
+              <small class="small">________</small>
+              {%endif%}
+            </td>
+            <td>
+              <small class="small">
+                {%if order.shipment_handler_phone%}
+                {{order.shipment_handler_phone}} {%else%} ________ {%endif%}
+              </small>
+            </td>
+            <td>
+              <small>
+                {{order.expected_date}}
+              </small>
+            </td>
+            <td>
+              {%if order.arrived%}
+              <small class="small label label-success">Delivered</small>
+              {%else%} {%if order.shipment_id%}
+              <small class="small label label-warning">On Ship</small>
+              {%else%}
+              <small class="small label label-danger">Not shipped</small>
+              {%endif%} {%endif%}
+            </td>
+            <td>
+              {%if order.estimated_time_on_ship == '0'%} ________ {%else%}
+              <small class="small">
+                {{order.estimated_time_on_ship}}
+                hour{{order.estimated_time_on_ship | pluralize}}
+              </small>
+              {%endif%}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

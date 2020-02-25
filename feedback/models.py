@@ -25,3 +25,9 @@ class Escalation(models.Model):
 
     def __str__(self):
         return "concerning " + self.order.__str__()
+
+class Contact(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    subject = models.CharField(max_length = 40)
+    message = models.TextField()

@@ -102,7 +102,7 @@
             <li class="nav-item " style="color: white;">
               <a href="/" class="nav-link" style="font-size: 160%;">Home</a>
             </li>
-            <li class="nav-item active" style="color: white;">
+            <li class="nav-item" style="color: white;">
               <a
                 href="{%url 'accounts:about'%}"
                 class="nav-link"
@@ -110,7 +110,7 @@
                 >About</a
               >
             </li>
-            <li class="nav-item" style="color: white;">
+            <li class="nav-item active" style="color: white;">
               <a
                 href="{% url 'accounts:services' %}"
                 class="nav-link"
@@ -132,109 +132,87 @@
     </nav>
 
     <div class="container text-center">
-      <section class="ftco-about col-md-12">
-        <div class="ftco-animate col-md-12 orange-border">
-          <div class="col-md-12">
-            <div class="heading-section ftco-animate ">
-              <h2 class="orange">About Us</h2>
-              <h2 class="title" style="font-size: 120%;">Our Mission</h2>
-            </div>
-            <div>
-              <p style="color: white;">
-                we are a kenyan based company that aims at providing a platform
-                for coffee exporters and importers to meet and trade within this
-                platform WE ARE NOT BROKERS we dont buy and sell coffee on
-                behalf of factories or individuals. All the coffee auctioned
-                from this platform comes directly from renown and established
-                farmers and factories which have been verified and authorized
-                and have legal documentation
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
       <br />
-      <div class="row">
-        <section class="ftco-about d-md-flex col-md-6">
-          <div
-            class="one-half img"
-            style="background-image: url({% static 'homepage/images/bg_1.jpg' %});"
-          ></div>
-          <div class="one-half ftco-animate">
-            <div class="overlap">
-              <div class="heading-section ftco-animate">
-                <span class="subheading">Discover</span>
-                <h2 class="mb-4">Our Mission</h2>
-              </div>
-              <div>
-                <p>
-                  we are a kenyan based company that aims at providing a
-                  platform for coffee exporters and importers to meet and trade
-                  within this platform
-                </p>
-                <p>
-                  WE ARE NOT BROKERS we dont buy and sell coffee on behalf of
-                  factories or individuals. All the coffee auctioned from this
-                  platform comes directly from renown and established farmers
-                  and factories which have been verified and authorized and have
-                  legal documentation
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="ftco-about d-md-flex col-md-6">
-          <div
-            class="one-half img"
-            style="background-image: url({% static 'homepage/images/bg_2.jpg' %});"
-          ></div>
-          <div class="one-half ftco-animate">
-            <div class="overlap">
-              <div class="heading-section ftco-animate ">
-                <span class="subheading">Market</span>
-                <h2 class="mb-2">Where we get our coffee from</h2>
-              </div>
-              <div>
-                <p>
-                  we are a kenyan based company that aims at providing a
-                  platform for coffee exporters and importers to meet and trade
-                  within this platform
-                </p>
-                <p>
-                  WE ARE NOT BROKERS we dont buy and sell coffee on behalf of
-                  factories or individuals. All the coffee auctioned from this
-                  platform comes directly from renown and established farmers
-                  and factories which have been verified and authorized and have
-                  legal documentation
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+      <div class="row"></div>
       <br />
-      <section class="ftco-about col-md-12 orange-border ftco-animate">
-        <div class="ftco-animate col-md-12">
-          <div class="col-md-12">
-            <div class="heading-section">
-              <span class="title orange">Discover</span>
-              <h2 class="mb-4">Our Solution</h2>
-            </div>
-            <div>
-              <p style="color: white;">
-                we are a kenyan based company that aims at providing a platform
-                for coffee exporters and importers to meet and trade within this
-                platform WE ARE NOT BROKERS we dont buy and sell coffee on
-                behalf of factories or individuals. All the coffee auctioned
-                from this platform comes directly from renown and established
-                farmers and factories which have been verified and authorized
-                and have legal documentation
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
+    <section
+      class="ftco-section ftco-services"
+      style="margin: 10px; background-color: rgba(8, 8, 8, 0.836);"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 ftco-animate">
+            <div class="media d-block text-center block-6 services">
+              <div
+                class="icon d-flex justify-content-center align-items-center mb-5"
+                style="border: 1px orange solid;"
+              >
+                <span class="flaticon-choices" style="color: orange;"></span>
+              </div>
+              <div class="media-body">
+                <h3 class="heading" style="color: rgb(255, 136, 0);">
+                  Easy to Order
+                </h3>
+                <p style="color: white;">
+                  We have a user-friendly interface that allows you to buy or
+                  sell coffee within a few clicks
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 ftco-animate">
+            <div class="media d-block text-center block-6 services">
+              <div
+                class="icon d-flex justify-content-center align-items-center mb-5"
+                style="border: 1px orange solid;"
+              >
+                <span
+                  class="flaticon-delivery-truck"
+                  style="color: orange;"
+                ></span>
+              </div>
+              <div class="media-body">
+                <h3 class="heading" style="color: rgb(255, 136, 0);">
+                  Progress Monitoring
+                </h3>
+                <p style="color: rgb(255, 255, 255);">
+                  our transaction systems are powered by blockchain and enable
+                  easy tracking of the trade progress
+                </p>
+                <p style="color: white;">
+                  we also have staff members who are dedicated to confirming and
+                  tracking shipment information
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 ftco-animate">
+            <div class="media d-block text-center block-6 services">
+              <div
+                class="icon d-flex justify-content-center align-items-center mb-5"
+                style="border: 1px orange solid;"
+              >
+                <span
+                  class="flaticon-coffee-bean"
+                  style="color: orange;"
+                ></span>
+              </div>
+              <div class="media-body">
+                <h3 class="heading" style="color: rgb(255, 136, 0);">
+                  Quality Coffee
+                </h3>
+                <p style="color: white;">
+                  All the factories registered within this platform have been
+                  verified by our staff members to ensure quality of the coffee
+                  being sold within this site
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <footer class="ftco-footer ftco-section img">
       <div class="overlay"></div>
       <div class="container">

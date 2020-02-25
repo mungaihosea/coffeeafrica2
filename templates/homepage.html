@@ -60,16 +60,13 @@
             <a href="{%url 'accounts:about'%}" class="nav-link" style="font-size: 130%;">About</a>
           </li>
           <li class="nav-item" style="color: white;">
-            <a href="services.html" class="nav-link" style="font-size: 130%;">Services</a>
+            <a href="{% url 'accounts:services' %}" class="nav-link" style="font-size: 130%;">Services</a>
           </li>
           <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
           <li class=" nav-item" style="color: white;">
-            <a href="contact.html" class="nav-link" style="font-size: 130%;">Contact</a>
+            <a href="{% url 'accounts:contact' %}" class="nav-link" style="font-size: 130%;">Contact</a>
           </li>
-          <li class=" nav-item cart" style="color: white;">
-            <a href="cart.html" class="nav-link"><span class="icon icon-shopping_cart"></span><span
-                class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -245,31 +242,7 @@
     </div>
   </section>
 
-  <section class="ftco-about d-md-flex">
-    <div class="one-half img" style="background-image: url({% static 'homepage/images/about.jpg' %});"></div>
-    <div class="one-half ftco-animate">
-      <div class="overlap">
-        <div class="heading-section ftco-animate ">
-          <span class="subheading">Discover</span>
-          <h2 class="mb-4">Our Mission</h2>
-        </div>
-        <div>
-          <p>
-            we are a kenyan based company that aims at providing a platform
-            for coffee exporters and importers to meet and trade within this
-            platform
-          </p>
-          <p>
-            WE ARE NOT BROKERS we dont buy and sell coffee on behalf of
-            factories or individuals. All the coffee auctioned from this
-            platform comes directly from renown and established farmers and
-            factories which have been verified and authorized and have legal
-            documentation
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+  
   <br />
   <section class="ftco-counter ftco-bg-dark img" id="section-counter"
     style="background-image: url({% static 'custom_images/coffee2.jpg' %});" data-stellar-background-ratio="0.5">
