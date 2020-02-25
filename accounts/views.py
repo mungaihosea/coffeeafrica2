@@ -187,7 +187,9 @@ class GetFactoriesView(View):
 
 
 def create_buyer_account(request):
+    print("nothing received")
     if request.method == "POST":
+        print("stuff received")
         if (
             request.POST["username"]
             and request.POST["email"]
@@ -219,13 +221,155 @@ def create_buyer_account(request):
                         phone=phone,
                     )
                     buyer.save()
-                    return render(request, "account_success.html", {})
+                    if user.is_authenticated:
+                        login_user(request, user)
+                    return redirect("accounts:dashboard")
                 else:
                     print("passwords do not match")
             else:
                 print("a user with that email already exists")
 
     return render(request, "create_buyer_account.html", {})
+
+def create_factory_account(request):
+    if request.method == "POST":
+        errors = []
+        print(request.POST.keys())
+
+        def AccountDetailsValid():
+            errors = []
+            print("sdhakjdhkajshdkjsahdkjashdkjahskjdhask")
+            valid = True
+            try:
+                email = request.POST['Email']
+            except:
+                valid = False
+                errors.append('email')
+            print("1")
+            try:
+                firstname = request.POST["firstname"]
+            except:
+                valid = False
+                errors.append('firstname')
+            print("3")
+            try:
+                lastname = request.POST["lastname"]
+            except:
+                valid = False
+                errors.append('lastname')
+            print("4")
+            try:
+                repassword = request.POST["retypepass"]
+            except:
+                valid = False
+                errors.append('enter all passwords')
+            print("5")
+            print("6")
+            print(valid, errors)
+            return valid
+        try:
+            print("trying")
+            factory = SellerFactory(
+                factory_name=request.POST['factoryname'],
+                factory_initials=request.POST['initials'],
+
+                company_email=request.POST['factoryemail'],
+                phone=request.POST['factoryphone'],
+                region=request.POST['townname'],
+                country=request.POST['country'],
+                street_name=request.POST['street_name'],
+                zip_code=request.POST['zip_code'],
+                physical_address=request.POST['physical_address'],
+
+                trade_license=request.POST['tradelicense'],
+                rating=0,
+                factory_logo=request.POST['factorylogo'],
+                googlemap="none",
+                active=False
+            )
+            print(AccountDetailsValid(), "ahsdhasjdshak")
+            if AccountDetailsValid():
+                print("pass")
+                first_name = request.POST["firstname"]
+                last_name = request.POST['lastname']
+                password = request.POST['password']
+                email = request.POST['Email']
+                print(first_name, last_name, password,
+                      email, request.POST['username'])
+                user = User(
+                    username=request.POST['username'],
+                    first_name=request.POST["firstname"],
+                    last_name=request.POST['lastname'],
+                    email=request.POST['Email'],
+                    account_active = True
+                )
+                user.set_password(password)
+                factory.save()
+                print("pass factory")
+                user.save()
+                print("pass user")
+                employee = SellerFactoryEmployee(
+                    user=user,
+                    factory=factory,
+                    profile_picture=request.POST['userprofilepic']
+                )
+                employee.save()
+                print("pass employee")
+                if user.is_authenticated:
+                    user = login_user(request, user)
+                    return redirect('/dashboard')
+        except:
+            print("trying")
+            factory = SellerFactory(
+                factory_name=request.POST['factoryname'],
+                factory_initials=request.POST['initials'],
+
+                company_email=request.POST['factoryemail'],
+                phone=request.POST['factoryphone'],
+                region=request.POST['townname'],
+                country=request.POST['country'],
+                street_name=request.POST['street_name'],
+                zip_code=request.POST['zip_code'],
+                physical_address=request.POST['physical_address'],
+
+                trade_license=request.POST['tradelicense'],
+                rating=0,
+                factory_logo=request.POST['factorylogo'],
+                googlemap="none",
+                active=False
+            )
+            print(AccountDetailsValid(), "ahsdhasjdshak")
+            if AccountDetailsValid():
+                print("pass")
+                first_name = request.POST["firstname"]
+                last_name = request.POST['lastname']
+                password = request.POST['password']
+                email = request.POST['Email']
+                print(first_name, last_name, password,
+                      email, request.POST['username'])
+                user = User(
+                    username=request.POST['username'],
+                    first_name=request.POST["firstname"],
+                    last_name=request.POST['lastname'],
+                    email=request.POST['Email']
+                )
+                user.set_password(password)
+                factory.save()
+                print("pass factory")
+                user.save()
+                print("pass user")
+                employee = SellerFactoryEmployee(
+                    user=user,
+                    factory=factory,
+                    profile_picture=request.POST['userprofilepic']
+                )
+                employee.save()
+                print("pass employee")
+                if user.is_authenticated:
+                    user = login_user(request, user)
+                    return redirect('dashboard')
+
+    return render(request, "create_factory_account.html", {"errors": []})
 
 
 def accounts(request):

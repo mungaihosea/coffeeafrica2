@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{%static 'assets/css/mine.css'%}">
 <!-- LEFT SIDEBAR -->
 
+{%if user.sellerfactoryemployee and user.sellerfactoryemployee.factory.active%}
 <div id="sidebar-nav" class="sidebar"
   style="padding-left: 2px; padding-right: 2px; background-color: rgba(0, 0, 0, 0); overflow: scroll; scroll-behavior: smooth; z-index: 0; height: 100%; overflow-x: hidden;">
   <div class="sidebar-scroll">
@@ -86,6 +87,93 @@
     </nav>
   </div>
 </div>
+{%endif%}
+{%if user.buyer%}
+<div id="sidebar-nav" class="sidebar"
+  style="padding-left: 2px; padding-right: 2px; background-color: rgba(0, 0, 0, 0); overflow: scroll; scroll-behavior: smooth; z-index: 0; height: 100%; overflow-x: hidden;">
+  <div class="sidebar-scroll">
+    <nav>
+      <ul class="nav">
+        <li style="margin-top: 20px; width: 100%;">
+          <a href="/dashboard/" id="home" style="font-size: 120%; ">
+            <i class=" lnr lnr-home"></i>
+            <span>Dashbord</span>
+          </a>
+        </li>
+        <li style="margin-top: 2px; width: 100%;">
+          {%if not user.sellerfactoryemployee.factory.factory_name%}
+          <a href="{% url 'transactions:view_market' %}" id="market" style="font-size: 120%; " class="">
+            <i class=" lnr lnr-store"></i>
+            <span>Market</span></a>
+          {%else%}
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="#subPages" data-toggle="collapse" class="collapsed" style="font-size: 120%; "><i
+              class="lnr lnr-plus-circle"></i>
+            <span>Auction</span>
+            <i class="dropdown-menu"></i></a>
+          <div id="subPages" class="collapse">
+            <ul class="nav" style="background-color: rgba(0, 0, 0, 0);">
+              <li style="border-bottom: 1px rgba(255, 166, 0, 0.514) solid;">
+                <a href="{% url 'transactions:add_auction' %}" class="ftco-animate"
+                  style="font-size: 110%;  color: orange;">Create a new Auction
+                </a>
+              </li>
+              <li style="border-bottom: 1px rgba(255, 166, 0, 0.514) solid; width: 100%;"><a
+                  href="{% url 'transactions:auction_history' user.sellerfactoryemployee.factory.factory_name%}"
+                  class="ftco-animate" style="font-size: 110%;  color: orange;">View Auction
+                  History</a></li>
+              <li style="border-bottom: 1px rgba(255, 166, 0, 0.514) solid; width: 100%;"><a
+                  href="{% url 'transactions:view_auction'%}" class="ftco-animate livetext-mega"
+                  style="font-size: 110%;  color: orange;">Manage Auction</a></li>
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        </li>
+        <li style="margin-top: 2px; width: 100%;">
+          {%if user.sellerfactoryemployee%}
+          <a href="{%url 'transactions:charts' user.sellerfactoryemployee.factory.factory_name%}" id="charts" class=""
+            style="font-size: 120%; "><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a>
+          {%else%}
+          <a href="{% url 'transactions:bcharts' user %}" id="charts"><i class="lnr lnr-chart-bars"></i>
+            <span style="font-size: 120%; ">Charts</span></a>
+          {% endif %}
+        </li>
+
+        {%if user.sellerfactoryemployee.factory.factory_name%}
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="{%url 'transactions:showtransactions' user.sellerfactoryemployee.factory.factory_name%}" class=""
+            id="transactions" style="font-size: 120%; "><i class="lnr lnr-cog"></i>
+            <span>Transactions</span></a>
+        </li>
+        {%else%}
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="{%url 'transactions:showtransactions' user%}" class="" id="transactions"><i
+              class="lnr lnr-history"></i>
+            <span style="font-size: 120%; ">Transactions</span></a>
+        </li>
+        {% endif %}
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="{%url 'transactions:shownotifications' user.username%}" class="" id="noti"><i
+              class="lnr lnr-alarm"></i>
+            <span style="font-size: 120%; "> Notifications</span></a>
+        </li>
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="/blog" class=""><i class="lnr lnr-dice" id="blog"></i> <span
+              style="font-size: 120%; ">Blog</span></a>
+        </li>
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="{%url 'feedback:showfeedback'%}" class="" id="feedback"><i class="lnr lnr-question-circle"></i>
+            <span style="font-size: 120%; ">Feedback</span></a>
+        </li>
+        <li style="margin-top: 2px; width: 100%;">
+          <a href="/" class=""><i class="lnr lnr-earth"></i> <span style="font-size: 120%; ">Home</span></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{%endif%}
 <div class="modal-transparent" id="loadingDiv" style="top: 10%;">
   <div class="modal-content2" style="background-color: rgb(255, 255, 255); border-radius: 15px;">
     <span class="title" style="color: black;"> <i class="lnr lnr-hourglass fade-loop" style="font-size: 170%;"></i>

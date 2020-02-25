@@ -3,7 +3,39 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
 {% endblock style %}
-{% block content %} {% load static %}
+{% load static %}
+
+{% block content %}
+
+{%if not user.sellerfactoryemployee.factory.active%}
+<div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content ftco-animate">
+    <div class="container-fluid">
+      <!-- OVERVIEW -->
+      <div class="col-md-12">
+        <div class="panel-body" style="padding: 5%;">
+
+          <i class="lnr lnr-checkmark-circle text-success" style="font-size: 250%;"></i>
+          <h1 class="text-success" style="display: inline;">Account Created Successfully</h1>
+          <h1>It's currently under review</h1>
+          <i class="lnr lnr-smile blue" style="font-size: 280%;"></i><br>
+          <h3 style="display: inline  ;">Coffee Africa </h3><i class="lnr lnr-hourglass orange fade-loop"
+            style="font-size: 140%;"></i><br>
+          <p>Please wait while we check and validate the information you gave us, we will notify you when the account
+            becomes active</p>
+
+          <a href="/" class="btn btn-primary btn-lg">Homepage</a>
+          <a href="/contact" class="btn btn-success btn-lg">Contact Us</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{%endif%}
+
+{%if user.sellerfactoryemployee.factory.active%}
 <div class="main">
   <!-- MAIN CONTENT -->
   <div class="main-content ftco-animate">
@@ -24,6 +56,7 @@
       </div>
       <div class="panel-body dark orange-border ftco-animate">
         <div class="panel-body">
+          {{user.sellerfactoryemployee.factory.active}}
           <h1 class="orange livetext-mega">Coffee Prices</h1>
           <h3 class="white">${{MeanPrice}} Per Tonne</h3>
           <p>Coffee prices in the market</p>
@@ -189,147 +222,149 @@
       </div>
       <!-- END MAIN CONTENT -->
     </div>
-
-    {% endblock content %}
-    {% block js %}
-    <script src="{% static 'toastr/jquery-3.4.1.min.js' %}"></script>
-    <script src="{% static 'toastr/toastr.min.js' %}"></script>
-    <script src="{%static 'assets/js/factory.js'%}"></script>
-    <script src="{%static 'node_modules/chart.js/dist/Chart.js'%}"></script>
-    <script>
-      months = []
-      prices = []
-      factories = []
-      amounts = []
-    </script>
-    {%for month in months_price%}
-    <script>
-      included = false
-      months.forEach(element =>
-      {
-        if (element === "{{month}}")
-        {
-          included = true
-        }
-      });
-      if (!included)
-      {
-
-        months.push("{{month}}")
-      }
-    </script>
-    {%endfor%}
-    {%for price in prices%}
-    <script>
-      prices.push("{{price}}")
-    </script>
-    {%endfor%}
-    <script>
-
-      var notificationSocket = new WebSocket(
-        "ws://" + window.location.host + "/ws/transactions/notifications/{{user.id}}/"
-      );
-      notificationSocket.onmessage = function (e)
-      {
-        var receivedMessage = JSON.parse(e.data);
-
-        toastr.options = {
-          "closeButton": true,
-          "debug": false,
-          "newestOnTop": false,
-          "progressBar": false,
-          "positionClass": "toast-top-right",
-          "preventDuplicates": false,
-          "onclick": null,
-          "showDuration": "300",
-          "hideDuration": "1000",
-          "timeOut": "5000",
-          "extendedTimeOut": "1000",
-          "showEasing": "swing",
-          "hideEasing": "linear",
-          "showMethod": "fadeIn",
-          "hideMethod": "fadeOut"
-        }
-
-        toastr["info"](receivedMessage['content'], "new message received from " + receivedMessage['username'] +
-          ' order number ' + receivedMessage['order_id'])
-
-      }
-      var orderSocket = new WebSocket(
-        "ws://" + window.location.host + "/ws/transactions/addorder/{{user.id}}/"
-      )
-
-      orderSocket.onmessage = function (e)
-      {
-        console.log("something came in");
-        var receivedOrder = JSON.parse(e.data)
-        toastr.options = {
-          "closeButton": false,
-          "debug": false,
-          "newestOnTop": false,
-          "progressBar": false,
-          "positionClass": "toast-top-full-width",
-          "preventDuplicates": false,
-          "onclick": null,
-          "showDuration": "3000",
-          "hideDuration": "1000",
-          "timeOut": "5000",
-          "extendedTimeOut": "1000",
-          "showEasing": "swing",
-          "hideEasing": "linear",
-          "showMethod": "fadeIn",
-          "hideMethod": "fadeOut"
-        }
-        toastr["success"]("you have a new order \n order number 3344", "new order received ")
-      }
-      var ctx = document.getElementById('prices').getContext('2d');
-      months.push("")
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: months,
-          datasets: [{
-            label: 'Price line in real time',
-            data: prices,
-            backgroundColor: [
-              'rgba(100,100,100,0.2)',
-            ],
-            borderColor: [
-              'rgba(226, 109, 6, 1)'
-            ],
-            borderWidth: 3
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: false
-              }
-            }]
-          }
-        }
-      });
-    </script>
-    {% endblock js %}
-    <script src="{% static 'homepage/js/jquery.min.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
-    <script src="{% static 'homepage/js/popper.min.js' %}"></script>
-    <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
-    <script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'homepage/js/aos.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
-    <script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
-    <script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
-    <script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="{% static 'homepage/js/google-map.js' %}"></script>
-    <script src="{% static 'homepage/js/main.js' %}"></script>
-
   </div>
+</div>
+{%endif%}
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'toastr/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'toastr/toastr.min.js' %}"></script>
+<script src="{%static 'assets/js/factory.js'%}"></script>
+<script src="{%static 'node_modules/chart.js/dist/Chart.js'%}"></script>
+<script>
+  months = []
+  prices = []
+  factories = []
+  amounts = []
+</script>
+{%for month in months_price%}
+<script>
+  included = false
+  months.forEach(element =>
+  {
+    if (element === "{{month}}")
+    {
+      included = true
+    }
+  });
+  if (!included)
+  {
+
+    months.push("{{month}}")
+  }
+</script>
+{%endfor%}
+{%for price in prices%}
+<script>
+  prices.push("{{price}}")
+</script>
+{%endfor%}
+<script>
+
+  var notificationSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/transactions/notifications/{{user.id}}/"
+  );
+  notificationSocket.onmessage = function (e)
+  {
+    var receivedMessage = JSON.parse(e.data);
+
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+
+    toastr["info"](receivedMessage['content'], "new message received from " + receivedMessage['username'] +
+      ' order number ' + receivedMessage['order_id'])
+
+  }
+  var orderSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/transactions/addorder/{{user.id}}/"
+  )
+
+  orderSocket.onmessage = function (e)
+  {
+    console.log("something came in");
+    var receivedOrder = JSON.parse(e.data)
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-full-width",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "3000",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    toastr["success"]("you have a new order \n order number 3344", "new order received ")
+  }
+  var ctx = document.getElementById('prices').getContext('2d');
+  months.push("")
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Price line in real time',
+        data: prices,
+        backgroundColor: [
+          'rgba(100,100,100,0.2)',
+        ],
+        borderColor: [
+          'rgba(226, 109, 6, 1)'
+        ],
+        borderWidth: 3
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      }
+    }
+  });
+</script>
+{% endblock js %}
+<script src="{% static 'homepage/js/jquery.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
+<script src="{% static 'homepage/js/popper.min.js' %}"></script>
+<script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'homepage/js/aos.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
+<script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
+<script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script src="{% static 'homepage/js/google-map.js' %}"></script>
+<script src="{% static 'homepage/js/main.js' %}"></script>
+
+</div>
 </div>

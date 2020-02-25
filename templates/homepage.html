@@ -66,7 +66,7 @@
           <li class=" nav-item" style="color: white;">
             <a href="{% url 'accounts:contact' %}" class="nav-link" style="font-size: 130%;">Contact</a>
           </li>
-          
+
         </ul>
       </div>
     </div>
@@ -149,7 +149,7 @@
         </div>
       </div>
       <div class="text-center ftco-animate">
-        <button class="btn btn-outline-success py-3 px-5">Get Started</button>
+        <a href="{%url 'accounts:start'%}" class="btn btn-outline-success py-3 px-5">Get Started</a>
         <button class="btn btn-outline-primary py-3 px-5">Learn More</button>
       </div>
       <div class="row">
@@ -242,7 +242,7 @@
     </div>
   </section>
 
-  
+
   <br />
   <section class="ftco-counter ftco-bg-dark img" id="section-counter"
     style="background-image: url({% static 'custom_images/coffee2.jpg' %});" data-stellar-background-ratio="0.5">

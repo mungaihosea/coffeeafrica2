@@ -1,123 +1,427 @@
-{% load static %}
+{%load static%}
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <title>CoffeeAfrica</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Great+Vibes"
-      rel="stylesheet"
-    />
+<head>
+  <title>Coffee - Free Bootstrap 4 Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}"
-    />
-    <link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
 
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/owl.carousel.min.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/owl.theme.default.min.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/magnific-popup.css' %}"
-    />
+  <link rel="stylesheet" href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendor/linearicons/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/owl.carousel.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/owl.theme.default.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}" />
 
-    <link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}" />
 
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/ionicons.min.css' %}"
-    />
+  <link rel="stylesheet" href="{% static 'homepage/css/ionicons.min.css' %}" />
 
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/bootstrap-datepicker.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'homepage/css/jquery.timepicker.css' %}"
-    />
+  <link rel="stylesheet" href="{% static 'homepage/css/bootstrap-datepicker.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/jquery.timepicker.css' %}" />
 
-    <link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}" />
-    <link rel="stylesheet" href="{% static 'homepage/css/icomoon.css' %}" />
-    <link rel="stylesheet" href="{% static 'homepage/css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}" />
-  </head>
+  <link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/icomoon.css' %}" />
+  <link rel="stylesheet" href="{% static 'homepage/css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}" />
+</head>
 
-  <body>
-    <!-- Nav bar -->
-    <nav
-      class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light"
-      id="ftco-navbar"
-    >
-      <div class="container">
-        <a
-          class=" navbar-brand title"
-          href="/"
-          style="font-size: 2em; color: orange; font-weight: bold; font-family: ubuntu;"
-          >Coffee Africa<small
-            style="font-size: 13px; color: rgb(255, 255, 255);"
-            >built with Blockchain technology</small
-          ></a
-        >
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#ftco-nav"
-          aria-controls="ftco-nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="oi oi-menu"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a href="/" class="nav-link">Home</a>
-            </li>
-            <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
-            <li class="nav-item">
-              <a href="services.html" class="nav-link">Services</a>
-            </li>
-            <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
-            <li class="nav-item">
-              <a href="about.html" class="nav-link">About</a>
-            </li>
-            <li class="nav-item">
-              <a href="contact.html" class="nav-link">Contact</a>
-            </li>
-            <li class="nav-item cart">
-              <a href="cart.html" class="nav-link"
-                ><span class="icon icon-shopping_cart"></span
-                ><span
-                  class="bag d-flex justify-content-center align-items-center"
-                  ><small>1</small></span
-                ></a
-              >
-            </li>
-          </ul>
+<body>
+  <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class=" navbar-brand title" href="/" style="margin-left: 0;">
+        <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 5.9em;" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active" style="color: white;">
+            <a href="/" class="nav-link" style="font-size: 130%;">Home</a>
+          </li>
+          <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
+
+          <li class="nav-item" style="color: white;">
+            <a href="{%url 'accounts:about'%}" class="nav-link" style="font-size: 130%;">About</a>
+          </li>
+          <li class="nav-item" style="color: white;">
+            <a href="services.html" class="nav-link" style="font-size: 130%;">Services</a>
+          </li>
+          <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
+          <li class=" nav-item" style="color: white;">
+            <a href="contact.html" class="nav-link" style="font-size: 130%;">Contact</a>
+          </li>
+          <li class=" nav-item cart" style="color: white;">
+            <a href="cart.html" class="nav-link"><span class="icon icon-shopping_cart"></span><span
+                class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- END nav -->
+  <br>
+  <br>
+  <br>
+  {%for error in erros%}
+  <span>dsakhdjashkjdhaskjdhsak{{error}</span><br>
+  {%endfor%}
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12 ftco-animate">
+          <form action="{%url 'accounts:factory'%}" method="POST"
+            class="billing-form ftco-bg-dark p-3 p-md-5 orange-border" style="background-color: rgba(0, 0, 0, 0.466);">
+            <h3 class="mb-4 billing-heading">Create a Factory Account</h3>
+            {%csrf_token%}
+            <div class="text-center">
+              <img src="{%static 'custom_images/sellerfactory2.jpg'%}" style="height: 150px; border-radius: 80px;"
+                class="img-circle" id="logo">
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="townname">Account Information</label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mt-4" style="border-radius: 5px; border: 1px rgb(71, 67, 67) solid; padding: 1%;">
+                <label for="tradelicense">User Profile Picture</label><br>
+                <input type="file" name="userprofilepic" id="factorylogo" class="btn btn-outline-warning">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="User Name">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="email" name="Email" class="form-control" placeholder="Personal Email Address">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="text" name="firstname" class="form-control" placeholder="Firstname">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="text" name="lastname" class="form-control" placeholder="Lastname">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="New Password">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="password" name="retypepass" class="form-control" placeholder="Retype Password">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mt-4">
+                <label class="title">Factory Information</label>
+              </div>
+            </div>
+            <div class="text-center col-md-12">
+              <div class="col-md-12">
+                <div class="form-group mt-4"
+                  style="border-radius: 5px; border: 1px rgb(71, 67, 67) solid; padding: 1%;">
+                  <label for="tradelicense">Factory Logo (optional)</label><br>
+                  <input type="file" name="factorylogo" id="factorylogo" class="btn btn-outline-warning">
+                </div>
+              </div>
+            </div>
+            <script>
+              document.getElementById("factorylogo").onchange = function ()
+              {
+                console.log(document.getElementById("factorylogo"))
+                document.getElementById("logo").src = document.getElementById("factorylogo").value
+              }
+            </script>
+            <div class="row align-items-end">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="firstname">Factory Name</label>
+                  <input type="text" class="form-control" name="factoryname" placeholder="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="lastname">Innitials</label>
+                  <input type="text" name="initials" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="country">State / Country</label>
+                  <div class="select-wrap">
+                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                    <select name="country" id="" class="form-control">
+                      <option value="Kenya">Kenya</option>
+                      <option value="Uganda">Uganda</option>
+                      <option value="Tanzania">Tanzania</option>
+                      <option value="Burundi">Burundi</option>
+                      <option value="Rwanda">Rwanda</option>
+                      <option value="S.Sudan">S.Sudan</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="townname">Town / City</label>
+                  <input type="text" name="townname" class="form-control" placeholder="Town Name or Province">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" name="street_name" class="form-control" placeholder="Steet Name, Area etc:">
+                </div>
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="physical_address">Addresses</label>
+                  <input type="text" name="physical_address" class="form-control" placeholder="Physical address">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="postcodezip">Postcode / ZIP *</label>
+                  <input type="text" name="zip_code" class="form-control" placeholder="zip code">
+                </div>
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="factoryphone">Phone</label>
+                  <input type="text" name="factoryphone" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="factoryemail">Email Address</label>
+                  <input type="text" name="factoryemail" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-12">
+                <div class="form-group mt-4"
+                  style="border-radius: 5px; border: 1px rgb(71, 67, 67) solid; padding: 1%;">
+                  <label for="tradelicense">Trade License (Upload a PDF document)</label><br>
+                  <input type="file" name="tradelicense" id="tradelicense" class="btn btn-outline-warning">
+                </div>
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-12">
+                <div class="form-group mt-4">
+                  <div class="radio">
+                    <label><input type="radio" name="optradio" class="mr-2"> I have read and agreed to the terms and
+                      conditions</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary py-3 px-4"> Create Account</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        </form><!-- END -->
+      </div>
+    </div>
+  </section>
+  <footer class="ftco-footer ftco-section img">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Our Social Handles</h2>
+
+            <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+              <li class="ftco-animate">
+                <a href="#"><span class="icon-twitter"></span></a>
+              </li>
+              <li class="ftco-animate">
+                <a href="#"><span class="icon-facebook"></span></a>
+              </li>
+              <li class="ftco-animate">
+                <a href="#"><span class="icon-instagram"></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-5 mb-md-5">
+          <div class="ftco-footer-widget mb-4 ml-md-4">
+            <h2 class="ftco-heading-2">Services</h2>
+            <ul class="list-unstyled">
+              <li><a href="#" class="py-2 d-block">Transparency</a></li>
+              <li><a href="#" class="py-2 d-block">Traceability</a></li>
+              <li><a href="#" class="py-2 d-block">Quality Coffee</a></li>
+              <li><a href="#" class="py-2 d-block">Competitive Prices</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Have a Question?</h2>
+            <div class="block-23 mb-3">
+              <ul>
+                <li>
+                  <a href="#"><span class="icon icon-phone"></span><span class="text">+254703742855</span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-envelope"></span><span
+                      class="text">coffeeafrica@gmail.com</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-5 mb-md-5">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Recent Blog</h2>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url({% static 'homepage/images/image_1.jpg' %});"></a>
+              <div class="text">
+                <h3 class="heading">
+                  <a href="#">Even the all-powerful Pointing has no control about</a>
+                </h3>
+                <div class="meta">
+                  <div>
+                    <a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a>
+                  </div>
+                  <div>
+                    <a href="#"><span class="icon-person"></span> Admin</a>
+                  </div>
+                  <div>
+                    <a href="#"><span class="icon-chat"></span> 19</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="block-21 mb-4 d-flex">
+              <a class="blog-img mr-4" style="background-image: url({% static 'homepage/images/image_2.jpg' %});"></a>
+              <div class="text">
+                <h3 class="heading">
+                  <a href="#">Even the all-powerful Pointing has no control about</a>
+                </h3>
+                <div class="meta">
+                  <div>
+                    <a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a>
+                  </div>
+                  <div>
+                    <a href="#"><span class="icon-person"></span> Admin</a>
+                  </div>
+                  <div>
+                    <a href="#"><span class="icon-chat"></span> 19</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </nav>
-  </body>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <small>
+              All rights reserved | This template is made with
+              <i class="icon-heart" aria-hidden="true"></i> by
+              <a href="https://colorlib.com" target="_blank">Colorlib</a></small>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" /></svg></div>
+
+
+  <script src="{% static 'homepage/js/jquery.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'homepage/js/popper.min.js' %}"></script>
+  <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'homepage/js/aos.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'homepage/js/google-map.js' %}"></script>
+  <script src="{% static 'homepage/js/main.js' %}"></script>
+
+  <script>
+    $(document).ready(function ()
+    {
+
+      var quantitiy = 0;
+      $('.quantity-right-plus').click(function (e)
+      {
+
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#quantity').val());
+
+        // If is not undefined
+
+        $('#quantity').val(quantity + 1);
+
+
+        // Increment
+
+      });
+
+      $('.quantity-left-minus').click(function (e)
+      {
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        var quantity = parseInt($('#quantity').val());
+
+        // If is not undefined
+
+        // Increment
+        if (quantity > 0)
+        {
+          $('#quantity').val(quantity - 1);
+        }
+      });
+
+    });
+  </script>
+
+
+</body>
+
 </html>
