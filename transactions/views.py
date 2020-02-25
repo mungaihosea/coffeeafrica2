@@ -23,9 +23,8 @@ import datetime
 import time
 from .forms import CreateAuctionForm
 import json
-from matplotlib import pyplot as plt
+
 from django.template.loader import get_template
-from weasyprint import HTML
 import numpy as np
 
 def add_auction(request):
@@ -710,9 +709,4 @@ class Notification:
 #             response = HttpResponse(pdf_file, content_type= "application/pdf")
 #             return response
 
-def pdf(request, factory_name):
-    factory = get_object_or_404(SellerFactory, factory_name = factory_name)
-    factory_orders = BackOrder.objects.filter(auction = BackAuction.objects.filter(factory=factory)[0])
-    print(factory_orders)
-    return HttpResponse('junk')
     

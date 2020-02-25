@@ -18,7 +18,6 @@ from .views import (
     ShowAuctionHistory,
     ShowTransactions,
     ShowNotifications,
-    pdf,
 )
 
 namespace = "transactions"
@@ -67,5 +66,5 @@ urlpatterns = [
         ShowNotifications.as_view(),
         name="shownotifications",
     ),
-    path('pdf/<str:factory_name>/', pdf, name='pdf')
+
 ]
