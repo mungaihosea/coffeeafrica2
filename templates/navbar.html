@@ -18,10 +18,10 @@
 <link rel="stylesheet" href="{% static 'homepage/css/style.css' %}" />
 <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}" />
 <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar"
-  style="z-index: 1;border-bottom: 1px orange solid; box-shadow: 0.5em 1em 2em .1em rgba(23, 52, 85, 0.671);">
+  style="z-index: 1;border-bottom: 1px orange solid; box-shadow: 0.5em 1em 2em .1em rgba(23, 52, 85, 0.671); height: 100px; position: abolute; background-color: rgb(10, 8, 8); z-index: 2;">
   <div class="container" style="background-color: rgba(0, 0, 0, 0);">
     <a href="/" style="margin-left: 0;">
-      <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 9em;" />
+      <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 7.5em;" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav"
       aria-expanded="false" aria-label="Toggle navigation">
@@ -41,12 +41,13 @@
               <i class="lnr lnr-alarm " style="font-size: 200%;"></i>
               <span class="badge bg-danger">{{notifycount}}</span>
             </a>
-            <ul class="dropdown-menu notifications">
+            <ul class="dropdown-menu notifications"
+              style="background-color: rgba(0, 0, 0, 0.712); border-bottom: 1px orange solid;">
               {%for notification in notifications%}
               <li>
                 <a href="/{{notification.app_name}}/{{notification.action}}/{{notification.id}}/"
-                  class="notification-item"><span class="dot bg-success"></span>
-                  {{notification.message}}
+                  style="font-size: 150%;" class="notification-item"><span class="dot bg-success"></span>
+                  <span class="trancate">{{notification.message}}</span>
                 </a>
               </li>
               {%endfor%}
@@ -66,7 +67,8 @@
                   approved</a>
               </li> -->
               <li>
-                <a href="{%url 'transactions:shownotifications' user.username%}" class="more">See all notifications</a>
+                <a href="{%url 'transactions:shownotifications' user.username%}" class="more"
+                  style="font-size: 150%;">See all notifications</a>
               </li>
             </ul>
           </li>
@@ -74,7 +76,8 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i>
               <span style="font-size: 140%;">Help</span>
               <i class="icon-submenu lnr" style="font-size: 200%;"></i></a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu"
+              style="font-size: 120%; background-color: rgba(0, 0, 0, 0.842); border-bottom: 1px orange solid;">
               <li><a href="#">Basic Use</a></li>
               <li><a href="#">Working With Data</a></li>
               <li><a href="#">Security</a></li>
@@ -86,7 +89,8 @@
                 class="img-circle" alt="Avatar" />
               <span style="font-size: 140%;">{{user.username}}</span>
               <i class="icon-submenu lnr" style="font-size: 200%;"></i></a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu side-glow"
+              style=" font-size: 120%; background-color: rgba(0, 0, 0, 0.842); border-bottom: 1px orange solid;">
               <li>
                 <a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a>
               </li>

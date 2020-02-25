@@ -13,7 +13,7 @@
 
   <link rel="stylesheet" href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}" />
   <link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}" />
-
+  <link rel="stylesheet" href="{% static 'assets/vendor/linearicons/style.css' %}" />
   <link rel="stylesheet" href="{% static 'homepage/css/owl.carousel.min.css' %}" />
   <link rel="stylesheet" href="{% static 'homepage/css/owl.theme.default.min.css' %}" />
   <link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}" />
@@ -52,19 +52,19 @@
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active" style="color: white;">
-            <a href="/" class="nav-link" style="font-size: 160%;">Home</a>
+            <a href="/" class="nav-link" style="font-size: 130%;">Home</a>
           </li>
           <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
 
           <li class="nav-item" style="color: white;">
-            <a href="{%url 'accounts:about'%}" class="nav-link" style="font-size: 160%;">About</a>
+            <a href="{%url 'accounts:about'%}" class="nav-link" style="font-size: 130%;">About</a>
           </li>
           <li class="nav-item" style="color: white;">
-            <a href="services.html" class="nav-link" style="font-size: 160%;">Services</a>
+            <a href="services.html" class="nav-link" style="font-size: 130%;">Services</a>
           </li>
           <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
           <li class=" nav-item" style="color: white;">
-            <a href="contact.html" class="nav-link" style="font-size: 160%;">Contact</a>
+            <a href="contact.html" class="nav-link" style="font-size: 130%;">Contact</a>
           </li>
           <li class=" nav-item cart" style="color: white;">
             <a href="cart.html" class="nav-link"><span class="icon icon-shopping_cart"></span><span
@@ -102,39 +102,89 @@
     {%endfor%}
   </section>
   <div class="row">
-    {%for blog in bestblogs%}
-    <!-- <section class="ftco-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 product-details pl-mb-5 ftco-animate">
-            <img src="{{blog.hq_image.url}}" alt="stuff" class="img-fluid">
-          </div>
-          <span class="subheading">{{blog.main_title}}</span>
-          <h2 class="price">{{blog.sub_title}}</h2>
-          <p>{{blog.content}}</p>
-          <a href="{{blog.link}}" class="btn btn-primary">Read More</a>
-        </div>
-      </div>
-    </section><br> -->
-    <section class="ftco-section ftco-animate" style="padding: 2%; margin: 1%;">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 mb-2">
-            <a href="images/menu-2.jpg" class="image-popup"><img src="{{blog.hq_image.url}}" class=" img-fluid" /></a>
-          </div>
-          <div class="col-sm-6 product-details pl-md-5 ftco-animate">
-            <h3>{{blog.main_title}}</h3>
-            <p class="price"><span>{{blog.sub_title}}</span></p>
-            <p>{{blog.content}}</p>
-            <p>
-              <a href="{{blog.link}}" class="btn btn-primary py-3 px-5">Read More</a>
-            </p>
+    <div class="col-md-7"
+      style="border-right: 1px orange solid; padding: 1%;  box-shadow: 0em 0em 2em 0em rgba(85, 63, 23, 0.671); margin-top: 1%; margin-bottom: .3%;">
+      {%for blog in bestblogs%}
+      <section class="ftco-section ftco-animate" style="padding: 2%; margin: 1%;">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 mb-2">
+              <a href="{{blog.hq_image.url}}" class="image-popup"><img src="{{blog.hq_image.url}}"
+                  class=" img-fluid" /></a>
+            </div>
+            <div class="col-sm-6 product-details pl-md-5 ftco-animate">
+              <h3>{{blog.main_title}}</h3>
+              <p class="price"><span>{{blog.sub_title}}</span></p>
+              <p>{{blog.content}}</p>
+              <p>
+                <a href="{{blog.link}}" class="btn btn-primary py-3 px-5">Read More</a>
+              </p>
+            </div>
           </div>
         </div>
+      </section>
+      {%endfor%}
+    </div>
+    <div class="col-md-5">
+      <br>
+      <div class="text-center ftco-about ftco-section ftco-animate col-sm-12 product-details pl-md-5"
+        style="padding: 4%;">
+        <h3 class="subheading">How it works, simple!</h3>
+        <div class="col-md-12 orange-border slide-left ftco-animate " style=" margin-right: 2px; padding: 2%;">
+          <i class="lnr lnr-checkmark-circle" style="color: greenyellow; font-size: 270%;"></i><br>
+          <span class="orange" style="font-size: 120%;">Create a Buyer or seller Account</span>
+        </div>
+        <div class="col-sm-12 text-center">
+          <i class="lnr lnr-arrow-down orange" style="position: absolute; top: 42%; font-size: 200%;"></i>
+        </div><br><br>
+        <div class="col-md-12 orange-border slide-left ftco-animate " style=" margin-right: 2px; padding: 2%;">
+          <i class="lnr lnr-store" style="color: greenyellow; font-size: 270%;"></i><br>
+          <span class="orange" style="font-size: 120%;">If seller, create an Auction To sell <br> If you are a buyer,
+            you're welcome to view the
+            market</span>
+        </div>
+        <div class="col-sm-12 text-center">
+          <i class="lnr lnr-arrow-down orange ftco-animate " style="position: absolute; top: 42%; font-size: 200%;"></i>
+        </div><br><br>
+        <div class="col-md-12 orange-border slide-left" style=" margin-right: 2px; padding: 2%;">
+          <i class="lnr lnr-laptop" style="color: greenyellow; font-size: 270%;"></i><br>
+          <span class="orange" style="font-size: 120%;">Buyer Places an order to an auction</span>
+        </div>
       </div>
-    </section>
-    {%endfor%}
+      <div class="text-center ftco-animate">
+        <button class="btn btn-outline-success py-3 px-5">Get Started</button>
+        <button class="btn btn-outline-primary py-3 px-5">Learn More</button>
+      </div>
+      <div class="row">
+        <div class="container" style="background-color: rgba(0, 0, 0, 0);">
+          <div class="block-21 mb-2 d-flex" style="padding: 5%; margin: 2%;">
+            <div class="col-lg-6 mb-2">
+              <a href="{% static 'homepage/images/image_2.jpg' %}" class="image-popup"><img
+                  src="{% static 'homepage/images/image_2.jpg' %}" class=" img-fluid" /></a>
+            </div>
+            <div class="text">
+              <h3 class="heading">
+                <a href="#">Even the all-powerful Pointing has no control about</a>
+              </h3>
+              <div class="meta">
+                <div>
+                  <a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a>
+                </div>
+                <div>
+                  <a href="#"><span class="icon-person"></span> Admin</a>
+                </div>
+                <div>
+                  <a href="#"><span class="icon-chat"></span> 19</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  </div>
+
   <section class="ftco-section ftco-services" style="background-color: rgba(8, 8, 8, 0.836);">
     <div class="container">
       <div class="row">
@@ -222,7 +272,7 @@
   </section>
   <br />
   <section class="ftco-counter ftco-bg-dark img" id="section-counter"
-    style="background-image: url({% static 'homepage/images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+    style="background-image: url({% static 'custom_images/coffee2.jpg' %});" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
       <div class="row justify-content-center">

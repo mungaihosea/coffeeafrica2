@@ -2,18 +2,8 @@
 <link rel="stylesheet" href="{%static 'assets/css/mine.css'%}">
 <!-- LEFT SIDEBAR -->
 
-<div class="modal-transparent" id="loadingDiv">
-  <div class="modal-content2" style="background-color: rgb(255, 255, 255); border-radius: 15px;">
-    <span class="title" style="color: black;"> <i class="lnr lnr-hourglass fade-loop" style="font-size: 170%;"></i>
-      Processing please
-      wait...</span>
-    <img src="{%static 'assets/img/loading.gif'%}" alt="loading" height="100px">
-  </div>
-</div>
-<br>
-<br>
 <div id="sidebar-nav" class="sidebar"
-  style="padding-left: 2px; padding-right: 2px; background-color: rgba(0, 0, 0, 0);">
+  style="padding-left: 2px; padding-right: 2px; background-color: rgba(0, 0, 0, 0); overflow: scroll; scroll-behavior: smooth; z-index: 0; height: 100%; overflow-x: hidden;">
   <div class="sidebar-scroll">
     <nav>
       <ul class="nav">
@@ -94,6 +84,14 @@
         </li>
       </ul>
     </nav>
+  </div>
+</div>
+<div class="modal-transparent" id="loadingDiv" style="top: 10%;">
+  <div class="modal-content2" style="background-color: rgb(255, 255, 255); border-radius: 15px;">
+    <span class="title" style="color: black;"> <i class="lnr lnr-hourglass fade-loop" style="font-size: 170%;"></i>
+      Processing please
+      wait...</span>
+    <img src="{%static 'assets/img/loading.gif'%}" alt="loading" height="100px">
   </div>
 </div>
 <script>
