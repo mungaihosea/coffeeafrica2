@@ -1,129 +1,91 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'homepage/css/open-iconic-bootstrap.min.css' %}" />
-<link rel="stylesheet" href="{% static 'homepage/css/animate.css' %}" />
-
-<link rel="stylesheet" href="{% static 'homepage/css/owl.carousel.min.css' %}" />
-<link rel="stylesheet" href="{% static 'homepage/css/owl.theme.default.min.css' %}" />
-<link rel="stylesheet" href="{% static 'homepage/css/magnific-popup.css' %}" />
-
-<link rel="stylesheet" href="{% static 'homepage/css/aos.css' %}" />
-
-<link rel="stylesheet" href="{% static 'homepage/css/ionicons.min.css' %}" />
-
-<link rel="stylesheet" href="{% static 'homepage/css/bootstrap-datepicker.css' %}" />
-<link rel="stylesheet" href="{% static 'homepage/css/jquery.timepicker.css' %}" />
-
-<link rel="stylesheet" href="{% static 'homepage/css/flaticon.css' %}" />
-<link rel="stylesheet" href="{% static 'homepage/css/icomoon.css' %}" />
-<link rel="stylesheet" href="{% static 'homepage/css/style.css' %}" />
-<link rel="stylesheet" href="{% static 'assets/css/mine.css'%}" />
-<nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar"
-  style="z-index: 1;border-bottom: 1px orange solid; box-shadow: 0.5em 1em 2em .1em rgba(23, 52, 85, 0.671); height: 100px; position: abolute; background-color: rgb(10, 8, 8); z-index: 2;">
-  <div class="container" style="background-color: rgba(0, 0, 0, 0);">
-    <a href="/" style="margin-left: 0;">
-      <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 7.5em;" />
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="oi oi-menu"></span> Menu
-    </button>
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: rgb(32, 30, 30);">
+  <div class="brand orange" style="background-color: transparent;">
+    <a class="title orange" href="{%url 'accounts:homepage'%}"><img src="{% static 'custom_images/LOGO.png'%}"
+        height="40" alt=""></a>
+  </div>
+  <div class="container-fluid">
     <div class="navbar-btn">
       <button type="button" class="btn-toggle-fullwidth">
         <i class="lnr lnr-arrow-left-circle"></i>
       </button>
     </div>
+    <form class="navbar-form navbar-left">
+      <div class="input-group">
+        <input type="text" value="" class="form-control" placeholder="Search dashboard..." />
+        <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+      </div>
+    </form>
 
-    <div class="collapse navbar-collapse" id="ftco-nav">
-      <ul class="navbar-nav ml-auto">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="lnr lnr-alarm " style="font-size: 200%;"></i>
-              <span class="badge bg-danger">{{notifycount}}</span>
-            </a>
-            <ul class="dropdown-menu notifications"
-              style="background-color: rgba(0, 0, 0, 0.712); border-bottom: 1px orange solid;">
-              {%for notification in notifications%}
-              <li>
-                <a href="/{{notification.app_name}}/{{notification.action}}/{{notification.id}}/"
-                  style="font-size: 150%;" class="notification-item"><span class="dot bg-success"></span>
-                  <span class="trancate">{{notification.message}}</span>
-                </a>
-              </li>
-              {%endfor%}
-              <!-- <li>
-                <a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished
-                  tasks</a>
-              </li>
-              <li>
-                <a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is
-                  available</a>
-              </li>
-              <li>
-                <a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a>
-              </li>
-              <li>
-                <a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been
-                  approved</a>
-              </li> -->
-              <li>
-                <a href="{%url 'transactions:shownotifications' user.username%}" class="more"
-                  style="font-size: 150%;">See all notifications</a>
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i>
-              <span style="font-size: 140%;">Help</span>
-              <i class="icon-submenu lnr" style="font-size: 200%;"></i></a>
-            <ul class="dropdown-menu"
-              style="font-size: 120%; background-color: rgba(0, 0, 0, 0.842); border-bottom: 1px orange solid;">
-              <li><a href="#">Basic Use</a></li>
-              <li><a href="#">Working With Data</a></li>
-              <li><a href="#">Security</a></li>
-              <li><a href="#">Troubleshooting</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'assets/img/user.png' %}"
-                class="img-circle" alt="Avatar" />
-              <span style="font-size: 140%;">{{user.username}}</span>
-              <i class="icon-submenu lnr" style="font-size: 200%;"></i></a>
-            <ul class="dropdown-menu side-glow"
-              style=" font-size: 120%; background-color: rgba(0, 0, 0, 0.842); border-bottom: 1px orange solid;">
-              <li>
-                <a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a>
-              </li>
-              <li>
-                <a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a>
-              </li>
-              <li>
-                <a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a>
-              </li>
-            </ul>
-          </li>
-          <!-- <li>
-                          <a class="update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
-                      </li> -->
-        </ul>
+    <div id="navbar-menu">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+            <i class="lnr lnr-alarm"></i>
+            <span class="badge bg-danger">{{notifycount}}</span>
+          </a>
+          <ul class="dropdown-menu notifications">
+            {%for notification in notifications%}
+            <li>
+              <a href="/{{notification.app_name}}/{{notification.action}}/{{notification.id}}/"
+                class="notification-item"><span class="dot bg-success"></span>
+                {{notification.message}}
+              </a>
+            </li>
+            {%endfor%}
+            <!-- <li>
+              <a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished
+                tasks</a>
+            </li>
+            <li>
+              <a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is
+                available</a>
+            </li>
+            <li>
+              <a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a>
+            </li>
+            <li>
+              <a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been
+                approved</a>
+            </li> -->
+            <li><a href="#" class="more">See all notifications</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i>
+            <span>Help</span>
+            <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Basic Use</a></li>
+            <li><a href="#">Working With Data</a></li>
+            <li><a href="#">Security</a></li>
+            <li><a href="#">Troubleshooting</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'assets/img/user.png' %}"
+              class="img-circle" alt="Avatar" />
+            <span>{{user.username}}</span>
+            <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a>
+            </li>
+            <li>
+              <a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a>
+            </li>
+            <li>
+              <a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a>
+            </li>
+            <li>
+              <a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a>
+            </li>
+          </ul>
+        </li>
+        <!-- <li>
+                        <a class="update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                    </li> -->
       </ul>
     </div>
   </div>
 </nav>
-<script src="{% static 'homepage/js/jquery.min.js' %}"></script>
-<script src="{% static 'homepage/js/jquery-migrate-3.0.1.min.js' %}"></script>
-<script src="{% static 'homepage/js/popper.min.js' %}"></script>
-<script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'homepage/js/jquery.easing.1.3.js' %}"></script>
-<script src="{% static 'homepage/js/jquery.waypoints.min.js' %}"></script>
-<script src="{% static 'homepage/js/jquery.stellar.min.js' %}"></script>
-<script src="{% static 'homepage/js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'homepage/js/jquery.magnific-popup.min.js' %}"></script>
-<script src="{% static 'homepage/js/aos.js' %}"></script>
-<script src="{% static 'homepage/js/jquery.animateNumber.min.js' %}"></script>
-<script src="{% static 'homepage/js/bootstrap-datepicker.js' %}"></script>
-<script src="{% static 'homepage/js/jquery.timepicker.min.js' %}"></script>
-<script src="{% static 'homepage/js/scrollax.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="{% static 'homepage/js/google-map.js' %}"></script>
-<script src="{% static 'homepage/js/main.js' %}"></script>

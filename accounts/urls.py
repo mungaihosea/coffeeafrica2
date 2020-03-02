@@ -12,6 +12,8 @@ from .views import (
     contact,
     services,
     create_factory_account,
+    market,
+    help,
 )
 
 namespace = "accounts"
@@ -25,8 +27,10 @@ urlpatterns = [
     path("factories/", GetFactoriesView.as_view(), name="factories"),
     path("GetSarted/", accounts, name="start"),
     path("Buyer/", create_buyer_account, name="buyer"),
-    path("about/", about, name='about'),
-    path("contact/", contact, name = "contact"),
-    path("services/", services, name = "services"),
-    path("Factory/", create_factory_account, name="factory")
+    path("about/", about, name="about"),
+    path("contact/", contact, name="contact"),
+    path("services/", services, name="services"),
+    path("Factory/", create_factory_account, name="factory"),
+    path("market/", market, name="market"),
+    path("help/", help, name="help"),
 ]

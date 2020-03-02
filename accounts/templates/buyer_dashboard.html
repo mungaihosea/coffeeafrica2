@@ -8,8 +8,6 @@
 <script>
   hideLoading()
 </script>
-<br>
-<br>
 <div class="main">
   <!-- MAIN CONTENT -->
   <div class="main-content">
@@ -25,7 +23,7 @@
           <div class="col-md-4  orange-border panel-body text-center" style="margin-right: .5%;">
             <i class="lnr lnr-checkmark-circle" style="font-size: 230%; color: rgb(4, 207, 4);"></i>
             <p class="title blue">Tonnes Traded</p>
-            400T
+            {{tonnes_traded}} T
           </div>
           <div class="col-md-4  orange-border panel-body text-center">
             <i class="lnr lnr-chart-bars" style="font-size: 230%; color: orange;"></i>
@@ -37,7 +35,7 @@
       <div class="orange-border panel-body ftco-animate">
         <h2 class="orange livetext-mega">suggested factories</h2>
         {%if not history_factories%}
-        <a href="{%url 'transactions:view_market'%}">No Transaction History, click to view market!</a>
+        <a href="{%url 'transactions:view_market'%}">No Transaction History, click to view market!</a><br><br>
         {%endif%}
         {%for factory in history_factories%}
         <div class="panel-body dark-l selector-dark">
@@ -51,11 +49,14 @@
           </div>
           <span>
             {%if factory.rating == 0%}
-            rating: <i class="lnr lnr-star-half" style="color: orange;"></i>
+            <i class="lnr lnr-star-half" style="color: orange;"></i>
             {%elif factory.rating == 1%}
-            rating: fair
+            <i class="lnr lnr-star-half" style="color: orange;"></i>
+            <i class="lnr lnr-star-half" style="color: orange;"></i>
             {%elif factory.rating == 2%}
-            rating: good
+            <i class="lnr lnr-star-half" style="color: orange;"></i>
+            <i class="lnr lnr-star-half" style="color: orange;"></i>
+            <i class="lnr lnr-star-half" style="color: orange;"></i>
             {%else%}
             rating: <i class="lnr lnr-star" style="color: orange;"></i><i class="lnr lnr-star"
               style="color: orange;"></i><i class="lnr lnr-star" style="color: orange;"></i><i class="lnr lnr-star"
@@ -88,6 +89,8 @@
             </button>
           </div>
         </div>
+        {%if ordersmade == 0%}
+        {%else%}
         <div class="panel-body no-padding"
           style="overflow: scroll; overflow-y: hidden; overflow-wrap: break-word; overflow-x:auto;">
           <table class="table-sm table-hover">
@@ -141,10 +144,17 @@
             </tbody>
           </table>
         </div>
+        {%endif%}
         <div class="panel-body dark">
           <div class="row">
             <div class="col-md-6">
+              {%if ordersmade == 0%}
+              <span class="panel-note"><i class="fa fa-clock-o"></i> No orders, new orders will be listed here</span>
+              <br>
+              <span><a href="/help">Show me how to make an order</a></span>
+              {%else%}
               <span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span>
+              {%endif%}
             </div>
           </div>
         </div>
@@ -195,7 +205,7 @@
         <hr>
         <h4 class="white">Common</h4>
         <a href="#" class="a">Print Transaction report</a><br>
-        <a href="#" class="a">Trace order</a><br>
+        <a href="{%url 'transactions:track_orders' user.username%}" class="a">Trace order</a><br>
         <a href="/blog" class="a">Blog</a><br>
         <a href="{%url 'feedback:showfeedback'%}" class="a">Feedback</a>
       </div>
@@ -233,7 +243,19 @@
 
     months.push("{{month}}")
   }
+  n = months.length - 1
+  newmonths = []
+  console.log(n)
+  while (n >= 4)
+  {
+    newmonths.push(months[n])
+    n = n - 1
+    console.log(n)
+    months = newmonths
+  }
+
 </script>
+
 {%endfor%}
 {%for price in prices%}
 <script>
@@ -243,6 +265,17 @@
 <script src="{% static 'toastr/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'toastr/toastr.min.js' %}"></script>
 <script>
+  n = prices.length - 1
+  newprices = []
+  console.log(prices)
+  while (n >= 4)
+  {
+    newprices.push(prices[n])
+    console.log(newprices)
+    n = n - 1
+    prices = newprices
+  }
+
   var notificationSocket = new WebSocket(
     "ws://" + window.location.host + "/ws/transactions/notifications/{{user.id}}/"
   );

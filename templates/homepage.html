@@ -30,21 +30,12 @@
   <link rel="stylesheet" href="{% static 'homepage/css/style.css' %}" />
   <link rel="stylesheet" href="{% static 'assets/css/mine.css'%}" />
 </head>
-<style>
-  .nav-link:visited {
-    color: orange;
-  }
-
-  .nav-link:active {
-    color: orange;
-  }
-</style>
 
 <body>
   <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
     <div class="container">
       <a class=" navbar-brand title" href="/" style="margin-left: 0;">
-        <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 5.9em;" /></a>
+        <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 4.5em;" /></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
         aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
@@ -52,19 +43,22 @@
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active" style="color: white;">
-            <a href="/" class="nav-link" style="font-size: 130%;">Home</a>
+            <a href="#" class="nav-link slide-left-sm" style="font-size: 130%;">Home</a>
           </li>
           <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
 
           <li class="nav-item" style="color: white;">
-            <a href="{%url 'accounts:about'%}" class="nav-link" style="font-size: 130%;">About</a>
+            <a href="{%url 'accounts:about'%}" class="nav-link slide-left-sm" style="font-size: 130%;">About</a>
           </li>
           <li class="nav-item" style="color: white;">
-            <a href="{% url 'accounts:services' %}" class="nav-link" style="font-size: 130%;">Services</a>
+            <a href="{% url 'accounts:services' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Services</a>
+          </li>
+          <li class="nav-item" style="color: white;">
+            <a href="{% url 'accounts:market' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Market</a>
           </li>
           <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
           <li class=" nav-item" style="color: white;">
-            <a href="{% url 'accounts:contact' %}" class="nav-link" style="font-size: 130%;">Contact</a>
+            <a href="{% url 'accounts:contact' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Contact</a>
           </li>
 
         </ul>
@@ -72,64 +66,70 @@
     </div>
   </nav>
   <!-- END nav -->
-
   <section class="home-slider owl-carousel">
-    {% for slide in slides%}
-    <div class="slider-item" style="background-image: url({{slide.hq_image.url}});">
+    {% if not slides%}
+    <div class="slider-item" style="background-image: url({%static 'custom_images/coffee1.jpg'%});">
       <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
           <div class="col-md-12 text-center ftco-animate" style="background-color: rgba(0, 0, 0, 0.555);">
-            <span style="color: orange;  font-size: 30px; font-weight: bold;">{{slide.main_title}}</span>
+            <span style="color: orange;  font-size: 30px; font-weight: bold;">Welcome to the No.1 coffee trading
+              platform in africa</span>
             <h1 class="mb-4" style="font-size: 20px;">
-              {{slide.sub_title}}
+              Where quality is standard
             </h1>
-            <p class="mb-4 mb-md-5">{{slide.content}}</p>
-
+            <p class="mb-4 mb-md-5">We belive not only in transparecy in the marketing process or security thereof but
+              as well as forstering healthy business relationships between our clients which may last a lifetime</p>
             <p>
-              <a href="{%url 'accounts:start'%}" class="btn btn-primary p-3 px-xl-4 py-xl-3"
-                style="color: white; font-size: 100%">Create Account</a>
-              <a href="{% url 'accounts:login' %}" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3"
-                style="color: white; font-size: 100%;">Login</a>
+              <a href="{%url 'accounts:start'%}" class="btn btn-success p-3 px-xl-4 py-xl-3"
+                style="color: white; font-size: 100%; border-radius: 8px;">Create Account</a>
+              <a href="{% url 'accounts:login' %}" class="btn btn-outline-warning p-3 px-xl-4 py-xl-3"
+                style="font-size: 100%; border-radius: 8px;">Login</a>
             </p>
           </div>
         </div>
       </div>
     </div>
-    {%endfor%}
-  </section>
-  <div class="row">
-    <div class="col-md-7"
-      style="border-right: 1px orange solid; padding: 1%;  box-shadow: 0em 0em 2em 0em rgba(85, 63, 23, 0.671); margin-top: 1%; margin-bottom: .3%;">
-      {%for blog in bestblogs%}
-      <section class="ftco-section ftco-animate" style="padding: 2%; margin: 1%;">
+    {%else%}
+
+    <section class="home-slider owl-carousel">
+      {% for slide in slides%}
+      <div class="slider-item" style="background-image: url({{slide.hq_image.url}});">
+        <div class="overlay"></div>
         <div class="container">
-          <div class="row">
-            <div class="col-lg-6 mb-2">
-              <a href="{{blog.hq_image.url}}" class="image-popup"><img src="{{blog.hq_image.url}}"
-                  class=" img-fluid" /></a>
-            </div>
-            <div class="col-sm-6 product-details pl-md-5 ftco-animate">
-              <h3>{{blog.main_title}}</h3>
-              <p class="price"><span>{{blog.sub_title}}</span></p>
-              <p>{{blog.content}}</p>
+          <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+            <div class="col-md-12 text-center ftco-animate" style="background-color: rgba(0, 0, 0, 0.555);">
+              <span style="color: orange;  font-size: 30px; font-weight: bold;">{{slide.main_title}}</span>
+              <h1 class="mb-4" style="font-size: 20px;">
+                {{slide.sub_title}}
+              </h1>
+              <p class="mb-4 mb-md-5">{{slide.content}}</p>
+
               <p>
-                <a href="{{blog.link}}" class="btn btn-primary py-3 px-5">Read More</a>
+                <a href="{%url 'accounts:start'%}" class="btn btn-success p-3 px-xl-4 py-xl-3"
+                  style="color: white; font-size: 100%; border-radius: 8px;">Create Account</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-warning p-3 px-xl-4 py-xl-3"
+                  style="font-size: 100%; border-radius: 8px;">Login</a>
               </p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
       {%endfor%}
-    </div>
-    <div class="col-md-5">
+    </section>
+    {%endif%}
+  </section>
+  <div class="row">
+
+    <div class="col-md-6">
       <br>
       <div class="text-center ftco-about ftco-section ftco-animate col-sm-12 product-details pl-md-5"
         style="padding: 4%;">
         <h3 class="subheading">How it works, simple!</h3>
         <div class="col-md-12 orange-border slide-left ftco-animate " style=" margin-right: 2px; padding: 2%;">
-          <i class="lnr lnr-checkmark-circle" style="color: greenyellow; font-size: 270%;"></i><br>
-          <span class="orange" style="font-size: 120%;">Create a Buyer or seller Account</span>
+          <i class="lnr lnr-checkmark-circle bounce-around" style="color: greenyellow; font-size: 270%;"></i><br>
+          <span class="orange" style="font-size: 120%;">Create a Buyer or seller Account</span><br>
+          <span class="hide">and quickly get access to a vast market of trusted clients</span>
         </div>
         <div class="col-sm-12 text-center">
           <i class="lnr lnr-arrow-down orange" style="position: absolute; top: 42%; font-size: 200%;"></i>
@@ -138,14 +138,36 @@
           <i class="lnr lnr-store" style="color: greenyellow; font-size: 270%;"></i><br>
           <span class="orange" style="font-size: 120%;">If seller, create an Auction To sell <br> If you are a buyer,
             you're welcome to view the
-            market</span>
+            market</span><br>
+          <span class="hide">Our markets are regulated and the content is highly regulated to ensure that you get the
+            most trusted business deals. its simple yet secure.</span>
         </div>
         <div class="col-sm-12 text-center">
           <i class="lnr lnr-arrow-down orange ftco-animate " style="position: absolute; top: 42%; font-size: 200%;"></i>
         </div><br><br>
         <div class="col-md-12 orange-border slide-left" style=" margin-right: 2px; padding: 2%;">
           <i class="lnr lnr-laptop" style="color: greenyellow; font-size: 270%;"></i><br>
-          <span class="orange" style="font-size: 120%;">Buyer Places an order to an auction</span>
+          <span class="orange" style="font-size: 120%;">Buyer Places an order to an auction</span><br>
+          <span class="hide">Our market policy is simple. an order is placed, sent to the factory for processing. the
+            ordering system is based on a blockchain network making it secure and versatile.</span>
+        </div>
+        <div class="col-sm-12 text-center">
+          <i class="lnr lnr-arrow-down orange ftco-animate " style="position: absolute; top: 42%; font-size: 200%;"></i>
+        </div><br><br>
+        <div class="col-md-12 orange-border slide-left" style=" margin-right: 2px; padding: 2%;">
+          <i class="lnr lnr-hand" style="color: greenyellow; font-size: 270%;"></i><br>
+          <span class="orange" style="font-size: 120%;">Track Your order</span><br>
+          <span class="hide">Every order is closely monitored and information is relayed for you to clearly see its
+            status. You cant miss out.</span>
+        </div>
+        <div class="col-sm-12 text-center">
+          <i class="lnr lnr-arrow-down orange ftco-animate " style="position: absolute; top: 42%; font-size: 200%;"></i>
+        </div><br><br>
+        <div class="col-md-12 orange-border slide-left" style=" margin-right: 2px; padding: 2%;">
+          <i class="lnr lnr-smile" style="color: greenyellow; font-size: 270%;"></i><br>
+          <span class="orange" style="font-size: 120%;">Provide feedback</span><br>
+          <span class="hide">We value your feedback, don't forget to leave some feedback on how we can improve our
+            services to you</span>
         </div>
       </div>
       <div class="text-center ftco-animate">
@@ -178,6 +200,30 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-md-6"
+      style="border-right: 1px orange solid; padding: 1%;  box-shadow: 0em 0em 2em 0em rgba(85, 63, 23, 0.671); margin-top: 1%; margin-bottom: .3%;">
+      {%for blog in bestblogs%}
+      <section class="ftco-section ftco-animate" style="padding: 2%; margin: 1%;">
+        <div class="container">
+          <div class="">
+            <div class="mb-2">
+
+              <h3>{{blog.main_title}}</h3>
+              <a href="{{blog.hq_image.url}}" class="image-popup"><img src="{{blog.hq_image.url}}"
+                  class=" img-fluid" /></a>
+            </div>
+            <div class="ftco-animate">
+              <p class="price"><span>{{blog.sub_title}}</span></p>
+              <p>{{blog.content}}</p>
+              <p>
+                <a href="{{blog.link}}" class="btn btn-primary py-3 px-5">Read More</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      {%endfor%}
     </div>
   </div>
   </div>
@@ -245,7 +291,7 @@
 
   <br />
   <section class="ftco-counter ftco-bg-dark img" id="section-counter"
-    style="background-image: url({% static 'custom_images/coffee2.jpg' %});" data-stellar-background-ratio="0.5">
+    style="background-image: url({% static 'custom_images/coffeee.jpg' %});" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
       <div class="row justify-content-center">

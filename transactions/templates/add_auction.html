@@ -6,29 +6,53 @@
   <!-- MAIN CONTENT -->
   <div class="main-content">
     <div class="container-fluid">
-      <div class="metric">
-        <p class="orange">Create a New auction</p>
-        <p>Please ensure all details, the information will be reviewed.</p>
-      </div>
       {%if error%}
       <div class="dark-l panel-body">
         <h4 class="orange">An Error Occured</h4>
         <p>{{error}}</p>
       </div>
       {%endif%}
-      <form method="POST" class="dark-l panel-body" action="{%url 'transactions:create_auction'%}">
+      <div class="text-center">
+        <img src="{{user.sellerfactoryemployee.factory.factory_logo.url}}" alt=""
+          style="height: 180px; border-radius: 90px; box-shadow: -.1em -.1em 2em .1em rgba(255, 255, 255, 0.486);">
+        <h2 style="font-size: 150%;">{{user.sellerfactoryemployee.factory}}</h2>
+        <span>{{user.sellerfactoryemployee.factory.factory_initials}}</span>
+        <hr style="background-color: rgba(255, 255, 255, 0.486);">
+      </div>
+      {%if auction%}
+      <div class="panel-body text-center col-lg-12">
+        <i class="lnr lnr-warning" style="font-size:250%; color: red;"></i>
+        <h2 class="orange">You already have an on going Auction</h2>
+        <span class="subheading">Please note, you CANNOT have more than one auction in the market at a time,
+          <p>
+            if
+            you must
+            create a new one
+            try deleting the on-going auction and try again</p>
+        </span>
+        <br>
+        <a href="/transactions/view_auction" class="btn btn-outline-warning px-4 py-3">Show Current Auction</a>
+        <a href="/dashboard" class="btn btn-outline-success px-4 py-3">Back to Dashboard</a>
+      </div>
+      {%else%}
+      <span>Fill this form to create a new auction</span>
+      <form method="POST" class="dark-l panel-body col-lg-12 pl-md-5 ftco-animate billing-form p-3 p-md-5"
+        action="{%url 'transactions:create_auction'%}">
         {% csrf_token %}
         <input type="hidden" name="factory" id="factory" value="{{user.sellerfactoryemployee.factory.pk}}">
         <input type="hidden" name="employee" id="employee" value="{{user.sellerfactoryemployee.pk}}">
         {%for field in form%}
         <div class="form-group">
-          <label class="small">{{field.label}}</label><br>
+          <label class="" style="color: orange;">{{field.label}}</label><br>
           {{field}}
-          {{field.helpText}}
         </div>
         {%endfor%}
-        <button type="submit">Add to market</button>
+        <input type="date" class="form-control" name="date_harvested" id="date_harvested">
+
+        <a href="#" class="blue">Read Our Terms of service</a><br>
+        <button type="submit" class="btn btn-outline-warning py-3 px-4 btn-lg">Add to market</button>
       </form>
+      {%endif%}
     </div>
     <!-- </form> -->
   </div>

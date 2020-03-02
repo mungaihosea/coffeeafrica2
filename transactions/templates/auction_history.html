@@ -6,9 +6,17 @@
 {% block content %} {% load static %}
 <div class="main">
     <!-- MAIN CONTENT -->
-    <div class="main-content dark">
-        <div class="container-fluid">
-
+    <div class="main-content">
+        <div class="container-fluid" style="background-color: transparent;">
+            {%if not auctions%}
+            <div class="col-lg-12 text-center" style="background-color: rgba(0, 0, 0, 0);">
+                <h3 class="orange">No Auction History</h3>
+                <span><i class="lnr lnr-history" style="font-size: 260%;"></i></span><br>
+                <span>You have no auction history, you can start one over at the dashboard</span><br>
+                <a href="/transactions/add_auction/{{user.sellerfactoryemployee.factory}}/"
+                    class="btn btn-outline-success">Create a new auction</a>
+            </div>
+            {%endif%}
             {%for auction in auctions%}
 
             <div class="dark-l">

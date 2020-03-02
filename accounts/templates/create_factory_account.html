@@ -36,7 +36,7 @@
   <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
     <div class="container">
       <a class=" navbar-brand title" href="/" style="margin-left: 0;">
-        <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 5.9em;" /></a>
+        <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 4.5em;" /></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
         aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
@@ -44,24 +44,24 @@
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active" style="color: white;">
-            <a href="/" class="nav-link" style="font-size: 130%;">Home</a>
+            <a href="/" class="nav-link slide-left-sm" style="font-size: 130%;">Home</a>
           </li>
           <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
 
           <li class="nav-item" style="color: white;">
-            <a href="{%url 'accounts:about'%}" class="nav-link" style="font-size: 130%;">About</a>
+            <a href="{%url 'accounts:about'%}" class="nav-link slide-left-sm" style="font-size: 130%;">About</a>
           </li>
           <li class="nav-item" style="color: white;">
-            <a href="services.html" class="nav-link" style="font-size: 130%;">Services</a>
+            <a href="{% url 'accounts:services' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Services</a>
+          </li>
+          <li class="nav-item" style="color: white;">
+            <a href="{% url 'accounts:market' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Market</a>
           </li>
           <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
           <li class=" nav-item" style="color: white;">
-            <a href="contact.html" class="nav-link" style="font-size: 130%;">Contact</a>
+            <a href="{% url 'accounts:contact' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Contact</a>
           </li>
-          <li class=" nav-item cart" style="color: white;">
-            <a href="cart.html" class="nav-link"><span class="icon icon-shopping_cart"></span><span
-                class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a>
-          </li>
+
         </ul>
       </div>
     </div>
@@ -98,33 +98,33 @@
               </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group slide-left-input">
                 <input type="text" name="username" class="form-control" placeholder="User Name">
               </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group slide-left-input">
                 <input type="email" name="Email" class="form-control" placeholder="Personal Email Address">
               </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group slide-left-input">
                 <input type="text" name="firstname" class="form-control" placeholder="Firstname">
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
-                <input type="text" name="lastname" class="form-control" placeholder="Lastname">
+                <input type="text slide-left-input" name="lastname" class="form-control" placeholder="Lastname">
               </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group slide-left-input">
                 <input type="password" name="password" class="form-control" placeholder="New Password">
               </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
-                <input type="password" name="retypepass" class="form-control" placeholder="Retype Password">
+              <div class="form-group slide-left-input">
+                <input type="password slide-left-input" name="retypepass" class="form-control" placeholder="Retype Password">
               </div>
             </div>
             <div class="col-md-12">
@@ -150,13 +150,13 @@
             </script>
             <div class="row align-items-end">
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="firstname">Factory Name</label>
                   <input type="text" class="form-control" name="factoryname" placeholder="">
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="lastname">Innitials</label>
                   <input type="text" name="initials" class="form-control" placeholder="">
                 </div>
@@ -180,38 +180,38 @@
               </div>
               <div class="w-100"></div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="townname">Town / City</label>
                   <input type="text" name="townname" class="form-control" placeholder="Town Name or Province">
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <input type="text" name="street_name" class="form-control" placeholder="Steet Name, Area etc:">
                 </div>
               </div>
               <div class="w-100"></div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="physical_address">Addresses</label>
                   <input type="text" name="physical_address" class="form-control" placeholder="Physical address">
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="postcodezip">Postcode / ZIP *</label>
                   <input type="text" name="zip_code" class="form-control" placeholder="zip code">
                 </div>
               </div>
               <div class="w-100"></div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="factoryphone">Phone</label>
                   <input type="text" name="factoryphone" class="form-control" placeholder="">
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group slide-left-input">
                   <label for="factoryemail">Email Address</label>
                   <input type="text" name="factoryemail" class="form-control" placeholder="">
                 </div>

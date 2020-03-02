@@ -35,39 +35,49 @@
 <body>
     <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class=" navbar-brand title" href="/"
-                style="font-size: 2em; color: orange; font-weight: bold; font-family: ubuntu;">Coffee Africa<small
-                    style="font-size: 13px; color: rgb(255, 255, 255);">built with Blockchain technology</small></a>
+            <a class=" navbar-brand title" href="/" style="margin-left: 0;">
+                <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 4.5em;" /></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                 aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active" style="color: white;"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item active" style="color: white;">
+                        <a href="/" class="nav-link slide-left-sm" style="font-size: 130%;">Home</a>
+                    </li>
                     <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
-                    <li class="nav-item" style="color: white;"><a href="services.html" class="nav-link">Services</a>
+
+                    <li class="nav-item" style="color: white;">
+                        <a href="{%url 'accounts:about'%}" class="nav-link slide-left-sm"
+                            style="font-size: 130%;">About</a>
                     </li>
-                    <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
-                    <li class="nav-item" style="color: white;"><a href="about.html" class="nav-link">About</a></li>
-                    <li class="nav-item" style="color: white;"><a href="contact.html" class="nav-link">Contact</a></li>
-                    <li class="nav-item cart" style="color: white;"><a href="cart.html" class="nav-link"><span
-                                class="icon icon-shopping_cart"></span><span
-                                class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a>
+                    <li class="nav-item" style="color: white;">
+                        <a href="{% url 'accounts:services' %}" class="nav-link slide-left-sm"
+                            style="font-size: 130%;">Services</a>
                     </li>
+                    <li class="nav-item" style="color: white;">
+                        <a href="{% url 'accounts:market' %}" class="nav-link slide-left-sm"
+                            style="font-size: 130%;">Market</a>
+                    </li>
+                    <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
+                    <li class=" nav-item" style="color: white;">
+                        <a href="{% url 'accounts:contact' %}" class="nav-link slide-left-sm"
+                            style="font-size: 130%;">Contact</a>
+                    </li>
+
                 </ul>
             </div>
         </div>
     </nav>
 </body>
-
-<section class="ftco-section ftco-services col-md-12" style="background-color: rgba(8, 8, 8, 0);;">
+<section class="ftco-section ftco-services col-md-12" style="background-color: rgba(8, 8, 8, 0); margin-top: 8%;">
     <div class="container" style="width: 100%;">
         <div class="row panel-body" style="width: 100%; text-align: center;">
             <div class="col-md-6 ftco-animate">
                 <div class="d-block text-center block-6 services dark orange-border" style="padding: 5%;">
                     <div class="media-body">
-                        <h3 class="title orange livetext" style="color: rgb(255, 136, 0);">Register Your Factory</h3>
+                        <h3 class="title orange " style="color: rgb(255, 136, 0);">Register Your Factory</h3>
                         <div class="icon d-flex justify-content-center align-items-center mb-5"
                             style="border: 1px orange solid;">
                             <!-- <span class="flaticon-delivery-truck" style="color: orange;"></span> -->
@@ -81,7 +91,7 @@
             </div>
             <div class="col-md-6 ftco-animate">
                 <div class="media d-block text-center block-6 services dark orange-border" style="padding: 5%;">
-                    <h3 class="title orange livetext" style="color: rgb(255, 136, 0);">Quality Coffee</h3>
+                    <h3 class="title orange " style="color: rgb(255, 136, 0);">Quality Coffee</h3>
                     <div class="icon d-flex justify-content-center align-items-center mb-5"
                         style="border: 1px orange solid;">
                         <img style="margin: 20px;" height="100px" width="100px;" background-color="white;"
@@ -99,7 +109,7 @@
 <div class="text-center heading-section">
     <h2 class="heading">Membership Benefits</h2>
 </div>
-<div class="container orange-border col-md-12" style="padding: 5%;">
+<div class="container col-md-12" style="padding: 5%;">
     <div class="row">
         <section class="ftco-about d-md-flex col-md-6">
             <div class="one-half img" style="background-image: url({%static 'custom_images/coffee1.jpg'%});"></div>

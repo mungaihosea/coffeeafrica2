@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 namespace = "transactions"
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("dev/", admin.site.urls),
     path("", include(("accounts.urls", "accounts"), namespace="accounts")),
     path(
         "transactions/",

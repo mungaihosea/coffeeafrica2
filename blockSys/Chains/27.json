@@ -7,25 +7,59 @@
         "data": {
             "blockType": "Genesis Block"
         },
-        "hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df"
+        "hash": "42dc304017aad11393475ffe626f81b49b71b95dcdefc7818236f119266f9ec5",
+        "time": "2020-03-01 12:10:46.468616"
     },
     {
         "index": 1,
-        "previous hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df",
+        "previous hash": "42dc304017aad11393475ffe626f81b49b71b95dcdefc7818236f119266f9ec5",
         "dificulty": 2,
-        "work level": 17,
+        "work level": 184,
         "data": {
             "id": 27,
-            "auction_id": 11,
-            "amount": "3",
+            "auction_id": 33,
+            "amount": "2",
             "status": 0,
-            "date_placed": "2020/2/10",
-            "expected_date": "2020-02-26",
-            "buyer": 1,
-            "employee": 4,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020-03-31",
+            "buyer": 9,
+            "employee": 18,
             "shipping_address": null,
-            "shipping_id": null
+            "shipping_id": null,
+            "vessel_number": "",
+            "shipment_company": "",
+            "estimated_time_on_ship": "0",
+            "time_of_shipping": "2020-01-01",
+            "shipment_handler_phone": "",
+            "arrived": false
         },
-        "hash": "00375f4541a9ec1eebfa76791474e10d0bada5c32218158bbcf5503d996760a8"
+        "hash": "00880818d3a908a66714dc72c283515606871f052ae2f74115869d4316e85a7d",
+        "time": "2020-03-01 12:10:46.468693"
+    },
+    {
+        "index": 2,
+        "previous hash": "00880818d3a908a66714dc72c283515606871f052ae2f74115869d4316e85a7d",
+        "dificulty": 2,
+        "work level": 437,
+        "data": {
+            "id": 27,
+            "auction_id": 33,
+            "amount": 2,
+            "status": 1,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 18,
+            "shipping_address": null,
+            "shipping_id": null,
+            "vessel_number": "",
+            "shipment_company": "",
+            "estimated_time_on_ship": "0",
+            "time_of_shipping": "2020-01-01",
+            "shipment_handler_phone": "",
+            "arrived": false
+        },
+        "hash": "0087a273de3e2e466189105e96f39466a98778c3c12502d83e2eaf0f28c24236",
+        "time": "2020-03-01 12:23:29.025729"
     }
 ]

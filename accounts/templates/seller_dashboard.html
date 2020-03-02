@@ -19,6 +19,7 @@
           <i class="lnr lnr-checkmark-circle text-success" style="font-size: 250%;"></i>
           <h1 class="text-success" style="display: inline;">Account Created Successfully</h1>
           <h1>It's currently under review</h1>
+          <h1 class="orange subheading">{{user.sellerfactoryemployee.factory}}</h1>
           <i class="lnr lnr-smile blue" style="font-size: 280%;"></i><br>
           <h3 style="display: inline  ;">Coffee Africa </h3><i class="lnr lnr-hourglass orange fade-loop"
             style="font-size: 140%;"></i><br>
@@ -56,14 +57,12 @@
       </div>
       <div class="panel-body dark orange-border ftco-animate">
         <div class="panel-body">
-          {{user.sellerfactoryemployee.factory.active}}
           <h1 class="orange livetext-mega">Coffee Prices</h1>
           <h3 class="white">${{MeanPrice}} Per Tonne</h3>
           <p>Coffee prices in the market</p>
           <canvas id="prices" height="100"></canvas>
         </div>
       </div><br>
-
       <!-- END OVERVIEW -->
       <div class="row">
         <div class="col-md-12">
@@ -128,28 +127,15 @@
                 <a href="{% url 'transactions:view_auction' %}" class="btn btn-outline-success"> Show Details</a>
                 {%endif%}
                 {%endfor%}
-                <div id="myModal" class="modal dark">
-                  <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h3 class="orange">Warning!</h3>
-                    <h4 style="color: rgb(82, 78, 78);">Are you sure you want to delete this Auction</h4>
-                    <span>please note, if you do so, all orders and associated transactions will be discarded.Proceed
-                      with
-                      caution!</span>
-                    <hr>
-                    <div style="text-align: center;">
-                      <button class="btn btn-primary" id="yes">Yes, am sure!</button>
-                      <button class="btn btn-danger" id="exit">No, Cancel!</button>
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
             {%else%}
             <span class="text-danger">No auction to monitor</span><br>
             <span>Did you know that Kenya is the second most powerfull coffee producer in the whole of Africa?</span>
             <hr>
-            <a href="{%url 'transactions:add_auction'%}" class="btn btn-success">Create an Auction</a href>
+            <a href="{%url 'transactions:add_auction' user.sellerfactoryemployee.factory.factory_name%}"
+              class="btn btn-success">Create an Auction</a href>
             {%endif%}
             <!-- add stuff here for the right side -->
           </div><br>
@@ -253,6 +239,15 @@
 
     months.push("{{month}}")
   }
+  // filter the top 5 fields
+  n = months.length - 1
+  newmonths = []
+  while (n >= 4)
+  {
+    newmonths.push(months[n])
+    n = n - 1
+    months = newmonths
+  }
 </script>
 {%endfor%}
 {%for price in prices%}
@@ -261,7 +256,17 @@
 </script>
 {%endfor%}
 <script>
-
+  n = prices.length - 1
+  newprices = []
+  console.log(prices)
+  while (n >= 4)
+  {
+    newprices.push(prices[n])
+    console.log(newprices)
+    n = n - 1
+    prices = newprices
+  }
+  // console.log(newprices)
   var notificationSocket = new WebSocket(
     "ws://" + window.location.host + "/ws/transactions/notifications/{{user.id}}/"
   );

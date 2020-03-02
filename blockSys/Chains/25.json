@@ -7,44 +7,111 @@
         "data": {
             "blockType": "Genesis Block"
         },
-        "hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df"
+        "hash": "1dc870e99809e8ca41e48cce9527f77c43f02c31d55ca93fd62d4461160a101b",
+        "time": "2020-03-01 10:42:37.887233"
     },
     {
         "index": 1,
-        "previous hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df",
+        "previous hash": "1dc870e99809e8ca41e48cce9527f77c43f02c31d55ca93fd62d4461160a101b",
         "dificulty": 2,
-        "work level": 43,
+        "work level": 36,
         "data": {
             "id": 25,
-            "auction_id": 10,
-            "amount": "8",
+            "auction_id": 33,
+            "amount": "3",
             "status": 0,
-            "date_placed": "2020/2/9",
-            "expected_date": "2020-02-27",
-            "buyer": 2,
-            "employee": 1,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020-03-31",
+            "buyer": 9,
+            "employee": 18,
             "shipping_address": null,
-            "shipping_id": null
+            "shipping_id": null,
+            "vessel_number": "",
+            "shipment_company": "",
+            "estimated_time_on_ship": "0",
+            "time_of_shipping": "2020-01-01",
+            "shipment_handler_phone": "",
+            "arrived": false
         },
-        "hash": "0091d07ee167c036901954c89185c8d8a7406545bbb277c5d3414f599ea0b2ee"
+        "hash": "00113f547fb26d4b9ce1ffca8c10bb40c4bfa845e4623994a34857041bd01616",
+        "time": "2020-03-01 10:42:37.887492"
     },
     {
         "index": 2,
-        "previous hash": "0091d07ee167c036901954c89185c8d8a7406545bbb277c5d3414f599ea0b2ee",
+        "previous hash": "00113f547fb26d4b9ce1ffca8c10bb40c4bfa845e4623994a34857041bd01616",
         "dificulty": 2,
-        "work level": 554,
+        "work level": 113,
         "data": {
             "id": 25,
-            "auction_id": 10,
-            "amount": 8,
+            "auction_id": 33,
+            "amount": 3,
             "status": 1,
-            "date_placed": "2020/2/9",
-            "expected_date": "2020/2/27",
-            "buyer": 2,
-            "employee": 1,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 18,
             "shipping_address": null,
-            "shipping_id": null
+            "shipping_id": null,
+            "vessel_number": "",
+            "shipment_company": "",
+            "estimated_time_on_ship": "0",
+            "time_of_shipping": "2020-01-01",
+            "shipment_handler_phone": "",
+            "arrived": false
         },
-        "hash": "002e5e3241877cdd2e6886ce441ed7bd25aa2ce1e08df48a91dc6a07c1623e74"
+        "hash": "00d5a05af10c5c1dd0b1b65655d21ffc12c8843c47c6526bfd08877fe540e2c9",
+        "time": "2020-03-01 10:44:21.851044"
+    },
+    {
+        "index": 3,
+        "previous hash": "00d5a05af10c5c1dd0b1b65655d21ffc12c8843c47c6526bfd08877fe540e2c9",
+        "dificulty": 2,
+        "work level": 160,
+        "data": {
+            "id": 25,
+            "auction_id": 33,
+            "amount": 3,
+            "status": 2,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 18,
+            "shipping_address": "ZipCode: +633     Town: Myanmar    Address: box 908 bokumah",
+            "shipping_id": "t-5353jkdf",
+            "vessel_number": "mersk-4545-ap-0098",
+            "shipment_company": "mersk",
+            "estimated_time_on_ship": "45",
+            "time_of_shipping": "2020-3-01",
+            "shipment_handler_phone": "4535-435345-433",
+            "arrived": false
+        },
+        "hash": "00d9b07cb6a56f51476c8be3ae3288c113f441c520b4419b0a8cd61171c0fc5d",
+        "time": "2020-03-01 10:45:42.970697"
+    },
+    {
+        "index": 4,
+        "previous hash": "00d9b07cb6a56f51476c8be3ae3288c113f441c520b4419b0a8cd61171c0fc5d",
+        "dificulty": 2,
+        "work level": 1205,
+        "data": {
+            "id": 25,
+            "auction_id": 33,
+            "amount": 3,
+            "status": 3,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 18,
+            "shipping_address": "ZipCode: +633     Town: Myanmar    Address: box 908 bokumah",
+            "shipping_id": "t-5353jkdf",
+            "vessel_number": "mersk-4545-ap-0098",
+            "shipment_company": "mersk",
+            "estimated_time_on_ship": "45",
+            "time_of_shipping": "2020-03-01",
+            "shipment_handler_phone": "4535-435345-433",
+            "arrived": true
+        },
+        "hash": "00e71c3c7e8f87d890e568abf5d6e5cd79bc191a31355f31c727d66d45f4cf49",
+        "time": "2020-03-01 11:30:47.899965"
     }
 ]

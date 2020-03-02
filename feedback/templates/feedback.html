@@ -54,7 +54,8 @@
                                 if (xhr.responseText.includes('error'))
                                 {
                                     document.getElementById('infofeedback').classList.add('alert-danger')
-                                    ocument.getElementById('infofeedback').textContent = xhr.responseText + xhr.status
+                                    document.getElementById('infofeedback').textContent = xhr.responseText + xhr.status
+                                    document.getElementById("message").textContent = ""
                                 } else
                                 {
                                     document.getElementById('infofeedback').classList.add('alert-success')

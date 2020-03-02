@@ -38,7 +38,7 @@ def login(request):
         password = request.POST.get("pass")
         try:
             user = User.objects.get(email=email)
-            if user.check_password(password) == True:
+            if user.check_password(password):
                 login_user(request, user)
                 return redirect("accounts:dashboard")
         except User.DoesNotExist:
@@ -53,23 +53,30 @@ def dashboard(request):
         return redirect("account:login")
     context = {"user": user}
     try:
-        order_queryset = Order.objects.filter(
-            employee=user.sellerfactoryemployee)
+        order_queryset = Order.objects.filter(employee=user.sellerfactoryemployee)
         auctionsreal = Auction.objects.filter(
             factory=user.sellerfactoryemployee.factory
         )
-        backauctions = BackAuction.objects.filter(
+        auctions = BackAuction.objects.filter(
             factory=user.sellerfactoryemployee.factory
         )
+
         n = 0
         for order in order_queryset:
             if order.auction == auctionsreal[0]:
                 n += 1
-        auctions = BackAuction.objects.all()
+        backauctions = BackAuction.objects.all()
         prices = []
         months_price = []
         months = []
-        for auction in auctions:
+
+        if not backauctions:
+            print("empty")
+            backauctions = Auction.objects.filter(
+                factory=user.sellerfactoryemployee.factory
+            )
+            print(backauctions)
+        for auction in backauctions:
             price = auction.price_per_tonne
             months_price.append(auction.date)
             prices.append(price)
@@ -79,95 +86,105 @@ def dashboard(request):
             mean_price = sumprice / len(prices)
         except:
             mean_price = 0
-
+        print(prices)
         context = {
             "prices": prices,
             "months_price": months_price,
             "months": months,
             "MeanPrice": round(mean_price, 3),
-            "auction_history": auctions,
+            "auction_history": backauctions,
         }
         context["auctions"] = auctionsreal
         context["orders"] = n
         context["order_queryset"] = order_queryset
         return render(request, "seller_dashboard.html", context)
     except AttributeError:
-        order_queryset = Order.objects.filter(buyer=user.buyer)
-        auctions = []
-        ordersmade = len(order_queryset)
-        for order in order_queryset:
-            auction = order.auction
-            if auction not in auctions:
-                auctions.append(auction)
-        notifications = []
-        for order in order_queryset:
-            if order.status == 1 and not order.shipping_address:
-                notification = Notification(
-                    1,
-                    "view_order",
-                    f"Your Order for the {order.auction} has been accepted",
-                    order.id,
-                    "transactions",
-                )
-                notifications.append(notification)
-        auctions = BackAuction.objects.all()
-        prices = []
-        months_price = []
-        months = []
-        for auction in auctions:
-            price = auction.price_per_tonne
-            months_price.append(auction.date)
-            prices.append(price)
-        sumprice = sum(prices)
-        months = calenderutil.getAllMonthsStr()
         try:
-            mean_price = sumprice / len(prices)
+            order_queryset = Order.objects.filter(buyer=user.buyer)
+            auctions = []
+            tonnes_traded = 0
+            ordersmade = len(order_queryset)
+            for order in order_queryset:
+                auction = order.auction
+                if order.arrived:
+                    tonnes_traded += order.amount
+                if auction not in auctions:
+                    auctions.append(auction)
+
+            notifications = []
+            for order in order_queryset:
+                if order.status == 1 and not order.shipping_address:
+                    notification = Notification(
+                        1,
+                        "view_order",
+                        f"Your Order for the {order.auction} has been accepted",
+                        order.id,
+                        "transactions",
+                    )
+                    notifications.append(notification)
+            bauctions = BackAuction.objects.all()
+            if not bauctions:
+                for order in Order.objects.filter(buyer=user.buyer):
+                    bauctions.append(order.auction)
+                if not Order.objects.filter(buyer=user.buyer):
+                    bauctions = Auction.objects.all()
+            prices = []
+            months_price = []
+            months = []
+            for auction in bauctions:
+                price = auction.price_per_tonne
+                months_price.append(auction.date)
+                prices.append(price)
+            sumprice = sum(prices)
+            print("sum", sumprice)
+            print(months_price)
+            months = calenderutil.getAllMonthsStr()
+            try:
+                mean_price = sumprice / len(prices)
+            except:
+                mean_price = 0
+            context = {
+                "prices": prices,
+                "months_price": months_price,
+                "months": months,
+                "MeanPrice": round(mean_price, 3),
+                "ordersmade": ordersmade,
+                "tonnes_traded": tonnes_traded,
+            }
+            context["notifycount"] = len(notifications)
+
+            context["auctions"] = auctions
+            context["order_queryset"] = order_queryset
+
+            context["notifications"] = notifications
+
+            orders = Order.objects.filter(buyer=user.buyer)
+            context["orders"] = len(orders)
+            context["pending"] = len(Order.objects.filter(buyer=user.buyer, status=0))
+            context["confirmed"] = len(Order.objects.filter(buyer=user.buyer, status=1))
+            context["processed"] = len(Order.objects.filter(buyer=user.buyer, status=2))
+            context["completed"] = len(Order.objects.filter(buyer=user.buyer, status=3))
+            factories = []
+            y = BackOrder.objects.all()
+            ls = []
+            for order in y:
+                factory = order.auction.factory
+                if factory not in ls:
+                    ls.append(factory)
+            context["history_factories"] = ls
+            for order in order_queryset:
+                if order.employee.factory not in factories:
+                    factories.append(order.employee.factory)
+            context["factories"] = factories
         except:
-            mean_price = 0
-        context = {
-            "prices": prices,
-            "months_price": months_price,
-            "months": months,
-            "MeanPrice": round(mean_price, 3),
-            "ordersmade": ordersmade,
-        }
-        context["notifycount"] = len(notifications)
-
-        context["auctions"] = auctions
-        context["order_queryset"] = order_queryset
-
-        context["notifications"] = notifications
-
-        orders = Order.objects.filter(buyer=user.buyer)
-        context["orders"] = len(orders)
-        context["pending"] = len(
-            Order.objects.filter(buyer=user.buyer, status=0))
-        context["confirmed"] = len(
-            Order.objects.filter(buyer=user.buyer, status=1))
-        context["processed"] = len(
-            Order.objects.filter(buyer=user.buyer, status=2))
-        context["completed"] = len(
-            Order.objects.filter(buyer=user.buyer, status=3))
-        factories = []
-        y = BackOrder.objects.all()
-        ls = []
-        for order in y:
-            factory = order.auction.factory
-            if factory not in ls:
-                ls.append(factory)
-        context["history_factories"] = ls
-        for order in order_queryset:
-            if order.employee.factory not in factories:
-                factories.append(order.employee.factory)
-        context["factories"] = factories
+            return redirect("/login")
         return render(request, "buyer_dashboard.html", context)
 
 
 def create_account(request):
     factory_queryset = SellerFactory.objects.all()
     return render(
-        request, "create_seller_account.html", {
-            "factory_queryset": factory_queryset}
+        request, "create_seller_account.html", {"factory_queryset": factory_queryset}
     )
 
 
@@ -223,13 +240,14 @@ def create_buyer_account(request):
                     buyer.save()
                     if user.is_authenticated:
                         login_user(request, user)
-                    return redirect("accounts:dashboard")
+                    return redirect("/dashboard")
                 else:
                     print("passwords do not match")
             else:
                 print("a user with that email already exists")
 
     return render(request, "create_buyer_account.html", {})
+
 
 def create_factory_account(request):
     if request.method == "POST":
@@ -238,70 +256,67 @@ def create_factory_account(request):
 
         def AccountDetailsValid():
             errors = []
-            print("sdhakjdhkajshdkjsahdkjashdkjahskjdhask")
             valid = True
             try:
-                email = request.POST['Email']
+                email = request.POST["Email"]
             except:
                 valid = False
-                errors.append('email')
+                errors.append("email")
             print("1")
             try:
                 firstname = request.POST["firstname"]
             except:
                 valid = False
-                errors.append('firstname')
+                errors.append("firstname")
             print("3")
             try:
                 lastname = request.POST["lastname"]
             except:
                 valid = False
-                errors.append('lastname')
+                errors.append("lastname")
             print("4")
             try:
                 repassword = request.POST["retypepass"]
             except:
                 valid = False
-                errors.append('enter all passwords')
+                errors.append("enter all passwords")
             print("5")
             print("6")
             print(valid, errors)
             return valid
+
         try:
             print("trying")
             factory = SellerFactory(
-                factory_name=request.POST['factoryname'],
-                factory_initials=request.POST['initials'],
-
-                company_email=request.POST['factoryemail'],
-                phone=request.POST['factoryphone'],
-                region=request.POST['townname'],
-                country=request.POST['country'],
-                street_name=request.POST['street_name'],
-                zip_code=request.POST['zip_code'],
-                physical_address=request.POST['physical_address'],
-
-                trade_license=request.POST['tradelicense'],
+                factory_name=request.POST["factoryname"],
+                factory_initials=request.POST["initials"],
+                company_email=request.POST["factoryemail"],
+                phone=request.POST["factoryphone"],
+                region=request.POST["townname"],
+                country=request.POST["country"],
+                street_name=request.POST["street_name"],
+                zip_code=request.POST["zip_code"],
+                physical_address=request.POST["physical_address"],
+                trade_license=request.POST["tradelicense"],
                 rating=0,
-                factory_logo=request.POST['factorylogo'],
+                factory_logo=request.POST["factorylogo"],
                 googlemap="none",
-                active=False
+                active=False,
             )
             print(AccountDetailsValid(), "ahsdhasjdshak")
             if AccountDetailsValid():
                 print("pass")
                 first_name = request.POST["firstname"]
-                last_name = request.POST['lastname']
-                password = request.POST['password']
-                email = request.POST['Email']
-                print(first_name, last_name, password,
-                      email, request.POST['username'])
+                last_name = request.POST["lastname"]
+                password = request.POST["password"]
+                email = request.POST["Email"]
+                print(first_name, last_name, password, email, request.POST["username"])
                 user = User(
-                    username=request.POST['username'],
+                    username=request.POST["username"],
                     first_name=request.POST["firstname"],
-                    last_name=request.POST['lastname'],
-                    email=request.POST['Email'],
-                    account_active = True
+                    last_name=request.POST["lastname"],
+                    email=request.POST["Email"],
+                    account_active=True,
                 )
                 user.set_password(password)
                 factory.save()
@@ -311,47 +326,43 @@ def create_factory_account(request):
                 employee = SellerFactoryEmployee(
                     user=user,
                     factory=factory,
-                    profile_picture=request.POST['userprofilepic']
+                    profile_picture=request.POST["userprofilepic"],
                 )
                 employee.save()
                 print("pass employee")
                 if user.is_authenticated:
                     user = login_user(request, user)
-                    return redirect('/dashboard')
+                    return redirect("/dashboard")
         except:
             print("trying")
             factory = SellerFactory(
-                factory_name=request.POST['factoryname'],
-                factory_initials=request.POST['initials'],
-
-                company_email=request.POST['factoryemail'],
-                phone=request.POST['factoryphone'],
-                region=request.POST['townname'],
-                country=request.POST['country'],
-                street_name=request.POST['street_name'],
-                zip_code=request.POST['zip_code'],
-                physical_address=request.POST['physical_address'],
-
-                trade_license=request.POST['tradelicense'],
+                factory_name=request.POST["factoryname"],
+                factory_initials=request.POST["initials"],
+                company_email=request.POST["factoryemail"],
+                phone=request.POST["factoryphone"],
+                region=request.POST["townname"],
+                country=request.POST["country"],
+                street_name=request.POST["street_name"],
+                zip_code=request.POST["zip_code"],
+                physical_address=request.POST["physical_address"],
+                trade_license=request.POST["tradelicense"],
                 rating=0,
-                factory_logo=request.POST['factorylogo'],
+                factory_logo=request.POST["factorylogo"],
                 googlemap="none",
-                active=False
+                active=False,
             )
-            print(AccountDetailsValid(), "ahsdhasjdshak")
             if AccountDetailsValid():
                 print("pass")
                 first_name = request.POST["firstname"]
-                last_name = request.POST['lastname']
-                password = request.POST['password']
-                email = request.POST['Email']
-                print(first_name, last_name, password,
-                      email, request.POST['username'])
+                last_name = request.POST["lastname"]
+                password = request.POST["password"]
+                email = request.POST["Email"]
+                print(first_name, last_name, password, email, request.POST["username"])
                 user = User(
-                    username=request.POST['username'],
+                    username=request.POST["username"],
                     first_name=request.POST["firstname"],
-                    last_name=request.POST['lastname'],
-                    email=request.POST['Email']
+                    last_name=request.POST["lastname"],
+                    email=request.POST["Email"],
                 )
                 user.set_password(password)
                 factory.save()
@@ -361,13 +372,13 @@ def create_factory_account(request):
                 employee = SellerFactoryEmployee(
                     user=user,
                     factory=factory,
-                    profile_picture=request.POST['userprofilepic']
+                    profile_picture=request.POST["userprofilepic"],
                 )
                 employee.save()
                 print("pass employee")
                 if user.is_authenticated:
                     user = login_user(request, user)
-                    return redirect('dashboard')
+                    return redirect("dashboard")
 
     return render(request, "create_factory_account.html", {"errors": []})
 
@@ -375,11 +386,32 @@ def create_factory_account(request):
 def accounts(request):
     return render(request, "accounts.html")
 
-def contact (request):
+
+def contact(request):
     if request.method == "POST":
-        if request.POST['name'] and request.POST['email'] and request.POST['subject'] and request.POST['message']:
-            Contact.objects.create(name = request.POST['name'] , email = request.POST['email'], subject = request.POST['subject'], message = request.POST['message'])
-    return render(request, 'contact.html', {})
-    
+        if (
+            request.POST["name"]
+            and request.POST["email"]
+            and request.POST["subject"]
+            and request.POST["message"]
+        ):
+            Contact.objects.create(
+                name=request.POST["name"],
+                email=request.POST["email"],
+                subject=request.POST["subject"],
+                message=request.POST["message"],
+            )
+    return render(request, "contact.html", {})
+
+
 def services(request):
     return render(request, "services.html", {})
+
+
+def market(request):
+    auctions = Auction.objects.all()
+    return render(request, "public_market.html", {"auctions": auctions})
+
+
+def help(request):
+    return render(request, "help.html")

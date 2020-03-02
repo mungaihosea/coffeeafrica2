@@ -21,13 +21,17 @@ class Auction(models.Model):
         ("natural", "natural"),
     ]
     BEAN_SIZE = [("small", "small"), ("medium", "medium"), ("large", "large")]
+
+    GRADES = [("Grade 1", "Grade 1"), ("Grade 2", "Grade 2"), ("Grade 3", "Grade 3")]
+    grade = models.TextField(max_length=20, choices=GRADES, default="Grade 1")
     bean_size = models.CharField(max_length=20, choices=BEAN_SIZE, default="small")
     status = models.CharField(max_length=20, choices=STATUS, default="Washed")
     # Extras
-    tempreture = models.CharField(max_length=12, default="Not Provided")
+
+    tempreture = models.CharField(max_length=12, default="0")
     description = models.TextField(default="")
-    humidity = models.CharField(max_length=12, default="Not Provided")
-    soil_ph = models.CharField(max_length=12, default="Not Provided")
+    humidity = models.CharField(max_length=12, default="0")
+    soil_ph = models.CharField(max_length=12, default="0")
 
     coffee_type = models.CharField(
         choices=COFFEE_TYPES, max_length=10, default="Arabica"
@@ -51,7 +55,7 @@ class Order(models.Model):
     amount = models.IntegerField()
     status = models.IntegerField(default=0)
 
-    # Shipping Informations
+    # Shipping Information
     shipping_address = models.TextField(null=True, blank=True)
     shipment_id = models.CharField(null=True, blank=True, max_length=20)
     vessel_number = models.CharField(default="", max_length=20)
@@ -81,7 +85,9 @@ class Chat(models.Model):
 
 class AdminMessage(models.Model):
     isglobal = models.BooleanField(default=False)
-    reciever = models.ForeignKey(User, on_delete=models.DO_NOTHING, default=None)
+    reciever = models.ForeignKey(
+        User, on_delete=models.DO_NOTHING, default=None, blank=True, null=True
+    )
     content = models.TextField()
     title = models.CharField(max_length=50)
     link = models.CharField(max_length=200, null=True, default="#")

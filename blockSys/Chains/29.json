@@ -7,25 +7,111 @@
         "data": {
             "blockType": "Genesis Block"
         },
-        "hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df"
+        "hash": "48ef0bd512466223ed5cd2f9695d5495cf9211503c2cc8a603cf42d4737c4015",
+        "time": "2020-03-01 13:51:49.662198"
     },
     {
         "index": 1,
-        "previous hash": "0dff3409342d0d8b219a234d6fd45a05d4c777b1180055fe56e32af8ca3a95df",
+        "previous hash": "48ef0bd512466223ed5cd2f9695d5495cf9211503c2cc8a603cf42d4737c4015",
         "dificulty": 2,
-        "work level": 112,
+        "work level": 352,
         "data": {
             "id": 29,
-            "auction_id": 11,
-            "amount": "4",
+            "auction_id": 34,
+            "amount": "42",
             "status": 0,
-            "date_placed": "2020/2/14",
-            "expected_date": "2020-02-27",
-            "buyer": 2,
-            "employee": 4,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020-03-31",
+            "buyer": 9,
+            "employee": 19,
             "shipping_address": null,
-            "shipping_id": null
+            "shipping_id": null,
+            "vessel_number": "",
+            "shipment_company": "",
+            "estimated_time_on_ship": "0",
+            "time_of_shipping": "2020-01-01",
+            "shipment_handler_phone": "",
+            "arrived": false
         },
-        "hash": "00f42eb417f7a83667338a34e2569692876e0f83a7a82ccc7e076f9c91b54b6c"
+        "hash": "00b0477f68f0de9bbb1ec4219aacdd6c5f0f5974ef87a0a924fb0a0ad2a5928c",
+        "time": "2020-03-01 13:51:49.662274"
+    },
+    {
+        "index": 2,
+        "previous hash": "00b0477f68f0de9bbb1ec4219aacdd6c5f0f5974ef87a0a924fb0a0ad2a5928c",
+        "dificulty": 2,
+        "work level": 13,
+        "data": {
+            "id": 29,
+            "auction_id": 34,
+            "amount": 42,
+            "status": 1,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 19,
+            "shipping_address": null,
+            "shipping_id": null,
+            "vessel_number": "",
+            "shipment_company": "",
+            "estimated_time_on_ship": "0",
+            "time_of_shipping": "2020-01-01",
+            "shipment_handler_phone": "",
+            "arrived": false
+        },
+        "hash": "00de229cd34960eb1876419948bdbae279e6c30060461b53f95f2a7cbd942a49",
+        "time": "2020-03-01 13:54:29.703764"
+    },
+    {
+        "index": 3,
+        "previous hash": "00de229cd34960eb1876419948bdbae279e6c30060461b53f95f2a7cbd942a49",
+        "dificulty": 2,
+        "work level": 258,
+        "data": {
+            "id": 29,
+            "auction_id": 34,
+            "amount": 42,
+            "status": 2,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 19,
+            "shipping_address": "ZipCode: +633     Town: Myanmar    Address: box 908 bokumah",
+            "shipping_id": "t-5353jkdf",
+            "vessel_number": "mersk-4545-ap-0098",
+            "shipment_company": "mersk",
+            "estimated_time_on_ship": "08",
+            "time_of_shipping": "2020-03-01",
+            "shipment_handler_phone": "4535-435345-433",
+            "arrived": false
+        },
+        "hash": "00ad684b95bf39b0c58e8300e29a4ef3c1699c2df5401dfacebe3604d80775b5",
+        "time": "2020-03-01 13:55:55.481867"
+    },
+    {
+        "index": 4,
+        "previous hash": "00ad684b95bf39b0c58e8300e29a4ef3c1699c2df5401dfacebe3604d80775b5",
+        "dificulty": 2,
+        "work level": 143,
+        "data": {
+            "id": 29,
+            "auction_id": 34,
+            "amount": 42,
+            "status": 3,
+            "date_placed": "2020/3/1",
+            "expected_date": "2020/3/31",
+            "buyer": 9,
+            "employee": 19,
+            "shipping_address": "ZipCode: +633     Town: Myanmar    Address: box 908 bokumah",
+            "shipping_id": "t-5353jkdf",
+            "vessel_number": "mersk-4545-ap-0098",
+            "shipment_company": "mersk",
+            "estimated_time_on_ship": "08",
+            "time_of_shipping": "2020-03-01",
+            "shipment_handler_phone": "4535-435345-433",
+            "arrived": true
+        },
+        "hash": "00f1fd36eb67e9be0cce550d076df65a25e51d42ece8feb3e7db1961514a0d44",
+        "time": "2020-03-01 13:56:15.744132"
     }
 ]

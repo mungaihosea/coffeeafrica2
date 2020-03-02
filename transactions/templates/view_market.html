@@ -17,10 +17,20 @@
         <button class="btn btn-outline-primary" style="margin-bottom: 10px;">Verified</button>
         <button class="btn btn-outline-success" style="margin-bottom: 10px;">Shippent availabe within 48hrs</button>
       </div><br>
+      {%if not auction_queryset%}
+      <div class="col-md-12 text-center">
+        <div class="panel-body">
+          <i class="lnr lnr-neutral" style="font-size: 340%; color: lightblue;"></i>
+          <h3 class="orange" style="text-decoration: underline;">Oops, The market is empty</h3>
+          <p class="title blue">That's never happened before!</p>
+          <a href="/transactions/view_market" class="btn-outline-warning btn">Reload</a>
+        </div>
+      </div>
+      {%endif%}
       <div class="row">
         {% for auction in auction_queryset %}
         <!-- PANEL HEADLINE -->
-        <div class="orange-border col-md-5 ftco-animate" style="margin-bottom: 15px; margin-right: 5%; padding: 1%;">
+        <div class="orange-border col-md-12 ftco-animate" style="margin-bottom: 15px; margin-right: 5%; padding: 1%;">
           <div class="panel-heading">
             <div class="media">
               <img style="width: 60px; height: 60px; margin-right:10px; float: left;"
@@ -36,7 +46,7 @@
             </div>
           </div>
           <div class="panel-body" style="clear: both;">
-            <button class="btn-outline-danger">{{auction.coffee_type}} Coffee, Grade 1</button>
+            <button class="btn-outline-danger">{{auction.coffee_type}} Coffee, {{auction.grade}}</button>
             <h4 class="white">
               {{auction.tonnes_left }} Tonnes left |
               {{auction.price_per_tonne}}$ per Tonne
@@ -44,8 +54,7 @@
             <p>
               the coffee being auctioned was harvested on
               {{auction.date_harvested}} <br>
-              <button class="btn-link">Show more details</button>
-              <div class="dark panel-body hide">
+              <div class="dark panel-body">
                 <span style="font-weight: bold; color: rgb(119, 108, 108); text-decoration: underline;">Product
                   Information </span><br>
                 <span class="label-bold">Coffe type: </span>{{auction.coffee_type}}</br>
@@ -79,16 +88,16 @@
               </div>
             </div>
             <div>
-              <a href="view_factory/{{auction.factory.id}}/" class="btn btn-outline-warning">view
+              <a href="view_factory/{{auction.factory.id}}/" class="btn btn-outline-warning" style="margin: 4px;">view
                 factory information</a>
-              <button class="btn btn-outline-primary inquiry" value="{{order.pk}}" id="enquiry">
+              <button class="btn btn-outline-primary inquiry" value="{{order.pk}}" id="enquiry" style="margin: 4px;">
                 make enquiry
               </button>
-              <a href="{{auction.id}}" class="btn btn-outline-success">buy from this bundle</a>
+              <a href="{{auction.id}}" class="btn btn-outline-success" style="margin: 4px;">buy from this bundle</a>
             </div>
             <div>
               <div class="row">
-                <table class="table-sm table-hover">
+                <table class="table" style="overflow: scroll; overflow-y: hidden;">
                   <thead style="text-align: center;">
                     <th><small>Order ID</small></th>
                     <th><small>Amount</small></th>

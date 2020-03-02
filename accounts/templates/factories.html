@@ -21,13 +21,19 @@
                     </div>
                     <span>
                         {%if factory.rating == 0%}
-                        rating: Low
+                        <i class="lnr lnr-star-half" style="color: orange;"></i>
                         {%elif factory.rating == 1%}
-                        rating: fair
+                        <i class="lnr lnr-star-half" style="color: orange;"></i>
+                        <i class="lnr lnr-star-half" style="color: orange;"></i>
                         {%elif factory.rating == 2%}
-                        rating: good
+                        <i class="lnr lnr-star-half" style="color: orange;"></i>
+                        <i class="lnr lnr-star-half" style="color: orange;"></i>
+                        <i class="lnr lnr-star-half" style="color: orange;"></i>
                         {%else%}
-                        rating: platinum
+                        rating: <i class="lnr lnr-star" style="color: orange;"></i><i class="lnr lnr-star"
+                            style="color: orange;"></i><i class="lnr lnr-star" style="color: orange;"></i><i
+                            class="lnr lnr-star" style="color: orange;"></i><i class="lnr lnr-star"
+                            style="color: orange;"></i>
                         {%endif%}
                     </span><br>
                     <span>Partner since {{factory.date_created}}</span>

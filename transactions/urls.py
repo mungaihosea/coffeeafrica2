@@ -18,12 +18,14 @@ from .views import (
     ShowAuctionHistory,
     ShowTransactions,
     ShowNotifications,
+    TrackOrder,
+    CreateOrder,
 )
 
 namespace = "transactions"
 
 urlpatterns = [
-    path("add_auction/", add_auction, name="add_auction"),
+    path("add_auction/<str:factory_name>/", add_auction, name="add_auction"),
     path("view_market/", view_market, name="view_market"),
     path("view_market/<int:id>/", view_market_id, name="view_market"),
     path("view_order/<int:order_id>/", view_order, name="view_order"),
@@ -66,5 +68,6 @@ urlpatterns = [
         ShowNotifications.as_view(),
         name="shownotifications",
     ),
-
+    path("orders/<str:user_name>/", TrackOrder.as_view(), name="track_orders"),
+    path("order/create/", CreateOrder.as_view(), name="order"),
 ]

@@ -46,6 +46,7 @@ class BackOrder(models.Model):
     employee = models.ForeignKey(
         SellerFactoryEmployee, on_delete=models.DO_NOTHING, null=True
     )
+    parent_id = models.IntegerField(default=0)
     auction = models.ForeignKey(BackAuction, on_delete=models.DO_NOTHING)
     expected_date = models.DateTimeField(null=True, blank=True)
     amount = models.IntegerField()
@@ -65,6 +66,7 @@ class BackOrder(models.Model):
     chain = models.TextField(default="")
     chain_valid = models.BooleanField(default=False)
     order_hash = models.CharField(default="", max_length=200)
+    arrived = models.BooleanField(default=False)
 
     def __str__(self):
         return f"order {self.id}"

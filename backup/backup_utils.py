@@ -59,6 +59,7 @@ def NewOrderBackUp(order_obj):
             auction = auct
     order = BackOrder(
         date_placed=order_obj.date_placed,
+        parent_id=order_obj.pk,
         buyer=order_obj.buyer,
         employee=order_obj.employee,
         auction=auction,
@@ -98,6 +99,7 @@ def UpdateBackUpOrder(order_obj):
     order.chain = order_obj.chain
     order.chain_valid = order_obj.chain_valid
     order.oder_hash = order_obj.order_hash
+    order.arrived = order_obj.arrived
 
     order.save()
 

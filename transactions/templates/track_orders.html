@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'toastr/toastr.min.css' %}">
+{% endblock style %}
+{% block content %} {% load static %}
+<div class="main">
+    <div class="main-content ">
+        <div class="container-fluid">
+            <div class="con-md-12 text-center">
+                {%if not chainmodels%}
+                <div class="panel-body">
+                    <img src="{%static 'custom_images/LOGO.png'%}" height="180" alt="">
+                    <p class="blue">No Transactions to track</p>
+                    <i class="lnr lnr-cart" style="font-size:200%"></i><br><span>It appears you have got no
+                        transactions to
+                        track yet</span>
+                    <hr>
+                    <a href="/transactions/view_market" class="btn btn-outline-primary">Go to market</a>
+                    <a href="/dashboard" class="btn btn-outline-warning">Dashboard</a>
+                </div>
+                {%else%}
+                <i class="lnr lnr-car blue" style="font-size: 290%;"></i>
+                <i class="lnr lnr-arrow-right gold" style="font-size: 220%;"></i>
+                <i class="lnr lnr-bus blue" style="font-size: 290%;"></i>
+                <i class="lnr lnr-arrow-right" style="font-size: 220%;"></i>
+                <i class="lnr lnr-train" style="font-size: 290%;"></i>
+                <br> <br>
+                <span class="title"
+                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; padding: 5%; text-decoration: dotted underline;">Track
+                    the progress of your orders</span> <br> <br>
+                <a href="/transactions/orders/{{user.username}}/" class="btn-outline-warning btn">
+                    <div> <i class="lnr lnr-history"></i> Update</div>
+                </a> <br> <br>
+                {%endif%}
+                {%for order in chainmodels%}
+                <div class="panel-body text-center"
+                    style="background-color: rgba(0, 0, 0, 0.281); border-radius: 10px; border: 1px rgb(0, 195, 255) solid; margin-bottom: 10px;">
+                    <a href="/transactions/view_order/{{order.id}}/" class="blue">Order No: {{order.id}}</a><br>
+                    ---Order stages--- <br> <br>
+                    <div class="row text-center panel-body">
+                        <div class="">
+                            <div class="">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <img style="width: 60px; height: 60px; margin-right:10px;"
+                                            src="{{order.auction.factory.factory_logo.url}}" class="img-circle" />
+                                        <span style="margin: 0px" class="orange">{{order.auction.factory.factory_name}}
+                                        </span><br>
+                                        Auction id {{order.auction.id}}<br />
+                                        {{auction.date_placed}}
+                                        <i class="lnr lnr-leaf" style="font-size: 150%; color: greenyellow;"></i>
+                                        {{order.auction.coffee_type}} <br>
+                                        <i class="lnr lnr-diamond"
+                                            style="font-size: 150%; color: rgb(7, 221, 221);"></i>
+                                        ${{order.auction.price_per_tonne}} per tonne
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%if not order.on%}
+                        <div class="fade-loop">
+                            Order awaiting aproval
+                        </div>
+                        {%endif%}
+                        {%for block in order.states%}
+                        {%if block.index == 2 and block.status == 1%}
+                        <div class="col-md-2 orange-border panel-body ftco-animate" style=" margin-right: 2px;">
+                            <i class="lnr lnr-checkmark-circle" style="color: greenyellow; font-size: 180%;"></i><br>
+
+                            {{block.amount}} Tonne{{block.amount | pluralize}} <br>
+                            <span class="orange">Order Recieved and Accepted </span><br> By
+                            {{block.auction.factory}} <br>
+                            {%if block.valid%}
+                            <span style="color: greenyellow;">[Trusted]</span>
+                            {%else%}
+                            <span style="color: rgb(255, 47, 47);">[On Review]</span>
+                            {%endif%}
+                            <div>
+                                <i class="fa fa-circle" style="color: rgb(21, 255, 21);"></i>
+                                <span class="blue" style="font-size: 70%;">{{block.time}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 ftco-animate">
+                            <i class="lnr lnr-arrow-right orange"
+                                style="position: absolute; top: 42%; font-size: 170%;"></i>
+                        </div>
+                        {%endif%}
+                        {%if block.index == 3 and block.status == 2%}
+                        <div class="col-md-2 orange-border panel-body ftco-animate" style=" margin-right: 2px;">
+                            <i class="lnr lnr-map-marker" style="color: greenyellow; font-size: 180%;"></i><br>
+                            <span class="orange">Order Addresses filled</span> <br>
+                            {{block.shipping_address}} <br>
+                            {%if block.valid%}
+                            <span style="color: greenyellow;">[Trusted]</span>
+                            {%else%}
+                            <span style="color: rgb(255, 47, 47);">[On Review]</span>
+                            {%endif%}
+                            <div>
+                                <i class="fa fa-circle" style="color: rgb(21, 255, 21);"></i>
+                                <span class="blue" style="font-size: 70%;">{{block.time}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 ftco-animate">
+                            <i class="lnr lnr-arrow-right orange"
+                                style="position: absolute; top: 42%; font-size: 170%;"></i>
+                        </div>
+                        {%endif%}
+                        {%if block.shipment_company and block.index == 3%}
+                        <div class="col-md-2 orange-border panel-body ftco-animate" style=" margin-right: 2px;">
+                            <i class="lnr lnr-rocket" style="color: greenyellow; font-size: 180%;"></i><br>
+                            <span class="orange">order shipped</span><br>
+                            {%if block.valid%}
+                            <span style="color: greenyellow;">[Trusted]</span>
+                            {%else%}
+                            <span style="color: rgb(255, 47, 47);">[On Review]</span>
+                            {%endif%} <br>
+                            {{block.shipment_company}}
+                            <br>
+                            {{block.shippment_id}}
+                            <div>
+                                <i class="fa fa-circle" style="color: rgb(21, 255, 21);"></i>
+                                <span class="blue" style="font-size: 70%;">{{block.time}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 ftco-animate">
+                            <i class="lnr lnr-arrow-right orange"
+                                style="position: absolute; top: 42%; font-size: 170%;"></i>
+                        </div>
+                        {%endif%}
+
+                        {%if block.arrived%}
+                        <div class="col-md-2 orange-border panel-body ftco-animate" style=" margin-right: 2px;">
+                            <i class="lnr lnr-checkmark-circle" style="color: greenyellow; font-size: 180%;"></i><br>
+                            <span class="orange">order Arrived</span> <br>
+                            {%if block.valid%}
+                            <span style="color: greenyellow;">[Trusted]</span>
+                            {%else%}
+                            <span style="color: rgb(255, 47, 47);">[On Review]</span>
+                            {%endif%} <br>
+                            {{block.shipment_company}}
+                            <br>
+                            {{block.shippment_id}}
+                            <div class="">
+                                <i class="fa fa-circle" style="color: rgb(21, 255, 21);"></i>
+                                <span class=" blue" style="font-size: 70%;">{{block.time}}</span>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    {%endblock content%}

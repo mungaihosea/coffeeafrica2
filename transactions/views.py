@@ -27,36 +27,40 @@ import json
 from django.template.loader import get_template
 import numpy as np
 
-def add_auction(request):
+
+def add_auction(request, factory_name):
     form = CreateAuctionForm()
-    # if request.method == 'POST':
-    #     if request.POST['pass']:
-    #         print('password came in')
-    #         return render(request, 'add_auction.html')
-    # return render(request, 'confirm_password.html', {})
-    return render(request, "add_auction.html", context={"form": form})
+    try:
+        auction = Auction.objects.get(
+            factory=SellerFactory.objects.get(factory_name=factory_name)
+        )
+    except:
+        auction = None
+    return render(
+        request, "add_auction.html", context={"form": form, "auction": auction}
+    )
 
 
 def confirmArival(request, order_id):
     print(request.GET.keys())
-    # order = Order.objects.get(pk=order_id)
-    # order.arrived = True
-    # order.status = 3
-    # order.when_arrived = django.utils.timezone.now
-    # chain = intergrator.ReadChainFromFile(order_id)
-    # chain.addTochain(order)
+    order = Order.objects.get(pk=order_id)
+    order.arrived = True
+    order.status = 3
+    order.when_arrived = datetime.date.today()
+    chain = intergrator.ReadChainFromFile(order_id)
+    chain.addTochain(order)
 
-    # order.chain = chain.blockchain.getChainList()
-    # hasher = sha256(str(order.chain).encode("utf-8"))
+    order.chain = chain.blockchain.getChainList()
+    hasher = sha256(str(order.chain).encode("utf-8"))
 
-    # order.hash = hasher.hexdigest()
-    # order.chain_valid = chain.CheckValidity()
-    # order.save()
-    # chain.DumpChain(order_id)
-    # backup_utils.BackOrder(order)
-    # if order.last_order:
-    #     order.auction.delete()
-    # return HttpResponse("Updated")
+    order.hash = hasher.hexdigest()
+    order.chain_valid = chain.CheckValidity()
+    order.save()
+    chain.DumpChain(order_id)
+    backup_utils.BackOrder(order)
+    if order.last_order:
+        order.auction.delete()
+    return HttpResponse("Updated")
 
 
 class GetBuyerChartView(View):
@@ -115,6 +119,7 @@ class GetBuyerChartView(View):
                 months_price.append(auction.date)
                 prices.append(price)
             sumprice = sum(prices)
+            print(prices)
             months = calenderutil.getAllMonthsStr()
             try:
                 mean_price = sumprice / len(prices)
@@ -295,6 +300,7 @@ class DeletAuction(View):
 class CreateAuction(View):
     def post(self, request, *args, **kwargs):
         # creating auction,
+        print(request.POST.keys())
         try:
             auction = Auction(
                 factory=SellerFactory.objects.get(pk=request.POST.get("factory")),
@@ -306,18 +312,82 @@ class CreateAuction(View):
                 date_harvested=request.POST.get("date_harvested"),
                 bean_size=request.POST.get("bean_size"),
                 status=request.POST.get("status"),
+                grade=request.POST.get("grade"),
                 tonnes_left=request.POST.get("tonnes"),
                 tempreture=request.POST.get("tempreture"),
                 humidity=request.POST.get("humidity"),
                 soil_ph=request.POST.get("soil_ph"),
                 description=request.POST.get("description"),
                 verified=False,
+                coffee_type=request.POST.get("coffee_type"),
             )
+            print("okay")
             auction.save()
             backup_utils.NewAuctionBackUp(auction)
             return redirect("/dashboard/")
         except:
-            return render(request, "add_auction.html", context={"errors": "Invalid"})
+            # return render(request, "add_auction.html", context={"errors": "Invalid"})
+            auction = Auction(
+                factory=SellerFactory.objects.get(pk=request.POST.get("factory")),
+                employee=SellerFactoryEmployee.objects.get(
+                    pk=request.POST.get("employee")
+                ),
+                tonnes=request.POST.get("tonnes"),
+                price_per_tonne=request.POST.get("price_per_tonne"),
+                date_harvested=request.POST.get("date_harvested"),
+                bean_size=request.POST.get("bean_size"),
+                status=request.POST.get("status"),
+                grade=request.POST.get("grade"),
+                tonnes_left=request.POST.get("tonnes"),
+                tempreture=request.POST.get("tempreture"),
+                humidity=request.POST.get("humidity"),
+                soil_ph=request.POST.get("soil_ph"),
+                description=request.POST.get("description"),
+                verified=False,
+                coffee_type=request.POST.get("coffee_type"),
+            )
+            print("okay")
+            auction.save()
+            backup_utils.NewAuctionBackUp(auction)
+            return redirect("/dashboard/")
+
+
+class CreateOrder(View):
+    def post(self, request, *args, **kwargs):
+        print(request.POST.keys())
+        print(request.POST["date"])
+        auction = Auction.objects.get(pk=request.POST["auction"])
+        if (
+            auction.tonnes_left != 0
+            and int(request.POST["tonnes"]) <= auction.tonnes_left
+        ):
+            newOrder = Order(
+                buyer=Buyer.objects.get(pk=request.POST["buyer"]),
+                employee=SellerFactoryEmployee.objects.get(pk=request.POST["employee"]),
+                auction=Auction.objects.get(pk=request.POST["auction"]),
+                expected_date=request.POST["date"],
+                amount=request.POST["tonnes"],
+                status=0,
+            )
+            newOrder.save()
+            auction.tonnes_left = auction.tonnes_left - int(request.POST["tonnes"])
+            if auction.tonnes_left <= 0:
+                newOrder.last_order = True
+                auction.sold_out = True
+            auction.save()
+            chain = intergrator.Chain_Model()
+            chain.addTochain(order_object=newOrder)
+            newOrder.chain = chain.blockchain.getChainList()
+            newOrder.chain_valid = chain.CheckValidity()
+            hasher = sha256(str(newOrder.chain).encode("utf-8"))
+            newOrder.order_hash = hasher.hexdigest()
+            chain.DumpChain(newOrder.pk)
+            newOrder.save()
+            backup_utils.NewOrderBackUp(newOrder)
+
+            return redirect("/dashboard")
+
+        return redirect("/transactions/view_market" + "/" + request.POST["auction"])
 
 
 class EnterShipmentInfoView(View):
@@ -335,7 +405,7 @@ class EnterShipmentInfoView(View):
             order.estimated_time_on_ship = request.POST.get("estimated_time_on_ship")
             order.shipment_handler_phone = request.POST.get("shipment_handler_phone")
             order.time_of_shipping = request.POST.get("time_of_shipping")
-            order.status = 3
+            order.status = 2
             chain = intergrator.ReadChainFromFile(request.POST.get("id"))
             chain.addTochain(order)
             order.chain = chain.blockchain.getChainList()
@@ -352,7 +422,6 @@ class EnterShipmentInfoView(View):
 
 class AddShipmentAddressView(View):
     def post(self, request, *args, **kwargs):
-        print("wtf")
         id = request.POST.get("id")
         print(id)
         order = get_object_or_404(Order, pk=id)
@@ -445,9 +514,21 @@ def view_market_id(request, id):
 
 
 def view_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    chat_queryset = Chat.objects.filter(order=order)
-    context = {"chat_queryset": chat_queryset, "order": order, "user": request.user}
+    try:
+        order = Order.objects.get(pk=order_id)
+        chat_queryset = Chat.objects.filter(order=order)
+        context = {"chat_queryset": chat_queryset, "order": order, "user": request.user}
+    except:
+        try:
+            order = BackOrder.objects.get(pk=order_id)
+            chat_queryset = Chat.objects.filter(order=order)
+            context = {
+                "chat_queryset": chat_queryset,
+                "order": order,
+                "user": request.user,
+            }
+        except:
+            return redirect("/dashboard")
     return render(request, "view_order.html", context)
 
 
@@ -471,6 +552,12 @@ class ShowAuctionHistory(View):
         auctions = BackAuction.objects.filter(
             factory=SellerFactory.objects.get(factory_name=factory_name)
         )
+
+        if not auctions:
+            auctions = Auction.objects.filter(
+                factory=SellerFactory.objects.get(factory_name=factory_name)
+            )
+
         context = {"auctions": auctions}
         return render(request, "auction_history.html", context)
 
@@ -658,55 +745,127 @@ class Notification:
         self.id = id
         self.app_name = app_name
 
-# class pdf (View):
-#     def get(self, request, factory_name, *args, **kwargs):
-#         try:
-#             factorys = SellerFactory.objects.all()
-#             transactions = []
-#             auctionss = BackAuction.objects.filter(
-#                 factory=SellerFactory.objects.get(factory_name=factory_name)
-#             )
-#             for _ in factorys:
-#                 for auction in auctionss:
-#                     transactionsof = BackOrder.objects.filter(auction=auction,)
-#                     for y in transactionsof:
-#                         transactions.append(y)
-#             hold = []
-#             n = len(transactions)
-#             x = n - 1
-#             while x >= 0:
-#                 hold.append(transactions[x])
-#                 x -= 1
-#             transactions = hold
-#             factory=SellerFactory.objects.get(factory_name=factory_name)
-#             context = {"transactions": transactions,
-#             "factory": factory}
-            
-#             print(transactions)
-#             # return render(request, "letter_head.html", context)
-#             html = get_template('letter_head.html').render(context)
-#             pdf_file = HTML(string = html, base_url = request.build_absolute_uri()).write_pdf()
-#             response = HttpResponse(pdf_file, content_type= "application/pdf" )
-#             return response
+
+class pdf (View):
+    def get(self, request, factory_name, *args, **kwargs):
+        try:
+            factorys = SellerFactory.objects.all()
+            transactions = []
+            auctionss = BackAuction.objects.filter(
+                factory=SellerFactory.objects.get(factory_name=factory_name)
+            )
+            for _ in factorys:
+                for auction in auctionss:
+                    transactionsof = BackOrder.objects.filter(auction=auction,)
+                    for y in transactionsof:
+                        transactions.append(y)
+            hold = []
+            n = len(transactions)
+            x = n - 1
+            while x >= 0:
+                hold.append(transactions[x])
+                x -= 1
+            transactions = hold
+            factory=SellerFactory.objects.get(factory_name=factory_name)
+            context = {"transactions": transactions,
+            "factory": factory}
+
+            print(transactions)
+            # return render(request, "letter_head.html", context)
+            html = get_template('letter_head.html').render(context)
+            pdf_file = HTML(string = html, base_url = request.build_absolute_uri()).write_pdf()
+            response = HttpResponse(pdf_file, content_type= "application/pdf" )
+            return response
 
 
+        except:
+            buyer = Buyer.objects.get(user=User.objects.get(username=factory_name))
+            transactions = BackOrder.objects.filter(buyer=buyer)
+            hold = []
+            n = len(transactions)
+            x = n - 1
+            while x >= 0:
+                hold.append(transactions[x])
+                x -= 1
+            transactions = hold
+            context = {"transactions": transactions}
+            print(transactions)
+            # return render(request, "letter_head.html", context)
+            html = get_template('letter_head.html').render(context)
+            pdf_file = HTML(string = html, base_url = request.build_absolute_uri()).write_pdf()
+            response = HttpResponse(pdf_file, content_type= "application/pdf")
+            return response
 
-#         except:
-#             buyer = Buyer.objects.get(user=User.objects.get(username=factory_name))
-#             transactions = BackOrder.objects.filter(buyer=buyer)
-#             hold = []
-#             n = len(transactions)
-#             x = n - 1
-#             while x >= 0:
-#                 hold.append(transactions[x])
-#                 x -= 1
-#             transactions = hold
-#             context = {"transactions": transactions}
-#             print(transactions)
-#             # return render(request, "letter_head.html", context)
-#             html = get_template('letter_head.html').render(context)
-#             pdf_file = HTML(string = html, base_url = request.build_absolute_uri()).write_pdf()
-#             response = HttpResponse(pdf_file, content_type= "application/pdf")
-#             return response
 
-    
+class TrackOrder(View):
+    def get(self, request, user_name):
+        chains = utils.getChainViaParty(
+            Buyer.objects.get(user=User.objects.get(username=user_name)).pk, "buyer"
+        )
+        transactions = []
+
+        class TransactionQ:
+            pass
+
+        class BlockQ:
+            pass
+
+        temp = []
+        n = 0
+        temp2 = []
+        temp3 = []
+        reviewed = []
+        for chain in chains:
+            id = chain.blockchain.chain[1].data_dic.get("id")
+            if id not in reviewed:
+                reviewed.append(id)
+                for block in chain.blockchain.chain:
+                    if block.index != 0 and block.data_dic.get("id") == id:
+                        b = BlockQ()
+                        b.amount = block.data_dic.get("amount")
+                        b.index = block.index
+                        b.order_id = block.data_dic.get("id")
+                        b.buyer = Buyer.objects.get(
+                            user=User.objects.get(username=user_name)
+                        )
+                        b.employee = block.data_dic.get("employee")
+                        b.auction = BackAuction.objects.get(
+                            parent_id=int(block.data_dic.get("auction_id"))
+                        )
+                        b.expected_date = block.data_dic.get("expected_date")
+                        b.date_placed = block.data_dic.get("date_placed")
+                        b.shipping_address = block.data_dic.get("shipping_address")
+                        b.shippment_id = block.data_dic.get("shipping_id")
+                        b.vessel_number = block.data_dic.get("vessel_number")
+                        b.shipment_company = block.data_dic.get("shipment_company")
+                        b.time = block.time
+                        b.valid = block.isValid()
+                        b.estimated_time_on_ship = block.data_dic.get(
+                            "estimated_time_on_ship"
+                        )
+                        b.shipment_handler_phone = block.data_dic.get(
+                            "shipment_handler_phone"
+                        )
+                        b.arrived = block.data_dic.get("arrived")
+                        b.status = block.data_dic.get("status")
+                        temp2.append(b)
+
+        for i in reviewed:
+            T = TrackOrder()
+            T.states = []
+            T.id = i
+            index = 0
+            for st in temp2:
+                if st.order_id == i:
+                    T.states.append(st)
+                    T.auction = st.auction
+                    index += 1
+
+            T.on = False
+            if index > 1:
+                T.on = True
+
+            transactions.append(T)
+
+        return render(request, "track_orders.html", {"chainmodels": transactions})
+

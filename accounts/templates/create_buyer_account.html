@@ -36,24 +36,33 @@
   <!-- Nav bar -->
   <nav class="navbar navbar-expand-sm ftco_navbar  ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-      <a class=" navbar-brand title" href="/"
-        style="font-size: 2em; color: orange; font-weight: bold; font-family: ubuntu;">Coffee Africa<small
-          style="font-size: 13px; color: rgb(255, 255, 255);">built with Blockchain technology</small></a>
+      <a class=" navbar-brand title" href="/" style="margin-left: 0;">
+        <img src="{%static 'custom_images/LOGO.png'%}" alt="" style="height: 4.5em;" /></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
         aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
       </button>
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+          <li class="nav-item active" style="color: white;">
+            <a href="#" class="nav-link slide-left-sm" style="font-size: 130%;">Home</a>
+          </li>
           <!-- <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li> -->
-          <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
-          <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
-          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-          <li class="nav-item cart"><a href="cart.html" class="nav-link"><span
-                class="icon icon-shopping_cart"></span><span
-                class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
+
+          <li class="nav-item" style="color: white;">
+            <a href="{%url 'accounts:about'%}" class="nav-link slide-left-sm" style="font-size: 130%;">About</a>
+          </li>
+          <li class="nav-item" style="color: white;">
+            <a href="{% url 'accounts:services' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Services</a>
+          </li>
+          <li class="nav-item" style="color: white;">
+            <a href="{% url 'accounts:market' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Market</a>
+          </li>
+          <!-- <li class=" nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
+          <li class=" nav-item" style="color: white;">
+            <a href="{% url 'accounts:contact' %}" class="nav-link slide-left-sm" style="font-size: 130%;">Contact</a>
+          </li>
+
         </ul>
       </div>
     </div>
@@ -61,7 +70,7 @@
 
 </body>
 <!-- WRAPPER -->
-<section class="ftco-section ftco-services col-md-12" style="background-color: rgba(8, 8, 8, 0);;">
+<section class="ftco-section ftco-services col-md-12" style="background-color: rgba(8, 8, 8, 0); margin-top: 8%;">
   <div class="container orange-border">
     <div class="vertical-align-wrap">
       <div class="vertical-align-middle panel-body" style="padding: 2%;">

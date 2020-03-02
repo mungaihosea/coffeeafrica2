@@ -46,7 +46,8 @@
                             <tbody>
                                 {% for order in transactions%}
                                 <tr>
-                                    <td class="small"><span>{{order.id}}</span>
+                                    <td class="small"><a
+                                            href="{%url 'transactions:view_order' order.id%}">{{order.id}}</a>
                                     </td>
                                     <td class="small"><span>{{order.buyer.user.username}}</span></td>
                                     <td class="small"><span>{{order.amount}} tonne{{order.amount|pluralize}}</span></td>
@@ -219,18 +220,18 @@
 
     document.getElementById('generatepdf').onclick = function ()
     {
-        var pdf = new jsPDF('1', 'pt', 'tabloid', 'true');
+        var pdf = new jsPDF('2', 'pt', 'letter', 'true');
 
         console.log($('#target').get(0))
         var target = tableToJson($('#target').get(0))
         console.log(target)
         // pdf.cellInnitialize();
-        pdf.setFontSize(7)
+        pdf.setFontSize(4.2)
         $.each(target, function (i, row)
         {
             $.each(row, function (l, cell)
             {
-                pdf.cell(1, 10, 60, 15, cell, i);
+                pdf.cell(1, 10, 38, 10, cell, i);
             })
         })
         pdf.save('testty.pdf')
