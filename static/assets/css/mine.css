@@ -343,6 +343,7 @@ body{
 
 .slide-left{
     overflow: -moz-hidden-unscrollable;
+    overflow: hidden;
     transition: all;
     transition-duration: .5s;
     position: relative;
@@ -393,6 +394,7 @@ body{
 .slide-left-sm{
     overflow: -moz-hidden-unscrollable;
     transition: all;
+    overflow: hidden;
     transition-duration: .5s;
     position: relative;
     color: rgb(0, 119, 255);
@@ -445,6 +447,7 @@ body{
 
 .slide-left-input{
     overflow: -moz-hidden-unscrollable;
+    overflow: hidden;
     transition: all;
     transition-duration: .5s;
     position: relative;
@@ -490,7 +493,6 @@ body{
     position: relative;
     overflow: -moz-hidden-unscrollable;
 }
-
 
 .image-reflect::after{
     content: "The dashboard is your control center, you can access anything from here. more controls are available on the sidebar";
